@@ -1,0 +1,9 @@
+*.sqlite3
+*.pyc
+__pycache__/
+bin/
+include/
+lib/
+PROJECT_STEPS.md
+.Python
+env.py
