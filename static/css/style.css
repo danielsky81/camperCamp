@@ -1,0 +1,27 @@
+/* Typography */
+
+.type-rightteous {
+    font-family: 'Righteous', cursive;
+    font-size: 30px;
+}
+
+/* Bootstrap style overwrites */
+
+.navbar, .navbar-default, .navbar-default .navbar-toggle, .navbar-default .navbar-collapse {
+    background-color: #FF9683;
+    background-image: none;
+    border: none;
+    border-radius: 0;
+}
+
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background-color: #FFB5A6;
+}
+
+.jumbotron {
+    background-color: white;
+}
+
+.jumbotron h1 {
+    color: #FF9683;
+}
