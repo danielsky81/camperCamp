@@ -25,3 +25,25 @@
 .jumbotron h1 {
     color: #FF9683;
 }
+
+.btn-default {
+    background-color: #FF9683;
+    background-image: none;
+    color: white;
+    border-color: #FF9683;
+}
+
+.btn-default:active:hover, .btn-default:hover, .btn-default:active, .btn-default:focus {
+    background-color: #FFB5A6;
+    background-image: none;
+    color: white;
+    border-color: #FFB5A6;
+}
+
+.jumbotron .details {
+    font-size: 18px;
+}
+
+.about {
+    margin-top: 10px;
+}
