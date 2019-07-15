@@ -5,6 +5,29 @@
     font-size: 30px;
 }
 
+/* Footer */
+
+footer, footer div {
+    height: 50px;
+    width: 100%;
+    background-color: #FF9683;
+}
+
+footer p {
+    padding-top: 15px;
+}
+
+footer p a {
+    text-decoration: none;
+    color: inherit;
+}
+
+footer p a:hover, footer p a:focus {
+    color: white;
+    text-decoration: none;
+    outline: none;
+}
+
 /* Bootstrap style overwrites */
 
 .navbar, .navbar-default, .navbar-default .navbar-toggle, .navbar-default .navbar-collapse {
@@ -38,6 +61,8 @@
     background-image: none;
     color: white;
     border-color: #FFB5A6;
+    outline: none;
+    box-shadow: none;
 }
 
 .jumbotron .details {
