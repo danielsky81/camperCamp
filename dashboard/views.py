@@ -1,3 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
+from django.contrib import auth, messages
 
-# Create your views here.
+def dashboard(request):
+    return render(request, 'dashboard.html')
+

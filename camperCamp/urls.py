@@ -18,8 +18,12 @@ from django.contrib import admin
 from django.views.generic import RedirectView
 from django.views.static import serve
 from hello.views import hello
+from accounts.views import login, logout
+from dashboard.views import dashboard
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', include('hello.urls')),
+    url(r'^accounts/', include('accounts.urls')),
+    url(r'^dashboard/$', include('dashboard.urls')),
 ]
