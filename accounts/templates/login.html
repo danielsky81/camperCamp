@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
 
+{% load bootstrap_tags %}
+
 {% block content %}
 
-<form method="POST">
-    {% csrf_token %}
-    {{ login_form }}
-    <button type="submit">Login</button>
-</form>
+    <form method="POST">
+        {% csrf_token %}
+        {{ login_form | as_bootstrap }}
+        <button class="btn btn-default" type="submit">Login</button>
+    </form>
+    <hr>
+    <p>If you are not a member yet please sign up <a href="{% url 'registration' %}">here</a></p>
 
 {% if messages %}
     <div>
     {% for message in messages %}
-        {{ message }}
+        <p class="message">{{ message }}</p>
     {% endfor %}
     </div>
 {% endif %}

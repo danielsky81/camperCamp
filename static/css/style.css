@@ -28,6 +28,15 @@ footer p a:hover, footer p a:focus {
     outline: none;
 }
 
+.message {
+    font-size: 14px !important;
+    background: #FFB5A6;
+    padding: 0 10px;
+    border-radius: 5px;
+    color: white;
+    display: inline-block;
+}
+
 /* Bootstrap style overwrites */
 
 .navbar, .navbar-default, .navbar-default .navbar-toggle, .navbar-default .navbar-collapse {

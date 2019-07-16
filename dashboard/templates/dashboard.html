@@ -5,9 +5,18 @@
 {% if messages %}
     <div>
         {% for message in messages %}
-            {{ message }}
+            <p class="message">{{ message }}</p>
         {% endfor %}
     </div>
 {% endif %}
+
+    <h1>Hello {{ user | capfirst }}</h1>
+    <hr>
+    <h2>Your activity here</h2>
+    <p>Maybe use a tabs to display each</p>
+    <hr>
+    <h3>Created Issues/Features</h3>
+    <h3>Commented Issues/Features</h3>
+    <h3>Voted Issues/Features</h3>
 
 {% endblock  %}

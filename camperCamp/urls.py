@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.views.generic import RedirectView
 from django.views.static import serve
 from hello.views import hello
-from accounts.views import login, logout
+from accounts.views import login, logout, registration
 from dashboard.views import dashboard
 
 urlpatterns = [
