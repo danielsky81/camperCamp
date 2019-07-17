@@ -17,7 +17,6 @@ def login(request):
                 messages.success(request, 'You have successfully logged in! Enjoy!')
                 return redirect(reverse('dashboard'))
             else:
-                # login_form.add_error(None, 'Your username or password is incorrect. Please try again.')
                 messages.error(request, 'Your username or password is incorrect. Please try again.')
     else:
         login_form = UserLoginForm()

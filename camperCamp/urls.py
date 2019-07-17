@@ -17,9 +17,9 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import RedirectView
 from django.views.static import serve
-from hello.views import hello
-from accounts.views import login, logout, registration
-from dashboard.views import dashboard
+from hello import urls as hello_urls
+from accounts import urls as accounts_urls
+from dashboard import urls as dashboard_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
