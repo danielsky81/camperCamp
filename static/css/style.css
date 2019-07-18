@@ -1,4 +1,12 @@
+hr {
+    border-top-color: #FF9683;
+}
+
 /* Typography */
+
+h1, h2, h3, p {
+    color: #555555;
+}
 
 .type-rightteous {
     font-family: 'Righteous', cursive;
@@ -46,8 +54,32 @@ footer p a:hover, footer p a:focus {
     border-radius: 0;
 }
 
-.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus, .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {
     background-color: #FFB5A6;
+}
+
+.dropdown-menu {
+    background-color: #FF9683;
+    border: none;
+    box-shadow: none;
+}
+
+.dropdown-menu > li > a {
+    color: white;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color: #FFB5A6;
+}
+
+@media (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+        background-color: #FFB5A6;
+    }
+}
+
+.navbar-nav > li:last-child > a {
+    color: #555555;
 }
 
 .jumbotron {
@@ -56,6 +88,15 @@ footer p a:hover, footer p a:focus {
 
 .jumbotron h1 {
     color: #FF9683;
+}
+
+.img-default {
+    height: 100px;
+    max-width: 100px;
+}
+
+.btn {
+    margin-right: 30px;
 }
 
 .btn-default {
@@ -74,10 +115,34 @@ footer p a:hover, footer p a:focus {
     box-shadow: none;
 }
 
+.btn-success {
+    background-color: #37B37E;
+    background-image: none;
+    color: white;
+    border-color: #37B37E;
+}
+
+.btn-success:active:hover, .btn-success:hover, .btn-success:active, .btn-success:focus {
+    background-color: #70DBAD;
+    background-image: none;
+    color: white;
+    border-color: #70DBAD;
+    outline: none;
+    box-shadow: none;
+}
+
 .jumbotron .details {
     font-size: 18px;
 }
 
 .about {
     margin-top: 10px;
+}
+
+.nav-tabs > li > a {
+    color: #FF9683;
+}
+
+.tab-content > .active {
+    padding: 5px 0;
 }

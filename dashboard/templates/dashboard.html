@@ -10,10 +10,9 @@
     </div>
 {% endif %}
 
+    <img class="img-default" src="/media/img/default_profile_img.jpg">
     <h1>Hello {{ user | capfirst }}</h1>
-    <hr>
-    <h2>Your activity here</h2>
-    <p>Maybe use a tabs to display each</p>
+    <p>You will find all your activity in the below tabs.</p>
     <hr>
     <div>
         <ul class="nav nav-tabs" role="tablist">
@@ -37,7 +36,6 @@
             </div>
         </div>
     </div>
-    <hr>
 
 {% endblock  %}
 
