@@ -15,8 +15,37 @@
     <h2>Your activity here</h2>
     <p>Maybe use a tabs to display each</p>
     <hr>
-    <h3>Created Issues/Features</h3>
-    <h3>Commented Issues/Features</h3>
-    <h3>Voted Issues/Features</h3>
+    <div>
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#issues" aria-controls="issues" role="tab" data-toggle="tab">Issues</a></li>
+            <li role="presentation"><a href="#features" aria-controls="features" role="tab" data-toggle="tab">Features</a></li>
+            <li role="presentation"><a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">Comments</a></li>
+            <li role="presentation"><a href="#votes" aria-controls="votes" role="tab" data-toggle="tab">Votes</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="issues">
+                <p>List of all issues created by you</p>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="features">
+                <p>List of all features created by you</p>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="comments">
+                <p>List of all comments added by you</p>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="votes">
+                <p>List of all votes added by you</p>
+            </div>
+        </div>
+    </div>
+    <hr>
 
 {% endblock  %}
+
+{% comment %} {% block script %} {% endcomment %}
+
+{% comment %} $('#myTabs a').click(function (e) {
+    e.preventDefault()
+    $(this).tab('show')
+}) {% endcomment %}
+
+{% comment %} {% endblock %} {% endcomment %}

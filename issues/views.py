@@ -1,3 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 
-# Create your views here.
+def issues(request):
+    return render(request, 'issues.html')
