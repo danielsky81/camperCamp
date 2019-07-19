@@ -2,4 +2,52 @@
 
 {% block content %}
 
+    <h1>List of all issues</h1>
+    <p>You will find here all raised issues. Please vote on the ones you believe are important so they can be fixed asap.</p>
+    {% if user.is_authenticated %}
+        <a href="{% url 'new_issue' %}" class="btn btn-success">Add new issue</a>
+    {% else %}
+        <a href="#" class="btn btn-success" data-toggle="modal" data-target=".bs-issues-modal-sm" aria-haspopup="true" aria-expanded="false">Add new issue</a>
+        <div class="modal fade bs-issues-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <p class="modal-title" id="myModalLabel"><strong>Users access only</strong></p>
+                    </div>
+                    <div class="modal-body">
+                        <p>Please login or register in order to add new issue.</p>
+                        <a href="{% url 'login' %}" class="btn btn-default" type="button">Login</a>
+                        <a href="{% url 'registration' %}" class="btn btn-default" type="button">Register</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <hr>
+
+    {% for issue in issues %}
+    <a class="panel-link" href="{% url 'issue_detail' issue.id %}">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="panel panel-default col-xs-10 col-sm-11">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">{{ issue.title }}</h2>
+                        </div>
+                        <div class="panel-body">
+                            <p>{{ issue.description | truncatewords:15 }}</p>
+                            <p><small>by: {{ issue.author }}</small></p>
+                        </div>
+                </div>
+                <div class="col-xs-2 col-sm-1 text-center">
+                    <p class="glyphicon glyphicon-thumbs-up"></p>
+                    <p>{{ issue.votes }}</p>
+                    <p class="glyphicon glyphicon-eye-open"></p>
+                    <p>{{ issue.views }}</p>
+                </div>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+
 {% endblock %}

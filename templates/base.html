@@ -25,25 +25,44 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    {% if user.is_authenticated %}
-                        <li class="dropdown">
+                    <li class="dropdown">
+                        {% if user.is_authenticated %}
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Create <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Issue</a></li>
+                                <li><a href="{% url 'new_issue' %}">Issue</a></li>
                                 {% comment %} <li role="separator" class="divider"></li> {% endcomment %}
                                 <li><a href="{% url 'new_feature' %}">Feature</a></li>
                                 {% comment %} <li role="separator" class="divider"></li> {% endcomment %}
                                 <li><a href="{% url 'new_post' %}">Post</a></li>
                             </ul>
-                        </li>
+                        {% else %}
+                            <a href="#" class="dropdown-toggle" data-toggle="modal" data-target=".bs-example-modal-sm" aria-haspopup="true" aria-expanded="false">Create <span class="caret"></span></a>
+                            <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                                <div class="modal-dialog modal-sm" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <p class="modal-title" id="myModalLabel"><strong>Users access only</strong></p>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Please login or register in order to report an issue or create new feature.</p>
+                                            <a href="{% url 'login' %}" class="btn btn-default" type="button">Login</a>
+                                            <a href="{% url 'registration' %}" class="btn btn-default" type="button">Register</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </li>
                         <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                        <li><a href="{% url 'issues' %}">Issues</a></li>
+                        <li><a href="{% url 'get_issues' %}">Issues</a></li>
                         <li><a href="{% url 'get_features' %}">Features</a></li>
                         <li><a href="{% url 'get_posts' %}">Blog</a></li>
                         <li><a href="{% url 'contact' %}">Contact</a></li>
+                    {% if user.is_authenticated %}
                         <li><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
-                        <li><a href="{% url 'registration' %}">Register</a></li>
+                        {% comment %} <li><a href="{% url 'registration' %}">Register</a></li> {% endcomment %}
                         <li><a href="{% url 'login' %}">Login</a></li>
                     {% endif %}
                 </ul>

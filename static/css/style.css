@@ -2,6 +2,15 @@ hr {
     border-top-color: #FF9683;
 }
 
+.link {
+    color: #555555;
+}
+
+.link:hover, .link:focus {
+    color: #FF9683;
+    text-decoration: none;
+}
+
 /* Typography */
 
 h1, h2, h3, p {
@@ -47,6 +56,8 @@ footer p a:hover, footer p a:focus {
 
 /* Bootstrap style overwrites */
 
+/* Bootstrap Navbar */
+
 .navbar, .navbar-default, .navbar-default .navbar-toggle, .navbar-default .navbar-collapse {
     background-color: #FF9683;
     background-image: none;
@@ -82,6 +93,8 @@ footer p a:hover, footer p a:focus {
     color: #555555;
 }
 
+/* Bootstrap Jumbotron */
+
 .jumbotron {
     background-color: white;
 }
@@ -94,6 +107,8 @@ footer p a:hover, footer p a:focus {
     height: 100px;
     max-width: 100px;
 }
+
+/* Bootstrap buttons */
 
 .btn {
     margin-right: 30px;
@@ -147,6 +162,8 @@ footer p a:hover, footer p a:focus {
     box-shadow: none;
 }
 
+/* Bootstrap dashboard and tabs */
+
 .jumbotron .details {
     font-size: 18px;
 }
@@ -168,6 +185,8 @@ footer p a:hover, footer p a:focus {
     width: 100px;
     object-fit: cover;
 }
+
+/* Bootstrap Panel */
 
 .panel {
     padding: 0;

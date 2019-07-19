@@ -18,7 +18,7 @@
         <button class="btn btn-default" type="submit">Login</button>
     </form>
     <hr>
-    <p>If you are not a member yet please sign up <a href="{% url 'registration' %}">here</a></p>
-    <p>If however you forgot your password please reset it <a href="{% url 'password_reset' %}">here</a></p>
+    <p><small>If you are not a member yet please <a class="link" href="{% url 'registration' %}"><strong>register</strong></a></small></p>
+    <p><small>If you forgot your password please <a class="link" href="{% url 'password_reset' %}"><strong>reset your password</strong></a></small></p>
 
 {% endblock  %}
