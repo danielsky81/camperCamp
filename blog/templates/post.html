@@ -19,7 +19,7 @@
                 <div class="col-xs-12">
                     <p>{{ post.content }}</p>
                     <hr>
-                    <p><small>Published on: {{ post.published_date }}</small></p>
+                    <p><small>Published on: {{ post.published_date | date:'F d, Y' }}</small></p>
                     <p><small>Views: {{post.views}}</small></p>
                     {% comment %} <p><small>Tag:</small> {{ post.tag }}</p> {% endcomment %}
                     <a href="{% url 'get_posts' %}" class="btn btn-default">Back to Blog</a>

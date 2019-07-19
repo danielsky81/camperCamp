@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-xs-12 col-md-11 col-lr-10">
+            <h1>{{ feature.title }}</h1>
+            <h2>by {{ feature.author }}</h2>
+            <div class="row">
+                <div class="col-xs-12">
+                    <p>{{ feature.description }}</p>
+                    <hr>
+                    <p><small>Published on: {{ feature.published_date | date:'F d, Y' }}</small></p>
+                    <p><small>Views: {{feature.views}}</small></p>
+                    <p><small>Votes: {{feature.votes}}</small></p>
+                    <a href="{% url 'get_features' %}" class="btn btn-danger">Back to Features</a>
+                    <a href="#" class="btn btn-success">Vote</a>
+                    {% if user == feature.author %}
+                        <a href="{% url 'edit_feature' feature.id %}" class="btn btn-default">Edit</a>
+                    {% else %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

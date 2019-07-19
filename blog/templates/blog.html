@@ -6,7 +6,7 @@
 <p>A place where you can share all your ideas, frustrations and more!<p>
 
 <div>
-    <a href="{% url 'new_post' %}" class="btn btn-default">Add new post</a>
+    <a href="{% url 'new_post' %}" class="btn btn-success">Add new post</a>
     {% comment %} <a href="#" class="btn btn-default">Sort posts by tags</a> {% endcomment %}
     <hr>
 </div>
@@ -25,7 +25,7 @@
             <h3>by {{ post.author | capfirst }}</h3>
             <div class="row">
                 <div class="col-xs-12">
-                    <p>{{ post.content|truncatewords:30 }}</p>
+                    <p>{{ post.content | truncatewords:30 }}</p>
                     <p><a href="{% url 'post_detail' post.id %}" class="btn btn-default">Read more</a></p>
                     <p><small>Published on:</small> {{ post.published_date | date:'F d, Y' }} </p>
                     <p><small>Views:</small> {{post.views}}</p>

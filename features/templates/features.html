@@ -2,4 +2,33 @@
 
 {% block content %}
 
+    <h1>List of all features</h1>
+    <p>You will find here all requested features. Please vote on the ones you believe are important so they can be implemented asap.</p>
+    <a href="{% url 'new_feature' %}" class="btn btn-success">Add new feature</a>
+    <hr>
+
+    {% for feature in features %}
+    <a class="panel-link" href="{% url 'feature_detail' feature.id %}">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="panel panel-default col-xs-10 col-sm-11">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">{{ feature.title }}</h2>
+                        </div>
+                        <div class="panel-body">
+                            <p>{{ feature.description | truncatewords:15 }}</p>
+                            <p><small>by: {{ feature.author }}</small></p>
+                        </div>
+                </div>
+                <div class="col-xs-2 col-sm-1 text-center">
+                    <p class="glyphicon glyphicon-thumbs-up"></p>
+                    <p>{{ feature.votes }}</p>
+                    <p class="glyphicon glyphicon-eye-open"></p>
+                    <p>{{ feature.views }}</p>
+                </div>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+
 {% endblock %}
