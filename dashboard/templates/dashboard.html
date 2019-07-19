@@ -2,27 +2,35 @@
 
 {% block content %}
 
-{% if messages %}
-    <div>
-        {% for message in messages %}
-            <p class="message">{{ message }}</p>
-        {% endfor %}
-    </div>
-{% endif %}
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <p class="message">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
 
-    <img class="img-default" src="/media/img/default_profile_img.jpg">
-    <h1>Hello {{ user | capfirst }}</h1>
+    {% if user.profile.image.url %}
+        <img class="img-circle" src="{{ user.profile.image.url }}">
+    {% else %}
+        <img class="img-circle" src="../media/default_profile_img.jpg">
+    {% endif %}
+    <h1>Hello {{ user.username | capfirst }}</h1>
     <p>You will find all your activity in the below tabs.</p>
     <hr>
     <div>
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#issues" aria-controls="issues" role="tab" data-toggle="tab">Issues</a></li>
+            <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+            <li role="presentation"><a href="#issues" aria-controls="issues" role="tab" data-toggle="tab">Issues</a></li>
             <li role="presentation"><a href="#features" aria-controls="features" role="tab" data-toggle="tab">Features</a></li>
             <li role="presentation"><a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">Comments</a></li>
             <li role="presentation"><a href="#votes" aria-controls="votes" role="tab" data-toggle="tab">Votes</a></li>
         </ul>
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="issues">
+        <div role="tabpanel" class="tab-pane active" id="profile">
+                <p>Your personal data. Upload or change image or other details</p>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="issues">
                 <p>List of all issues created by you</p>
             </div>
             <div role="tabpanel" class="tab-pane" id="features">
