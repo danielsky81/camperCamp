@@ -1,8 +1,18 @@
 {% extends 'base.html' %}
 
+{% load bootstrap_tags %}
+
 {% block content %}
 
-    <h1>How are you doing?<h1>
+    <h1>How are you doing?</h1>
     <p>Let us know what can we do for you by filling the below form. Thanks!</p>
+    <hr>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form | as_bootstrap }}
+        <button type="submit" class="btn btn-success">Send</button>
+        <a href="{% url 'hello' %}" class="btn btn-danger">Cancel</a>
+        </div>
+    </form>
 
 {% endblock %}

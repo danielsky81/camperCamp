@@ -5,14 +5,6 @@
 
 {% block content %}
 
-    <form method="POST">
-        {% csrf_token %}
-        {{ registration_form | as_bootstrap }}
-        <button class="btn btn-default" type="submit">Register</button>
-    </form>
-    <hr>
-    <p><small>If you are a member already please <a class="link" href="{% url 'login' %}"><strong>login</strong></a></small></p>
-
 {% if messages %}
     <div>
     {% for message in messages %}
@@ -20,5 +12,13 @@
     {% endfor %}
     </div>
 {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ registration_form | as_bootstrap }}
+        <button class="btn btn-default" type="submit">Register</button>
+    </form>
+    <hr>
+    <p><small>If you are a member already please <a class="link" href="{% url 'login' %}"><strong>login</strong></a></small></p>
 
 {% endblock %}
