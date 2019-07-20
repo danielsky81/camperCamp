@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CC Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cerulean/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Righteous|Roboto+Condensed&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -54,7 +54,9 @@
                             </div>
                         {% endif %}
                     </li>
-                        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        {% endif %}
                         <li><a href="{% url 'get_issues' %}">Issues</a></li>
                         <li><a href="{% url 'get_features' %}">Features</a></li>
                         <li><a href="{% url 'get_posts' %}">Blog</a></li>

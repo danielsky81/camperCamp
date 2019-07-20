@@ -3,11 +3,13 @@
 {% block content %}
 
 <h1>Welcome to CC Tracker Blog</h1>
-<p>A place where you can share all your ideas, frustrations and more!<p>
+<p>A place where we share our news, ideas, frustrations and more!<p>
+<p>Please engage with the content by commenting on the posts.</p>
 
 <div>
-    <a href="{% url 'new_post' %}" class="btn btn-success">Add new post</a>
-    {% comment %} <a href="#" class="btn btn-default">Sort posts by tags</a> {% endcomment %}
+    {% if user.is_superuser %}
+        <a href="{% url 'new_post' %}" class="btn btn-success">Add new post</a>
+    {% endif %}
     <hr>
 </div>
 
@@ -27,8 +29,8 @@
                 <div class="col-xs-12">
                     <p>{{ post.content | truncatewords:30 }}</p>
                     <p><a href="{% url 'post_detail' post.id %}" class="btn btn-default">Read more</a></p>
-                    <p><small>Published on:</small> {{ post.published_date | date:'F d, Y' }} </p>
-                    <p><small>Views:</small> {{post.views}}</p>
+                    <p class="type-roboto">Published on: {{ post.published_date | date:'F d, Y' }} </p>
+                    <p class="type-roboto">Views: {{post.views}}</p>
                     {% comment %} <p><small>Tags:</small> {{ post.tag }}</p> {% endcomment %}
                 </div>
             </div>

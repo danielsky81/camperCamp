@@ -22,6 +22,42 @@ h1, h2, h3, p {
     font-size: 30px;
 }
 
+.type-roboto {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.jumbotron .type-roboto {
+    font-size: 14px;
+    margin: 0;
+}
+
+.votes {
+    border: 1px solid #FF9683;
+    border-radius: 5px;
+    background-color: #FF9683;
+    color: white;
+    padding: 0 5px;
+    display: inline;
+}
+
+.views {
+    border: 1px solid #555555;
+    border-radius: 5px;
+    background-color: white;
+    color: #555555;
+    padding: 0 5px;
+    display: inline;
+}
+
+.options {
+    padding-top: 15px;
+    padding-left: 0;
+}
+
+.content {
+    padding: 15px;
+}
+
 /* Footer */
 
 footer, footer div {
@@ -201,4 +237,23 @@ footer p a:hover, footer p a:focus {
     text-decoration: none;
     color: inherit;
     background-color: #f5f5f5;
+}
+
+.panel-default > .panel-heading {
+    overflow: auto;
+}
+
+.panel-heading > h2 {
+    display: inline;
+    line-height: 2;
+}
+
+.panel-heading > div  {
+    float: right;
+    margin: 5px 0;
+}
+
+.panel-heading > div > p {
+    margin: 0 5px;
+    font-size: 14px;
 }

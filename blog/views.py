@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.utils import timezone
 from .models import Post
 from .forms import BlogPostForm
@@ -19,13 +19,16 @@ def post_detail(request, pk):
 
 def create_or_edit_post(request, pk=None):
     post = get_object_or_404(Post, pk=pk) if pk else None
-    if request.method == "POST":
-        form = BlogPostForm(request.POST, request.FILES, instance=post)
-        if form.is_valid():
-            post = form.save()
-            post.author = request.user
-            post.save()
-            return redirect(post_detail, post.pk)
+    if request.user.is_superuser:
+        if request.method == "POST":
+            form = BlogPostForm(request.POST, request.FILES, instance=post)
+            if form.is_valid():
+                post = form.save()
+                post.author = request.user
+                post.save()
+                return redirect(post_detail, post.pk)
+        else:
+            form = BlogPostForm(instance=post)
+        return render(request, 'postform.html', {'form': form})
     else:
-        form = BlogPostForm(instance=post)
-    return render(request, 'postform.html', {'form': form})
+        return redirect(reverse('get_posts'))

@@ -30,20 +30,18 @@
     <a class="panel-link" href="{% url 'feature_detail' feature.id %}">
         <div class="container-fluid">
             <div class="row">
-                <div class="panel panel-default col-xs-10 col-sm-11">
-                        <div class="panel-heading">
-                            <h2 class="panel-title">{{ feature.title }}</h2>
+                <div class="panel panel-default col-xs-12">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">{{ feature.title }}</h2>
+                        <div>
+                            <p class="votes text-right">{{feature.votes}} <small>votes</small></p>
+                            <p class="views text-right">{{feature.views}} <small>views</small></p>
                         </div>
-                        <div class="panel-body">
-                            <p>{{ feature.description | truncatewords:15 }}</p>
-                            <p><small>by: {{ feature.author }}</small></p>
-                        </div>
-                </div>
-                <div class="col-xs-2 col-sm-1 text-center">
-                    <p class="glyphicon glyphicon-thumbs-up"></p>
-                    <p>{{ feature.votes }}</p>
-                    <p class="glyphicon glyphicon-eye-open"></p>
-                    <p>{{ feature.views }}</p>
+                    </div>
+                    <div class="panel-body">
+                        <p>{{ feature.description | truncatewords:15 }}</p>
+                        <p class="type-roboto">by: {{ feature.author }}</p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -30,20 +30,18 @@
     <a class="panel-link" href="{% url 'issue_detail' issue.id %}">
         <div class="container-fluid">
             <div class="row">
-                <div class="panel panel-default col-xs-10 col-sm-11">
-                        <div class="panel-heading">
-                            <h2 class="panel-title">{{ issue.title }}</h2>
+                <div class="panel panel-default col-xs-12">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">{{ issue.title }}</h2>
+                        <div>
+                            <p class="votes text-right">{{issue.votes}} <small>votes</small></p>
+                            <p class="views text-right">{{issue.views}} <small>views</small></p>
                         </div>
-                        <div class="panel-body">
-                            <p>{{ issue.description | truncatewords:15 }}</p>
-                            <p><small>by: {{ issue.author }}</small></p>
-                        </div>
-                </div>
-                <div class="col-xs-2 col-sm-1 text-center">
-                    <p class="glyphicon glyphicon-thumbs-up"></p>
-                    <p>{{ issue.votes }}</p>
-                    <p class="glyphicon glyphicon-eye-open"></p>
-                    <p>{{ issue.views }}</p>
+                    </div>
+                    <div class="panel-body">
+                        <p>{{ issue.description | truncatewords:15 }}</p>
+                        <p class="type-roboto">by: {{ issue.author }}</p>
+                    </div>
                 </div>
             </div>
         </div>
