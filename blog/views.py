@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.utils import timezone
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Post
 from .forms import BlogPostForm
 
@@ -7,20 +8,37 @@ from .forms import BlogPostForm
 def get_posts(request):
     blog = Post.objects.filter(published_date__lte=timezone.now()
         ).order_by('-published_date')
-    return render(request, "blog.html", {'blog': blog})
+    paginator = Paginator(blog, 4)
+    page = request.GET.get('page')
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        items = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        items = paginator.page(paginator.num_pages)
+
+    index = items.number - 1
+    max_index = len(paginator.page_range)
+    start_index = index - 2 if index >= 2 else 0
+    end_index = index + 3 if index <= max_index - 3 else max_index
+    page_range = paginator.page_range[start_index:end_index]
+
+    return render(request, 'blog.html', {'blog': blog, 'items': items, 'page_range': page_range})
 
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.views += 1
     post.save()
-    return render(request, "post.html", {'post': post})
+    return render(request, 'post.html', {'post': post})
 
 
 def create_or_edit_post(request, pk=None):
     post = get_object_or_404(Post, pk=pk) if pk else None
     if request.user.is_superuser:
-        if request.method == "POST":
+        if request.method == 'POST':
             form = BlogPostForm(request.POST, request.FILES, instance=post)
             if form.is_valid():
                 post = form.save()

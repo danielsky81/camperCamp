@@ -26,26 +26,28 @@
     {% endif %}
     <hr>
 
-    {% for issue in issues %}
+    {% for issue in items %}
     <a class="panel-link" href="{% url 'issue_detail' issue.id %}">
         <div class="container-fluid">
             <div class="row">
                 <div class="panel panel-default col-xs-12">
                     <div class="panel-heading">
-                        <h2 class="panel-title">{{ issue.title }}</h2>
+                        <h2 class="panel-title">{{ issue.title | capfirst }}</h2>
                         <div>
                             <p class="votes text-right">{{issue.votes}} <small>votes</small></p>
                             <p class="views text-right">{{issue.views}} <small>views</small></p>
                         </div>
                     </div>
                     <div class="panel-body">
-                        <p>{{ issue.description | truncatewords:15 }}</p>
-                        <p class="type-roboto">by: {{ issue.author }}</p>
+                        <p>{{ issue.description | capfirst | truncatewords:15 }}</p>
+                        <p class="type-roboto">by: {{ issue.author | capfirst }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </a>
     {% endfor %}
+
+{% include 'pagination.html' %}
 
 {% endblock %}

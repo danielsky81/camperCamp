@@ -26,26 +26,28 @@
     {% endif %}
     <hr>
 
-    {% for feature in features %}
+    {% for feature in items %}
     <a class="panel-link" href="{% url 'feature_detail' feature.id %}">
         <div class="container-fluid">
             <div class="row">
                 <div class="panel panel-default col-xs-12">
                     <div class="panel-heading">
-                        <h2 class="panel-title">{{ feature.title }}</h2>
+                        <h2 class="panel-title">{{ feature.title | capfirst }}</h2>
                         <div>
                             <p class="votes text-right">{{feature.votes}} <small>votes</small></p>
                             <p class="views text-right">{{feature.views}} <small>views</small></p>
                         </div>
                     </div>
                     <div class="panel-body">
-                        <p>{{ feature.description | truncatewords:15 }}</p>
-                        <p class="type-roboto">by: {{ feature.author }}</p>
+                        <p>{{ feature.description | capfirst | truncatewords:15 }}</p>
+                        <p class="type-roboto">by: {{ feature.author | capfirst }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </a>
     {% endfor %}
+
+{% include 'pagination.html' %}
 
 {% endblock %}

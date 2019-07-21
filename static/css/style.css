@@ -257,3 +257,17 @@ footer p a:hover, footer p a:focus {
     margin: 0 5px;
     font-size: 14px;
 }
+
+/* Bootstrap pagination */
+
+.pagination > li > a {
+    color: #555555;
+}
+
+.pagination > li > a:hover {
+    color: #FFB275;
+}
+
+.pagination > .active > a {
+    color: #FF9683;
+}
