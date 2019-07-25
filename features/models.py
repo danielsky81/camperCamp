@@ -16,3 +16,13 @@ class Feature(models.Model):
     def __str__(self):
         return self.title
 
+class Comment(models.Model):
+    
+    feature = models.ForeignKey('features.Feature', on_delete=models.CASCADE, related_name='comments_feat')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False, related_name='comments_feat')
+    content = models.TextField()
+    created_date = models.DateTimeField(auto_now_add=True)
+    published_date = models.DateTimeField(blank=True, null=True, default=timezone.now)
+
+    def __str__(self):
+        return self.content

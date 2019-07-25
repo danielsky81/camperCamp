@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Feature
-from .forms import FeatureForm
+from .models import Feature, Comment
+from .forms import FeatureForm, CommentForm
 
 def get_features(request):
     features = Feature.objects.filter(published_date__lte=timezone.now()
@@ -32,7 +32,6 @@ def feature_detail(request, pk):
     feature.save()
     return render(request, 'feature_detail.html', {'feature': feature})
 
-
 def create_or_edit_feature(request, pk=None):
     feature = get_object_or_404(Feature, pk=pk) if pk else None
     if request.method == "POST":
@@ -45,3 +44,37 @@ def create_or_edit_feature(request, pk=None):
     else:
         form = FeatureForm(instance=feature)
     return render(request, 'featureform.html', {'form': form})
+
+def add_comment_to_feature(request, pk):
+    feature = get_object_or_404(Feature, pk=pk)
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.author = request.user
+                comment.feature = feature
+                comment.save()
+                return redirect('feature_detail', pk=feature.pk)
+        else:
+            form = CommentForm()
+    return render(request, 'feature_commentform.html', {'form': form})
+
+def edit_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    if (request.user.is_authenticated and request.user == comment.author):
+        if request.method == 'POST':
+            form = CommentForm(request.POST, request.FILES, instance=comment)
+            if form.is_valid():
+                comment.author = request.user
+                comment = form.save()
+                return redirect('feature_detail', comment.feature.id)
+        else:
+            form = CommentForm(instance=comment)
+    return render(request, 'feature_commentform.html', {'form': form, 'comment': comment})
+
+def delete_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    if (request.user.is_authenticated and request.user == comment.author):
+        comment.delete()
+    return redirect(reverse('get_features'))

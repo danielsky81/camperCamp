@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Issue
-from .forms import IssueForm
+from .models import Issue, Comment
+from .forms import IssueForm, CommentForm
 
 def get_issues(request):
     issues = Issue.objects.filter(published_date__lte=timezone.now()
@@ -45,3 +45,37 @@ def create_or_edit_issue(request, pk=None):
     else:
         form = IssueForm(instance=issue)
     return render(request, 'issueform.html', {'form': form})
+
+def add_comment_to_issue(request, pk):
+    issue = get_object_or_404(Issue, pk=pk)
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.author = request.user
+                comment.issue = issue
+                comment.save()
+                return redirect('issue_detail', pk=issue.pk)
+        else:
+            form = CommentForm()
+    return render(request, 'issue_commentform.html', {'form': form})
+
+def edit_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    if (request.user.is_authenticated and request.user == comment.author):
+        if request.method == 'POST':
+            form = CommentForm(request.POST, request.FILES, instance=comment)
+            if form.is_valid():
+                comment.author = request.user
+                comment = form.save()
+                return redirect('issue_detail', comment.issue.id)
+        else:
+            form = CommentForm(instance=comment)
+    return render(request, 'issue_commentform.html', {'form': form, 'comment': comment})
+
+def delete_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    if (request.user.is_authenticated and request.user == comment.author):
+        comment.delete()
+    return redirect(reverse('get_issues'))

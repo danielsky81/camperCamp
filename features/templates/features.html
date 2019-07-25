@@ -35,12 +35,13 @@
                         <h2 class="panel-title">{{ feature.title | capfirst }}</h2>
                         <div>
                             <p class="votes text-right">{{feature.votes}} <small>votes</small></p>
-                            <p class="views text-right">{{feature.views}} <small>views</small></p>
                         </div>
                     </div>
                     <div class="panel-body">
                         <p>{{ feature.description | capfirst | truncatewords:15 }}</p>
                         <p class="type-roboto">by: {{ feature.author | capfirst }}</p>
+                        <p class="type-roboto">Published on: {{ feature.published_date | date:'F d, Y' }} </p>
+                        <p class="type-roboto">{{feature.views}} Views | {{ feature.comments_feat.count }} Comments</p>
                     </div>
                 </div>
             </div>

@@ -35,12 +35,13 @@
                         <h2 class="panel-title">{{ issue.title | capfirst }}</h2>
                         <div>
                             <p class="votes text-right">{{issue.votes}} <small>votes</small></p>
-                            <p class="views text-right">{{issue.views}} <small>views</small></p>
                         </div>
                     </div>
                     <div class="panel-body">
                         <p>{{ issue.description | capfirst | truncatewords:15 }}</p>
                         <p class="type-roboto">by: {{ issue.author | capfirst }}</p>
+                        <p class="type-roboto">Published on: {{ issue.published_date | date:'F d, Y' }} </p>
+                        <p class="type-roboto">{{issue.views}} Views | {{ issue.comments.count }} Comments</p>
                     </div>
                 </div>
             </div>

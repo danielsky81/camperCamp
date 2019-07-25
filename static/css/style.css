@@ -44,15 +44,6 @@ h1, h2, h3, p {
     display: inline;
 }
 
-.views {
-    border: 1px solid #555555;
-    border-radius: 5px;
-    background-color: white;
-    color: #555555;
-    padding: 0 5px;
-    display: inline;
-}
-
 .options {
     padding-top: 15px;
     padding-left: 0;
@@ -214,6 +205,22 @@ footer p a:hover, footer p a:focus {
     background-image: none;
     color: white;
     border-color: #FF9683;
+    outline: none;
+    box-shadow: none;
+}
+
+.btn-comment {
+    background-color: #547DCC;
+    background-image: none;
+    color: white;
+    border-color: #547DCC;
+}
+
+.btn-comment:active:hover, .btn-comment:hover, .btn-comment:active, .btn-comment:focus {
+    background-color: #699DFF;
+    background-image: none;
+    color: white;
+    border-color: #699DFF;
     outline: none;
     box-shadow: none;
 }
