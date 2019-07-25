@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load bootstrap_tags %}
+
+{% block content %}
+
+    <h1>New comment</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form | as_bootstrap }}
+        <button type="submit" class="btn btn-success">Add</button>
+        <a href="{% url 'get_posts' %}" class="btn btn-default">Cancel</a>
+    </form>
+
+{% endblock %}

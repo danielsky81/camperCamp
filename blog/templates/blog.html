@@ -16,12 +16,6 @@
 {% for post in items %}
 
     <div class="row">
-        {% comment %} <div class="col-md-2 col-sm-3 text-center">
-            <a class="story-img" href="#">
-                <img src="/media/img/profile.jpg" class="img-circle">
-            </a>
-            <p><span class="boldtext">Author:</span> {{post.author}}</p>
-        </div> {% endcomment %}
         <div class="col-xs-12 col-md-11 col-lr-10">
             <h2>{{ post.title }}</h2>
             <h3>by {{ post.author | capfirst }}</h3>
@@ -30,8 +24,7 @@
                     <p>{{ post.content | capfirst | truncatewords:30 }}</p>
                     <p><a href="{% url 'post_detail' post.id %}" class="btn btn-default">Read more</a></p>
                     <p class="type-roboto">Published on: {{ post.published_date | date:'F d, Y' }} </p>
-                    <p class="type-roboto">Views: {{post.views}}</p>
-                    {% comment %} <p><small>Tags:</small> {{ post.tag }}</p> {% endcomment %}
+                    <p class="type-roboto">{{post.views}} Views | {{ post.comments.count }} Comments</p>
                 </div>
             </div>
         </div>

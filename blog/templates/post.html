@@ -3,16 +3,7 @@
 {% block content %}
 
     <div class="row">
-        {% comment %} <div class="col-md-2 col-sm-3 text-center">
-            <a class="story-img" href="#">
-                <img src="/media/img/profile.jpg" class="img-circle">
-            </a>
-            <p><span class="boldtext">Author:</span> {{post.author}}</p>
-        </div> {% endcomment %}
         <div class="col-xs-12 col-md-11 col-lr-10">
-            {% comment %} {% if post.image %}
-                <img class="img-blogpost" src="/media/{{ post.image }}">
-            {% endif %} {% endcomment %}
             <h1>{{ post.title }}</h1>
             <h2>by {{ post.author | capfirst }}</h2>
             <div class="row">
@@ -20,17 +11,60 @@
                     <p>{{ post.content | capfirst }}</p>
                     <hr>
                     <p class="type-roboto">Published on: {{ post.published_date | date:'F d, Y' }}</p>
-                    <p class="type-roboto">Views: {{post.views}}</p>
-                    {% comment %} <p><small>Tag:</small> {{ post.tag }}</p> {% endcomment %}
+                    <p class="type-roboto">{{post.views}} Views | {{ post.comments.count }} Comments</p>
+                </div>
+                <div class="col-xs-12 space-top">
                     <a href="{% url 'get_posts' %}" class="btn btn-default">Back to Blog</a>
                     {% if user.is_authenticated %}
-                        <a href="{% url 'get_posts' %}" class="btn btn-success">Comment</a>
-                    {% else %}
+                        <a href="{% url 'add_comment_to_post' pk=post.pk %}" class="btn btn-success">Add Comment</a>
                     {% endif %}
                     {% if user.is_superuser %}
                         <a href="{% url 'edit_post' post.id %}" class="btn btn-danger">Edit Post</a>
+                        <a href="#" class="btn btn-delete" data-toggle="modal" data-target=".bs-example-modal-sm" aria-haspopup="true" aria-expanded="false">Delete</a>
+                        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <p>Please confirm if you want to delete the <strong>'{{ post.title }}'</strong> post</p>
+                                        <a href="{% url 'delete_post' post.id %}" class="btn btn-delete">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     {% endif %}
                 </div>
+
+                <div class="col-xs-12 space-top">
+                {% for comment in post.comments.all %}
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p><small>{{ comment.content | linebreaks }}</small></p>
+                            <p class="type-roboto">Published on: {{ comment.published_date | date:'F d, Y @ P' }} | by: {{ comment.author | capfirst }}</p>
+                        </div>
+                        {% if request.user == comment.author %}
+                            <div class="panel-btn">
+                                <a href="{% url 'edit_comment' comment.id %}" class="btn btn-danger btn-sm">Edit</a>
+                                <a href="#" class="btn btn-delete btn-sm" data-toggle="modal" data-target=".bs-comment-modal-sm" aria-haspopup="true" aria-expanded="false">Delete</a>
+                                <div class="modal fade bs-comment-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                                    <div class="modal-dialog modal-sm" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <p>Please confirm if you want to delete this comment</p>
+                                                <a href="{% url 'delete_comment' comment.id %}" class="btn btn-delete btn-sm">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <p class="type-roboto">There are no comments for this post yet</p>
+                {% endfor %}
+                </div>
+
             </div>
         </div>
     </div>

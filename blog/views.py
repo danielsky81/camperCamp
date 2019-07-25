@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Post
-from .forms import BlogPostForm
+from .models import Post, Comment
+from .forms import BlogPostForm, CommentForm
 
 
 def get_posts(request):
@@ -50,3 +50,43 @@ def create_or_edit_post(request, pk=None):
         return render(request, 'postform.html', {'form': form})
     else:
         return redirect(reverse('get_posts'))
+
+def delete_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.user.is_superuser:
+        post.delete()
+    return redirect(reverse('get_posts'))
+
+def add_comment_to_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.author = request.user
+                comment.post = post
+                comment.save()
+                return redirect('post_detail', pk=post.pk)
+        else:
+            form = CommentForm()
+    return render(request, 'commentform.html', {'form': form})
+
+def edit_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    if (request.user.is_authenticated and request.user == comment.author):
+        if request.method == 'POST':
+            form = CommentForm(request.POST, request.FILES, instance=comment)
+            if form.is_valid():
+                comment.author = request.user
+                comment = form.save()
+                return redirect('post_detail', comment.post.id)
+        else:
+            form = CommentForm(instance=comment)
+    return render(request, 'commentform.html', {'form': form, 'comment': comment})
+
+def delete_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    if (request.user.is_authenticated and request.user == comment.author):
+        comment.delete()
+    return redirect(reverse('get_posts'))

@@ -11,6 +11,10 @@ hr {
     text-decoration: none;
 }
 
+.space-top {
+    padding-top: 15px;
+}
+
 /* Typography */
 
 h1, h2, h3, p {
@@ -198,6 +202,22 @@ footer p a:hover, footer p a:focus {
     box-shadow: none;
 }
 
+.btn-delete {
+    background-color: white;
+    background-image: none;
+    color: #FF9683;
+    border-color: #FF9683;
+}
+
+.btn-delete:active:hover, .btn-delete:hover, .btn-delete:active, .btn-delete:focus {
+    background-color: #FF9683;
+    background-image: none;
+    color: white;
+    border-color: #FF9683;
+    outline: none;
+    box-shadow: none;
+}
+
 /* Bootstrap dashboard and tabs */
 
 .jumbotron .details {
@@ -256,6 +276,11 @@ footer p a:hover, footer p a:focus {
 .panel-heading > div > p {
     margin: 0 5px;
     font-size: 14px;
+}
+
+.panel-btn {
+    padding: 15px;
+    padding-top: 0;
 }
 
 /* Bootstrap pagination */
