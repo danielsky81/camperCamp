@@ -1,5 +1,5 @@
 from django import forms
-from .models import Feature, Comment
+from .models import Feature, CommentFeatures
 
 
 class FeatureForm(forms.ModelForm):
@@ -11,5 +11,5 @@ class FeatureForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
 
     class Meta:
-        model = Comment
+        model = CommentFeatures
         fields = ('content',)

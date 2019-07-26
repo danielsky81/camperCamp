@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Post, Comment
+from .models import Post, CommentBlog
 from .forms import BlogPostForm, CommentForm
 
 
@@ -72,8 +72,8 @@ def add_comment_to_post(request, pk):
             form = CommentForm()
     return render(request, 'commentform.html', {'form': form})
 
-def edit_comment(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
+def edit_comment_post(request, pk):
+    comment = get_object_or_404(CommentBlog, pk=pk)
     if (request.user.is_authenticated and request.user == comment.author):
         if request.method == 'POST':
             form = CommentForm(request.POST, request.FILES, instance=comment)
@@ -85,8 +85,8 @@ def edit_comment(request, pk):
             form = CommentForm(instance=comment)
     return render(request, 'commentform.html', {'form': form, 'comment': comment})
 
-def delete_comment(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
+def delete_comment_post(request, pk):
+    comment = get_object_or_404(CommentBlog, pk=pk)
     if (request.user.is_authenticated and request.user == comment.author):
         comment.delete()
     return redirect(reverse('get_posts'))
