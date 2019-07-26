@@ -45,7 +45,7 @@
                         {% if request.user == comment.author %}
                             <div class="panel-btn">
                                 <a href="{% url 'edit_comment' comment.id %}" class="btn btn-danger btn-sm">Edit</a>
-                                <a href="#" class="btn btn-delete btn-sm" data-toggle="modal" data-target=".bs-comment-modal-sm" aria-haspopup="true" aria-expanded="false">Delete</a>
+                                <a class="btn btn-delete btn-sm" data-toggle="modal" data-target=".bs-comment-modal-sm" aria-haspopup="true" aria-expanded="false">Delete</a>
                                 <div class="modal fade bs-comment-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
                                     <div class="modal-dialog modal-sm" role="document">
                                         <div class="modal-content">

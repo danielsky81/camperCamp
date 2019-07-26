@@ -26,3 +26,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.content
+
+class Votes(models.Model):
+
+    vote = models.ForeignKey(Issue, on_delete=models.CASCADE, null=True, blank=False, related_name='add_vote')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False)
+
+    def __str__(self):
+        return self.user

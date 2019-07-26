@@ -29,18 +29,50 @@
         <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="profile">
                 <p>Your personal data. Upload or change image or other details</p>
+                <p>{{ user }}</p>
             </div>
             <div role="tabpanel" class="tab-pane" id="issues">
-                <p>List of all issues created by you</p>
+                <p>List of all issues created by you:</p>
+                {% for issue in issues %}
+                    <a href="{% url 'issue_detail' issue.id %}">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p class="type-roboto"><strong>{{ issue.title }}</strong> | <small>Published on: {{ issue.published_date | date:'F d, Y @ P' }}</small></p>
+                                <p><small>{{ issue.description | capfirst | truncatewords:10 }}</small></p>
+                            </div>  
+                        </div>
+                    </a>
+                {% endfor %}
             </div>
             <div role="tabpanel" class="tab-pane" id="features">
                 <p>List of all features created by you</p>
+                {% for feature in features %}
+                    <a href="{% url 'feature_detail' feature.id %}">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p class="type-roboto"><strong>{{ feature.title }}</strong> | <small>Published on: {{ feature.published_date | date:'F d, Y @ P' }}</small></p>
+                                <p><small>{{ feature.description | capfirst | truncatewords:10 }}</small></p>
+                            </div>  
+                        </div>
+                    </a>
+                {% endfor %}
             </div>
-            <div role="tabpanel" class="tab-pane" id="comments">
-                <p>List of all comments added by you</p>
+            <div role="tabpanel" class="tab-pane dashboard-panel" id="comments">
+                <p>List of all your comments:</p>
+                {% for blog in blog_comments %}   
+                    <a href="{% url 'post_detail' blog.post.id %}">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p class="type-roboto"><strong>{{ blog.post }}</strong> | <small>Published on: {{ blog.published_date | date:'F d, Y @ P' }}</small></p>
+                                <p><small>{{ blog | capfirst | truncatewords:10 }}</small></p>
+                            </div>  
+                        </div>
+                    </a>
+                {% endfor %}
             </div>
             <div role="tabpanel" class="tab-pane" id="votes">
                 <p>List of all votes added by you</p>
+                <p></p>
             </div>
         </div>
     </div>

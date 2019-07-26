@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Issue, Comment
+from .models import Issue, Comment, Votes
 from .forms import IssueForm, CommentForm
+from django.contrib.auth.models import User
 
 def get_issues(request):
     issues = Issue.objects.filter(published_date__lte=timezone.now()
@@ -79,3 +80,22 @@ def delete_comment(request, pk):
     if (request.user.is_authenticated and request.user == comment.author):
         comment.delete()
     return redirect(reverse('get_issues'))
+
+def add_vote(request, pk):
+    issue = get_object_or_404(Issue, pk=pk)
+    user = User.objects.get(username=request.user)
+    votes = Votes.objects.filter(vote=issue)
+    votes_users = Votes.objects.filter(user=user)
+    if request.user.is_authenticated:
+        if request.user != issue.author:
+            if request.user in votes_users:
+                print('yes')
+            # for vote in votes:
+                # if str(vote) != str(user):
+                #     issue_vote = get_object_or_404(Votes, vote=issue, user=request.user)        
+                #     issue.votes += 1
+                #     issue.save()
+                #     issue_vote.vote = issue
+                #     issue_vote.user = request.user
+                #     issue_vote.save()
+    return redirect('issue_detail', pk=issue.pk)

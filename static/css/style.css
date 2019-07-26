@@ -15,6 +15,14 @@ hr {
     padding-top: 15px;
 }
 
+.space-top > a {
+    margin: 5px;
+}
+
+a:hover, a:focus {
+    text-decoration: none;
+}
+
 /* Typography */
 
 h1, h2, h3, p {
@@ -47,6 +55,10 @@ h1, h2, h3, p {
 .options {
     padding-top: 15px;
     padding-left: 0;
+}
+
+.options > a {
+    margin: 5px;
 }
 
 .content {

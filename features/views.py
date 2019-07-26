@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Feature, Comment
+from .models import Feature, Comment, Votes
 from .forms import FeatureForm, CommentForm
 
 def get_features(request):
@@ -78,3 +78,12 @@ def delete_comment(request, pk):
     if (request.user.is_authenticated and request.user == comment.author):
         comment.delete()
     return redirect(reverse('get_features'))
+
+def add_vote_feat(request, pk):
+    feature = get_object_or_404(Feature, pk=pk)
+    votes = Votes.objects.all()
+    if request.user.is_authenticated:
+        if request.user != feature.author:
+            feature.votes += 1
+            feature.save()
+    return redirect('feature_detail', pk=feature.pk)
