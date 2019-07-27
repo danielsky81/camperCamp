@@ -11,14 +11,16 @@ class Issue(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     published_date = models.DateTimeField(blank=True, null=True, default=timezone.now)
     views = models.IntegerField(default=0)
-    votes = models.IntegerField(default=0)
+    user_votes = models.IntegerField(default=0)
+    CATEGORIES = [('to do', 'to do'), ('in progress', 'in progress'), ('done', 'done')]
+    category = models.CharField(max_length=12, choices=CATEGORIES, default='to do')
 
     def __str__(self):
         return self.title
 
 class CommentIssues(models.Model):
     
-    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='comments')
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='comments_issue')
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False, related_name='comments')
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
@@ -29,7 +31,7 @@ class CommentIssues(models.Model):
 
 class Votes(models.Model):
 
-    vote = models.ForeignKey(Issue, on_delete=models.CASCADE, null=True, blank=False, related_name='add_vote')
+    vote_issue = models.ForeignKey(Issue, on_delete=models.CASCADE, null=True, blank=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False)
 
     def __str__(self):

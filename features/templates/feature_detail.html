@@ -6,7 +6,14 @@
         <div class="col-xs-12 col-md-11 col-lr-10">
             <h1>{{ feature.title | capfirst }}</h1>
             <h2>by {{ feature.author | capfirst }}</h2>
-            <p class="votes">{{feature.votes}} votes</p>
+            {% if feature.category == 'in progress' %}
+                <span class="label label-warning">{{ feature.category }}</span>
+            {% elif feature.category == 'done' %}
+                <span class="label label-success">{{ feature.category }}</span>
+            {% else %}
+                <span class="label label-default">{{ feature.category }}</span>
+            {% endif %}
+            <span class="label label-info text-right">{{feature.user_votes}} <small>votes</small></span>
             <div class="row">
                 <div class="col-xs-12">
                     <p class="content">{{ feature.description | capfirst }}</p>

@@ -34,7 +34,14 @@
                     <div class="panel-heading">
                         <h2 class="panel-title">{{ feature.title | capfirst }}</h2>
                         <div>
-                            <p class="votes text-right">{{feature.votes}} <small>votes</small></p>
+                            {% if feature.category == 'in progress' %}
+                                <span class="label label-warning">{{ feature.category }}</span>
+                            {% elif feature.category == 'done' %}
+                                <span class="label label-success">{{ feature.category }}</span>
+                            {% else %}
+                                <span class="label label-default">{{ feature.category }}</span>
+                            {% endif %}
+                            <span class="label label-info text-right">{{feature.user_votes}} <small>votes</small></span>
                         </div>
                     </div>
                     <div class="panel-body">

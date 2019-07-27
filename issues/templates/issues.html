@@ -34,14 +34,21 @@
                     <div class="panel-heading">
                         <h2 class="panel-title">{{ issue.title | capfirst }}</h2>
                         <div>
-                            <p class="votes text-right">{{issue.votes}} <small>votes</small></p>
+                            {% if issue.category == 'in progress' %}
+                                <span class="label label-warning">{{ issue.category }}</span>
+                            {% elif issue.category == 'done' %}
+                                <span class="label label-success">{{ issue.category }}</span>
+                            {% else %}
+                                <span class="label label-default">{{ issue.category }}</span>
+                            {% endif %}
+                            <span class="label label-info text-right">{{ issue.user_votes }} <small>votes</small></span>
                         </div>
                     </div>
                     <div class="panel-body">
                         <p>{{ issue.description | capfirst | truncatewords:15 }}</p>
                         <p class="type-roboto">by: {{ issue.author | capfirst }}</p>
                         <p class="type-roboto">Published on: {{ issue.published_date | date:'F d, Y' }} </p>
-                        <p class="type-roboto">{{issue.views}} Views | {{ issue.comments.count }} Comments</p>
+                        <p class="type-roboto">{{ issue.views }} Views | {{ issue.comments_issue.count }} Comments</p>
                     </div>
                 </div>
             </div>

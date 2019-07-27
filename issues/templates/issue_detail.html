@@ -6,7 +6,14 @@
         <div class="col-xs-12 col-md-11 col-lr-10">
             <h1>{{ issue.title | capfirst }}</h1>
             <h2>by {{ issue.author | capfirst }}</h2>
-            <p class="votes">{{issue.votes}} votes</p>
+            {% if issue.category == 'in progress' %}
+                <span class="label label-warning">{{ issue.category }}</span>
+            {% elif issue.category == 'done' %}
+                <span class="label label-success">{{ issue.category }}</span>
+            {% else %}
+                <span class="label label-default">{{ issue.category }}</span>
+            {% endif %}
+            <span class="label label-info text-right">{{issue.user_votes}} <small>votes</small></span>
             <div class="row">
                 <div class="col-xs-12">
                     <p class="content">{{ issue.description | capfirst }}</p>
@@ -50,7 +57,7 @@
                 </div>
 
                 <div class="col-xs-12 space-top">
-                {% for comment in issue.comments.all %}
+                {% for comment in issue.comments_issue.all %}
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <p><small>{{ comment.content | linebreaks }}</small></p>

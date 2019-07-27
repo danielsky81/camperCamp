@@ -82,20 +82,21 @@ def delete_comment_issue(request, pk):
     return redirect(reverse('get_issues'))
 
 def add_vote(request, pk):
+    # issue = get_object_or_404(Issue, pk=pk)
+    # user = User.objects.get(username=request.user)
+    # upvote = Votes.objects.filter(vote_issue=issue)
+    # for vote in upvote:
+    #     if str(vote) == str(user):
+    #         voting = get_object_or_404(Votes, vote_issue=issue, user=request.user)
+    #         issue.user_votes += 1
+    #         issue.save()
+    #         issue.vote_issue = issue
+    #         issue.user = request.user
+    #         issue.save()
+
     issue = get_object_or_404(Issue, pk=pk)
-    user = User.objects.get(username=request.user)
-    votes = Votes.objects.filter(vote=issue)
-    votes_users = Votes.objects.filter(user=user)
-    if request.user.is_authenticated:
-        if request.user != issue.author:
-            if request.user in votes_users:
-                print('yes')
-            # for vote in votes:
-                # if str(vote) != str(user):
-                #     issue_vote = get_object_or_404(Votes, vote=issue, user=request.user)        
-                #     issue.votes += 1
-                #     issue.save()
-                #     issue_vote.vote = issue
-                #     issue_vote.user = request.user
-                #     issue_vote.save()
-    return redirect('issue_detail', pk=issue.pk)
+    issue.user_votes += 1
+    issue.save()
+    print(issue.user_votes)
+
+    return redirect(issue_detail, issue.pk)

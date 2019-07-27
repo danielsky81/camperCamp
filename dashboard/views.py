@@ -1,16 +1,18 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.models import User
 from blog.models import CommentBlog
-from issues.models import Issue
-from features.models import Feature
+from issues.models import Issue, CommentIssues
+from features.models import Feature, CommentFeatures
 
 def dashboard(request):
     user = User.objects.get(username=request.user)
     blog_comments = CommentBlog.objects.filter(author=user).order_by('-published_date')
     issues = Issue.objects.filter(author=user).order_by('-published_date')
+    issues_comments = CommentIssues.objects.filter(author=user).order_by('-published_date')
     features = Feature.objects.filter(author=user).order_by('-published_date')
+    features_comments = CommentFeatures.objects.filter(author=user).order_by('-published_date')
     if request.user.is_authenticated:
-        return render(request, 'dashboard.html', {'blog_comments': blog_comments, 'issues': issues, 'features': features})
+        return render(request, 'dashboard.html', {'blog_comments': blog_comments, 'issues': issues, 'features': features, 'issues_comments': issues_comments, 'features_comments': features_comments})
     else:
         return redirect(reverse('hello'))
 

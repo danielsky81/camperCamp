@@ -43,15 +43,6 @@ h1, h2, h3, p {
     margin: 0;
 }
 
-.votes {
-    border: 1px solid #FF9683;
-    border-radius: 5px;
-    background-color: #FF9683;
-    color: white;
-    padding: 0 5px;
-    display: inline;
-}
-
 .options {
     padding-top: 15px;
     padding-left: 0;
@@ -222,19 +213,19 @@ footer p a:hover, footer p a:focus {
 }
 
 .btn-comment {
-    background-color: #547DCC;
+    background-color: #555555;
     background-image: none;
     color: white;
-    border-color: #547DCC;
+    border-color: #555555;
 }
 
 .btn-comment:active:hover, .btn-comment:hover, .btn-comment:active, .btn-comment:focus {
-    background-color: #699DFF;
+    background-color: #A1A1A1;
     background-image: none;
     color: white;
-    border-color: #699DFF;
     outline: none;
     box-shadow: none;
+    border-color: #A1A1A1;
 }
 
 /* Bootstrap dashboard and tabs */
@@ -314,4 +305,22 @@ footer p a:hover, footer p a:focus {
 
 .pagination > .active > a {
     color: #FF9683;
+}
+
+/* Bootstrap labels */
+
+.label {
+    font-size: 100%;
+}
+
+.panel-heading > div .label, .panel > div .label {
+    font-size: 75%;
+}
+
+.label-warning {
+    background-color: #FFB275;
+}
+
+.label-info {
+    background-color: #699DFF;
 }

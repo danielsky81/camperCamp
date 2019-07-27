@@ -84,6 +84,6 @@ def add_vote_feat(request, pk):
     votes = Votes.objects.all()
     if request.user.is_authenticated:
         if request.user != feature.author:
-            feature.votes += 1
+            feature.user_votes += 1
             feature.save()
     return redirect('feature_detail', pk=feature.pk)

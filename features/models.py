@@ -11,7 +11,9 @@ class Feature(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     published_date = models.DateTimeField(blank=True, null=True, default=timezone.now)
     views = models.IntegerField(default=0)
-    votes = models.IntegerField(default=0)
+    user_votes = models.IntegerField(default=0)
+    CATEGORIES = [('to do', 'to do'), ('in progress', 'in progress'), ('done', 'done')]
+    category = models.CharField(max_length=12, choices=CATEGORIES, default='to do')
 
     def __str__(self):
         return self.title
