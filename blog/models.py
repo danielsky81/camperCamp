@@ -1,30 +1,38 @@
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
 
 
 class Post(models.Model):
     
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False)
-    title = models.CharField(max_length=200)
-    content = models.TextField()
+    TAGS = [
+        ('issue', 'issue'),
+        ('feature', 'feature'),
+        ('news', 'news'),
+        ('other', 'other'),
+    ]
+
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False, related_name='posts')
+    title = models.CharField(max_length=200, null=False, blank=False)
+    content = models.TextField(null=False, blank=False)
     created_date = models.DateTimeField(auto_now_add=True)
-    published_date = models.DateTimeField(blank=True, null=True, default=timezone.now)
+    updated_date = models.DateTimeField(auto_now=True)
     views = models.IntegerField(default=0)
-    tag = models.CharField(max_length=30, blank=True, null=True)
-    image = models.ImageField(upload_to='img', blank=True, null=True)
+    tag = models.CharField(max_length=30, null=False, blank=False, choices=TAGS, default='news')
 
     def __str__(self):
         return self.title
 
-class CommentBlog(models.Model):
+class PostComment(models.Model):
 
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False)
-    content = models.TextField()
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=False, blank=False, related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name='post_comments')
+    content = models.TextField(null=False, blank=False)
     created_date = models.DateTimeField(auto_now_add=True)
-    published_date = models.DateTimeField(blank=True, null=True, default=timezone.now)
-    views = models.IntegerField(default=0)
+    updated_date = models.DateTimeField(auto_now=True)
+    updated = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['-created_date']
 
     def __str__(self):
-        return self.content
+        return 'Comment on %s by %s' % (self.post.title, self.author.username)

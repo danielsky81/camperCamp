@@ -10,7 +10,10 @@
                 <div class="col-xs-12">
                     <p>{{ post.content | capfirst }}</p>
                     <hr>
-                    <p class="type-roboto">Published on: {{ post.published_date | date:'F d, Y' }}</p>
+                    <p class="type-roboto">Published on: {{ post.created_date | date:'F d, Y @ P' }}</p>
+                    {% if post.updated_date > post.created_date %}
+                        <p class="type-roboto"><small>Updated on: {{ post.updated_date | date:'F d, Y @ P' }}</small></p>
+                    {% endif %}
                     <p class="type-roboto">{{post.views}} Views | {{ post.comments.count }} Comments</p>
                 </div>
                 <div class="col-xs-12 space-top">
@@ -40,7 +43,10 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <p><small>{{ comment.content | linebreaks }}</small></p>
-                            <p class="type-roboto">Published on: {{ comment.published_date | date:'F d, Y @ P' }} | by: {{ comment.author | capfirst }}</p>
+                            <p class="type-roboto">Published on: {{ comment.created_date | date:'F d, Y @ P' }} | by: {{ comment.author | capfirst }}</p>
+                            {% if comment.updated is True %}
+                                <p class="type-roboto"><small>Updated on: {{ comment.updated_date | date:'F d, Y @ P' }}</small></p>
+                            {% endif %}
                         </div>
                         {% if request.user == comment.author %}
                             <div class="panel-btn">

@@ -1,13 +1,12 @@
-from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404, get_list_or_404
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Post, CommentBlog
-from .forms import BlogPostForm, CommentForm
+from .models import Post, PostComment
+from .forms import BlogPostForm, BlogCommentForm
 
 
 def get_posts(request):
-    blog = Post.objects.filter(published_date__lte=timezone.now()
-        ).order_by('-published_date')
+    blog = Post.objects.order_by('-created_date')
     paginator = Paginator(blog, 4)
     page = request.GET.get('page')
     try:
@@ -61,7 +60,7 @@ def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.user.is_authenticated:
         if request.method == "POST":
-            form = CommentForm(request.POST)
+            form = BlogCommentForm(request.POST)
             if form.is_valid():
                 comment = form.save(commit=False)
                 comment.author = request.user
@@ -69,24 +68,25 @@ def add_comment_to_post(request, pk):
                 comment.save()
                 return redirect('post_detail', pk=post.pk)
         else:
-            form = CommentForm()
+            form = BlogCommentForm()
     return render(request, 'commentform.html', {'form': form})
 
 def edit_comment_post(request, pk):
-    comment = get_object_or_404(CommentBlog, pk=pk)
+    comment = get_object_or_404(PostComment, pk=pk)
     if (request.user.is_authenticated and request.user == comment.author):
         if request.method == 'POST':
-            form = CommentForm(request.POST, request.FILES, instance=comment)
+            form = BlogCommentForm(request.POST, request.FILES, instance=comment)
             if form.is_valid():
                 comment.author = request.user
+                comment.updated = True
                 comment = form.save()
                 return redirect('post_detail', comment.post.id)
         else:
-            form = CommentForm(instance=comment)
+            form = BlogCommentForm(instance=comment)
     return render(request, 'commentform.html', {'form': form, 'comment': comment})
 
 def delete_comment_post(request, pk):
-    comment = get_object_or_404(CommentBlog, pk=pk)
+    comment = get_object_or_404(PostComment, pk=pk)
     if (request.user.is_authenticated and request.user == comment.author):
         comment.delete()
     return redirect(reverse('get_posts'))

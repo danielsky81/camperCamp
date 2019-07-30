@@ -19,7 +19,7 @@
                     <p class="content">{{ issue.description | capfirst }}</p>
                     <hr>
                     <div class="col-xs-6">
-                        <p class="type-roboto">Published on: {{ issue.published_date | date:'F d, Y' }}</p>
+                        <p class="type-roboto">Published on: {{ issue.created_date | date:'F d, Y' }}</p>
                         <p class="type-roboto">{{ issue.views }} Views | {{ issue.comments.count }} Comments</p>
                     </div>
                     <div class="col-xs-12 options">
@@ -61,7 +61,7 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <p><small>{{ comment.content | linebreaks }}</small></p>
-                            <p class="type-roboto">Published on: {{ comment.published_date | date:'F d, Y @ P' }} | by: {{ comment.author | capfirst }}</p>
+                            <p class="type-roboto">Published on: {{ comment.created_date | date:'F d, Y @ P' }} | by: {{ comment.author | capfirst }}</p>
                         </div>
                         {% if request.user == comment.author %}
                             <div class="panel-btn">

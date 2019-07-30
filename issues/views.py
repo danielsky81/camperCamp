@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Issue, CommentIssues, Votes
+from .models import Issue, IssuesComment, Votes
 from .forms import IssueForm, CommentForm
 from django.contrib.auth.models import User
 
 def get_issues(request):
-    issues = Issue.objects.filter(published_date__lte=timezone.now()
-        ).order_by('-published_date')
+    issues = Issue.objects.order_by('-created_date')
     paginator = Paginator(issues, 4)
     page = request.GET.get('page')
     try:
@@ -63,7 +62,7 @@ def add_comment_to_issue(request, pk):
     return render(request, 'issue_commentform.html', {'form': form})
 
 def edit_comment_issue(request, pk):
-    comment = get_object_or_404(CommentIssues, pk=pk)
+    comment = get_object_or_404(IssuesComment, pk=pk)
     if (request.user.is_authenticated and request.user == comment.author):
         if request.method == 'POST':
             form = CommentForm(request.POST, request.FILES, instance=comment)
@@ -76,7 +75,7 @@ def edit_comment_issue(request, pk):
     return render(request, 'issue_commentform.html', {'form': form, 'comment': comment})
 
 def delete_comment_issue(request, pk):
-    comment = get_object_or_404(CommentIssues, pk=pk)
+    comment = get_object_or_404(IssuesComment, pk=pk)
     if (request.user.is_authenticated and request.user == comment.author):
         comment.delete()
     return redirect(reverse('get_issues'))

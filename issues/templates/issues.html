@@ -47,7 +47,7 @@
                     <div class="panel-body">
                         <p>{{ issue.description | capfirst | truncatewords:15 }}</p>
                         <p class="type-roboto">by: {{ issue.author | capfirst }}</p>
-                        <p class="type-roboto">Published on: {{ issue.published_date | date:'F d, Y' }} </p>
+                        <p class="type-roboto">Published on: {{ issue.created_date | date:'F d, Y' }} </p>
                         <p class="type-roboto">{{ issue.views }} Views | {{ issue.comments_issue.count }} Comments</p>
                     </div>
                 </div>

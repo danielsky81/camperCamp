@@ -5,34 +5,43 @@ from django.contrib.auth.models import User
 
 class Issue(models.Model):
 
+    CATEGORIES = [
+        ('new', 'new'),
+        ('to do', 'to do'),
+        ('in progress', 'in progress'),
+        ('done', 'done'),
+        ('rejected', 'rejected'),
+        ('require data', 'require data'),
+    ]
+
     title = models.CharField(max_length=100)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False, related_name='issues')
     description = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
-    published_date = models.DateTimeField(blank=True, null=True, default=timezone.now)
+    updated_date = models.DateTimeField(auto_now=True)
     views = models.IntegerField(default=0)
-    user_votes = models.IntegerField(default=0)
-    CATEGORIES = [('to do', 'to do'), ('in progress', 'in progress'), ('done', 'done')]
-    category = models.CharField(max_length=12, choices=CATEGORIES, default='to do')
+    votes = models.IntegerField(default=0)
+    category = models.CharField(max_length=12, choices=CATEGORIES, default='new')
 
     def __str__(self):
         return self.title
 
-class CommentIssues(models.Model):
+class IssuesComment(models.Model):
     
-    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='comments_issue')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False, related_name='comments')
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='issue_comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False, related_name='issue_user_comments')
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
-    published_date = models.DateTimeField(blank=True, null=True, default=timezone.now)
+    updated_date = models.DateTimeField(auto_now=True)
+    views = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.content
+        return 'Comment on %s by %s' % (self.issue.title, self.author.username)
 
 class Votes(models.Model):
 
-    vote_issue = models.ForeignKey(Issue, on_delete=models.CASCADE, null=True, blank=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False)
+    issue_id = models.OneToOneField(Issue, on_delete=models.CASCADE, related_name='vote')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False, related_name='issue_votes')
 
     def __str__(self):
         return self.user
