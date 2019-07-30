@@ -42,6 +42,8 @@ def create_or_edit_post(request, pk=None):
             if form.is_valid():
                 post = form.save()
                 post.author = request.user
+                post.updated_date = timezone.now()
+                post.updated = True
                 post.save()
                 return redirect(post_detail, post.pk)
         else:

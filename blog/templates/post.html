@@ -11,7 +11,7 @@
                     <p>{{ post.content | capfirst }}</p>
                     <hr>
                     <p class="type-roboto">Published on: {{ post.created_date | date:'F d, Y @ P' }}</p>
-                    {% if post.updated_date > post.created_date %}
+                    {% if post.updated is True %}
                         <p class="type-roboto"><small>Updated on: {{ post.updated_date | date:'F d, Y @ P' }}</small></p>
                     {% endif %}
                     <p class="type-roboto">{{post.views}} Views | {{ post.comments.count }} Comments</p>
