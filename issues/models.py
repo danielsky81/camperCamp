@@ -18,10 +18,11 @@ class Issue(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False, related_name='issues')
     description = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
+    updated_date = models.DateTimeField(null=True)
     views = models.IntegerField(default=0)
     votes = models.IntegerField(default=0)
     category = models.CharField(max_length=12, choices=CATEGORIES, default='new')
+    updated = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -33,15 +34,19 @@ class IssuesComment(models.Model):
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
-    views = models.IntegerField(default=0)
+    updated = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['-created_date']
 
     def __str__(self):
         return 'Comment on %s by %s' % (self.issue.title, self.author.username)
 
 class Votes(models.Model):
 
-    issue_id = models.OneToOneField(Issue, on_delete=models.CASCADE, related_name='vote')
+    voted_issue = models.ForeignKey(Issue, on_delete=models.CASCADE, null=True, blank=False, related_name='vote')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False, related_name='issue_votes')
+    voted_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.user

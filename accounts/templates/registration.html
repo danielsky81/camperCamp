@@ -5,13 +5,17 @@
 
 {% block content %}
 
-{% if messages %}
-    <div>
-    {% for message in messages %}
-        <p class="message">{{ message }}</p>
-    {% endfor %}
-    </div>
-{% endif %}
+    {% if messages %}
+        <div>
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+            {% elif message.tags == 'error' %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+            {% endif %}
+        {% endfor %}
+        </div>
+    {% endif %}
 
     <form method="POST">
         {% csrf_token %}

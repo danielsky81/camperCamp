@@ -2,6 +2,18 @@
 
 {% block content %}
 
+    {% if messages %}
+        <div>
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+            {% elif message.tags == 'error' %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+            {% endif %}
+        {% endfor %}
+        </div>
+    {% endif %}
+
     <div class="row">
         <div class="col-xs-12 col-md-11 col-lr-10">
             <h1>{{ issue.title | capfirst }}</h1>
@@ -13,14 +25,17 @@
             {% else %}
                 <span class="label label-default">{{ issue.category }}</span>
             {% endif %}
-            <span class="label label-info text-right">{{issue.user_votes}} <small>votes</small></span>
+            <span class="label label-info text-right">{{issue.votes}} <small>votes</small></span>
             <div class="row">
                 <div class="col-xs-12">
                     <p class="content">{{ issue.description | capfirst }}</p>
                     <hr>
                     <div class="col-xs-6">
-                        <p class="type-roboto">Published on: {{ issue.created_date | date:'F d, Y' }}</p>
-                        <p class="type-roboto">{{ issue.views }} Views | {{ issue.comments.count }} Comments</p>
+                        <p class="type-roboto">Published on: {{ issue.created_date | date:'F d, Y @ P' }}</p>
+                        {% if issue.updated is True %}
+                            <p class="type-roboto"><small>Updated on: {{ issue.updated_date | date:'F d, Y @ P' }}</small></p>
+                        {% endif %}
+                        <p class="type-roboto">{{ issue.views }} Views | {{ issue.issue_comments.count }} Comments</p>
                     </div>
                     <div class="col-xs-12 options">
                         <a href="{% url 'get_issues' %}" class="btn btn-danger">Back to Issues</a>
@@ -57,17 +72,20 @@
                 </div>
 
                 <div class="col-xs-12 space-top">
-                {% for comment in issue.comments_issue.all %}
+                {% for comment in issue.issue_comments.all %}
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <p><small>{{ comment.content | linebreaks }}</small></p>
                             <p class="type-roboto">Published on: {{ comment.created_date | date:'F d, Y @ P' }} | by: {{ comment.author | capfirst }}</p>
+                            {% if comment.updated is True %}
+                                <p class="type-roboto"><small>Updated on: {{ comment.updated_date | date:'F d, Y @ P' }}</small></p>
+                            {% endif %}
                         </div>
                         {% if request.user == comment.author %}
                             <div class="panel-btn">
                                 <a href="{% url 'edit_comment_issue' comment.id %}" class="btn btn-danger btn-sm">Edit</a>
-                                <a href="#" class="btn btn-delete btn-sm" data-toggle="modal" data-target=".bs-comment-modal-sm" aria-haspopup="true" aria-expanded="false">Delete</a>
-                                <div class="modal fade bs-comment-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                                <a href="#" class="btn btn-delete btn-sm" data-toggle="modal" data-target=".bs-comment{{ comment.id }}-modal-sm" aria-haspopup="true" aria-expanded="false">Delete</a>
+                                <div class="modal fade bs-comment{{ comment.id }}-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
                                     <div class="modal-dialog modal-sm" role="document">
                                         <div class="modal-content">
                                             <div class="modal-body">

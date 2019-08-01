@@ -2,13 +2,17 @@
 
 {% block content %}
 
-{% if messages %}
-    <div>
+    {% if messages %}
+        <div>
         {% for message in messages %}
-            <p class="message">{{ message }}</p>
+            {% if message.tags == 'success' %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+            {% elif message.tags == 'error' %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+            {% endif %}
         {% endfor %}
-    </div>
-{% endif %}
+        </div>
+    {% endif %}
 
 <h1>Welcome to the CC Tracker!</h1>
 <p>A tool for CamperCamp users that allows to submit issues encountered with the site or create and vote on new features we promise to implement.</p>

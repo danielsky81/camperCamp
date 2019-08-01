@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.shortcuts import render, redirect, get_object_or_404, reverse, get_list_or_404
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Issue, IssuesComment, Votes
 from .forms import IssueForm, CommentForm
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 def get_issues(request):
     issues = Issue.objects.order_by('-created_date')
@@ -40,6 +41,8 @@ def create_or_edit_issue(request, pk=None):
         if form.is_valid():
             issue = form.save()
             issue.author = request.user
+            issue.updated = True
+            issue.updated_date = timezone.now()
             issue.save()
             return redirect(issue_detail, issue.pk)
     else:
@@ -68,6 +71,7 @@ def edit_comment_issue(request, pk):
             form = CommentForm(request.POST, request.FILES, instance=comment)
             if form.is_valid():
                 comment.author = request.user
+                comment.updated = True
                 comment = form.save()
                 return redirect('issue_detail', comment.issue.id)
         else:
@@ -78,24 +82,24 @@ def delete_comment_issue(request, pk):
     comment = get_object_or_404(IssuesComment, pk=pk)
     if (request.user.is_authenticated and request.user == comment.author):
         comment.delete()
-    return redirect(reverse('get_issues'))
+    return redirect('issue_detail', comment.issue.id)
 
 def add_vote(request, pk):
-    # issue = get_object_or_404(Issue, pk=pk)
-    # user = User.objects.get(username=request.user)
-    # upvote = Votes.objects.filter(vote_issue=issue)
-    # for vote in upvote:
-    #     if str(vote) == str(user):
-    #         voting = get_object_or_404(Votes, vote_issue=issue, user=request.user)
-    #         issue.user_votes += 1
-    #         issue.save()
-    #         issue.vote_issue = issue
-    #         issue.user = request.user
-    #         issue.save()
-
     issue = get_object_or_404(Issue, pk=pk)
-    issue.user_votes += 1
-    issue.save()
-    print(issue.user_votes)
+    votes = Votes.objects.filter(voted_issue=issue)
+    user = User.objects.get(username=request.user)
+    upvoted = False
+    if (request.user.is_authenticated and request.user != issue.author):
+        for vote in votes:
+            if str(vote.user) == str(user) and str(vote.voted_issue) == str(issue):
+                upvoted = True
+    if upvoted is False:
+        vote = Votes(voted_date=timezone.now(), user = user, voted_issue = issue)
+        vote.save()
+        issue.votes += 1
+        issue.save()
+        messages.success(request, 'Thank you for your vote!')
+    else:
+        messages.error(request, 'You have already voted on this issue.')
 
-    return redirect(issue_detail, issue.pk)
+    return redirect('issue_detail', issue.pk)

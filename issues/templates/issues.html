@@ -41,14 +41,17 @@
                             {% else %}
                                 <span class="label label-default">{{ issue.category }}</span>
                             {% endif %}
-                            <span class="label label-info text-right">{{ issue.user_votes }} <small>votes</small></span>
+                            <span class="label label-info text-right">{{ issue.votes }} <small>votes</small></span>
                         </div>
                     </div>
                     <div class="panel-body">
                         <p>{{ issue.description | capfirst | truncatewords:15 }}</p>
                         <p class="type-roboto">by: {{ issue.author | capfirst }}</p>
                         <p class="type-roboto">Published on: {{ issue.created_date | date:'F d, Y' }} </p>
-                        <p class="type-roboto">{{ issue.views }} Views | {{ issue.comments_issue.count }} Comments</p>
+                        {% if issue.updated is True %}
+                            <p class="type-roboto"><small>Updated on: {{ issue.updated_date | date:'F d, Y' }}</small></p>
+                        {% endif %}
+                        <p class="type-roboto">{{ issue.views }} Views | {{ issue.issue_comments.count }} Comments</p>
                     </div>
                 </div>
             </div>
