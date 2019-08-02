@@ -9,7 +9,11 @@
         {% csrf_token %}
         {{ form | as_bootstrap }}
         <button type="submit" class="btn btn-success">Add</button>
-        <a href="{% url 'get_items' %}" class="btn btn-default">Cancel</a>
+        {% if item == 'issue' or comment.item.item_type == 'issue' %}
+            <a href="{% url 'get_issues' %}" class="btn btn-default">Cancel</a>
+        {% elif item == 'feature' or comment.item.item_type == 'feature' %}
+            <a href="{% url 'get_features' %}" class="btn btn-default">Cancel</a>
+        {% endif %}
     </form>
 
 {% endblock %}

@@ -37,20 +37,20 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="issues">
                 <h2>Issues created by you:</h2>
-                {% for issue in issues %}
-                    <a href="{% url 'issue_detail' issue.id %}">
+                {% for item in issues %}
+                    <a href="{% url 'item_detail' item.id %}">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <p class="type-roboto"><strong>{{ issue.title }}</strong> | <small>Published on: {{ issue.published_date | date:'F d, Y @ P' }}</small></p>
-                                {% if issue.category == 'in progress' %}
-                                    <span class="label label-warning">{{ issue.category }}</span>
-                                {% elif issue.category == 'done' %}
-                                    <span class="label label-success">{{ issue.category }}</span>
+                                <p class="type-roboto"><strong>{{ item.title }}</strong> | <small>Published on: {{ item.created_date | date:'F d, Y @ P' }}</small></p>
+                                {% if item.category == 'in progress' %}
+                                    <span class="label label-warning">{{ item.category }}</span>
+                                {% elif item.category == 'done' %}
+                                    <span class="label label-success">{{ item.category }}</span>
                                 {% else %}
-                                    <span class="label label-default">{{ issue.category }}</span>
+                                    <span class="label label-default">{{ item.category }}</span>
                                 {% endif %}
-                                <span class="label label-info text-right">{{issue.user_votes}} <small>votes</small></span>
-                                <p><small>{{ issue.description | capfirst | truncatewords:10 }}</small></p>
+                                <span class="label label-info text-right">{{item.votes}} <small>votes</small></span>
+                                <p><small>{{ item.description | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
                     </a>
@@ -58,24 +58,24 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="features">
                 <h2>Features created by you:</h2>
-                {% comment %} {% for feature in features %}
-                    <a href="{% url 'feature_detail' feature.id %}">
+                {% for item in features %}
+                    <a href="{% url 'feature_detail' item.id %}">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <p class="type-roboto"><strong>{{ feature.title }}</strong> | <small>Published on: {{ feature.published_date | date:'F d, Y @ P' }}</small></p>
-                                {% if feature.category == 'in progress' %}
-                                    <span class="label label-warning">{{ feature.category }}</span>
-                                {% elif feature.category == 'done' %}
-                                    <span class="label label-success">{{ feature.category }}</span>
+                                <p class="type-roboto"><strong>{{ item.title }}</strong> | <small>Published on: {{ item.created_date | date:'F d, Y @ P' }}</small></p>
+                                {% if item.category == 'in progress' %}
+                                    <span class="label label-warning">{{ item.category }}</span>
+                                {% elif item.category == 'done' %}
+                                    <span class="label label-success">{{ item.category }}</span>
                                 {% else %}
-                                    <span class="label label-default">{{ feature.category }}</span>
+                                    <span class="label label-default">{{ item.category }}</span>
                                 {% endif %}
-                                <span class="label label-info text-right">{{feature.user_votes}} <small>votes</small></span>
-                                <p><small>{{ feature.description | capfirst | truncatewords:10 }}</small></p>
+                                <span class="label label-info text-right">{{item.votes}} <small>votes</small></span>
+                                <p><small>{{ item.description | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
                     </a>
-                {% endfor %} {% endcomment %}
+                {% endfor %}
             </div>
             <div role="tabpanel" class="tab-pane dashboard-panel" id="comments">
                 <h2>Blog comments:</h2>
@@ -83,34 +83,34 @@
                     <a href="{% url 'post_detail' blog.post.id %}">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <p class="type-roboto"><strong>{{ blog.post }}</strong> | <small>Published on: {{ blog.published_date | date:'F d, Y @ P' }}</small></p>
+                                <p class="type-roboto"><strong>{{ blog.post }}</strong> | <small>Published on: {{ blog.created_date | date:'F d, Y @ P' }}</small></p>
                                 <p><small>{{ blog | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
                     </a>
                 {% endfor %}
                 <h2>Issues comments:</h2>
-                {% comment %} {% for bug in issues_comments %}   
-                    <a href="{% url 'issue_detail' bug.issue.id %}">
+                {% for comment in issues_comments %}   
+                    <a href="{% url 'item_detail' comment.item.id %}">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <p class="type-roboto"><strong>{{ bug.issue }}</strong> | <small>Published on: {{ bug.published_date | date:'F d, Y @ P' }}</small></p>
-                                <p><small>{{ bug | capfirst | truncatewords:10 }}</small></p>
+                                <p class="type-roboto"><strong>{{ comment.item.title }}</strong> | <small>Published on: {{ comment.created_date | date:'F d, Y @ P' }}</small></p>
+                                <p><small>{{ comment.description | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
                     </a>
-                {% endfor %} {% endcomment %}
+                {% endfor %}
                 <h2>Features comments:</h2>
-                {% comment %} {% for feature in features_comments %}   
-                    <a href="{% url 'feature_detail' feature.feature.id %}">
+                {% for comment in features_comments %}   
+                    <a href="{% url 'feature_detail' comment.item.id %}">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <p class="type-roboto"><strong>{{ feature.feature }}</strong> | <small>Published on: {{ feature.published_date | date:'F d, Y @ P' }}</small></p>
-                                <p><small>{{ feature | capfirst | truncatewords:10 }}</small></p>
+                                <p class="type-roboto"><strong>{{ comment.item.title }}</strong> | <small>Published on: {{ comment.created_date | date:'F d, Y @ P' }}</small></p>
+                                <p><small>{{ comment.description | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
                     </a>
-                {% endfor %} {% endcomment %}
+                {% endfor %}
             </div>
             <div role="tabpanel" class="tab-pane" id="votes">
                 <h2>Votes added by you:</h2>

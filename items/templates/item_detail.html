@@ -38,7 +38,11 @@
                         <p class="type-roboto">{{ item.views }} Views | {{ item.item_comments.count }} Comments</p>
                     </div>
                     <div class="col-xs-12 options">
-                        <a href="{% url 'get_items' %}" class="btn btn-danger">Back to Issues</a>
+                        {% if request.path == '/items/issues/' %}
+                            <a href="{% url 'get_issues' %}" class="btn btn-danger">Back to Issues</a>
+                        {% elif request.path == '/items/features/' %}
+                            <a href="{% url 'get_features' %}" class="btn btn-danger">Back to Features</a>
+                        {% endif %}
                         {% if user.is_authenticated %}
                             {% if request.user != item.author and request.user != vote.user %}
                                 <a href="{% url 'add_vote' item.id %}" class="btn btn-success">Vote</a>

@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-    <h1>List of all issues</h1>
-    <p>You will find here all raised issues. Please vote on the ones you believe are important so they can be fixed asap.</p>
+    {% if request.path == '/items/issues/' %}
+        <h1>List of all issues</h1>
+        <p>You will find here all raised issues. Please vote on the ones you believe are important so they can be fixed asap.</p>
+    {% elif request.path == '/items/features/' %}
+        <h1>List of all features</h1>
+        <p>You will find here all created features. Please vote on the ones you believe are important so they can be developed asap.</p>
+    {% endif %}
     {% if user.is_authenticated %}
-        <a href="{% url 'new_item' %}" class="btn btn-success">Add new item</a>
+        {% if request.path == '/items/issues/' %}
+            <a href="{% url 'new_issue' %}" class="btn btn-success">Add new item</a>
+        {% elif request.path == '/items/features/' %}
+            <a href="{% url 'new_issue' %}" class="btn btn-success">Add new item</a>
+        {% endif %}
     {% else %}
         <a href="#" class="btn btn-success" data-toggle="modal" data-target=".bs-issues-modal-sm" aria-haspopup="true" aria-expanded="false">Add new item</a>
         <div class="modal fade bs-issues-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
@@ -51,7 +59,7 @@
                         {% if page.updated is True %}
                             <p class="type-roboto"><small>Updated on: {{ page.updated_date | date:'F d, Y' }}</small></p>
                         {% endif %}
-                        <p class="type-roboto">{{ page.views }} Views | {{ page.issue_comments.count }} Comments</p>
+                        <p class="type-roboto">{{ page.views }} Views | {{ page.item_comments.count }} Comments</p>
                     </div>
                 </div>
             </div>

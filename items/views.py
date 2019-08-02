@@ -7,7 +7,11 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 
 def get_items(request):
-    items = Items.objects.order_by('-created_date')
+    items = ''
+    if request.path == '/items/issues/':
+        items = Items.objects.filter(item_type='issue').order_by('-created_date')
+    elif request.path == '/items/features/':
+        items = Items.objects.filter(item_type='feature').order_by('-created_date')
     paginator = Paginator(items, 4)
     page = request.GET.get('page')
     try:
@@ -40,14 +44,14 @@ def create_or_edit_item(request, pk=None):
         form = ItemsForm(request.POST, request.FILES, instance=item)
         if form.is_valid():
             item = form.save()
-            item.author = request.user
+            # item.author = request.user
             item.updated = True
             item.updated_date = timezone.now()
             item.save()
-            return redirect(item_detail, item.pk)
+            return redirect('item_detail', pk=item.pk)
     else:
         form = ItemsForm(instance=item)
-    return render(request, 'itemform.html', {'form': form})
+    return render(request, 'itemform.html', {'form': form, 'item': item})
 
 def add_comment_to_item(request, pk):
     item = get_object_or_404(Items, pk=pk)
@@ -62,7 +66,7 @@ def add_comment_to_item(request, pk):
                 return redirect('item_detail', pk=item.pk)
         else:
             form = CommentForm()
-    return render(request, 'item_commentform.html', {'form': form})
+    return render(request, 'item_commentform.html', {'form': form, 'item': item.item_type})
 
 def edit_comment_item(request, pk):
     comment = get_object_or_404(ItemComments, pk=pk)
@@ -70,7 +74,7 @@ def edit_comment_item(request, pk):
         if request.method == 'POST':
             form = CommentForm(request.POST, request.FILES, instance=comment)
             if form.is_valid():
-                comment.author = request.user
+                # comment.author = request.user
                 comment.updated = True
                 comment = form.save()
                 return redirect('item_detail', comment.item.id)
