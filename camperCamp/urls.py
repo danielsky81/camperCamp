@@ -25,8 +25,7 @@ from dashboard import urls as dashboard_urls
 from blog import urls as blog_urls
 from .settings import MEDIA_ROOT
 from contact import urls as contact_urls
-from features import urls as features_urls
-from issues import urls as issues_urls
+from items import urls as items_urls
 from payment import urls as payment_urls
 
 urlpatterns = [
@@ -37,8 +36,7 @@ urlpatterns = [
     url(r'^blog/', include('blog.urls')),
     # url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
     url(r'^contact/', include('contact.urls')),
-    url(r'^features/', include('features.urls')),
-    url(r'^issues/', include('issues.urls')),
+    url(r'^items/', include('items.urls')),
     url(r'^payment/', include('payment.urls')),
 ]
 

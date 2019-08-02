@@ -58,7 +58,7 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="features">
                 <h2>Features created by you:</h2>
-                {% for feature in features %}
+                {% comment %} {% for feature in features %}
                     <a href="{% url 'feature_detail' feature.id %}">
                         <div class="panel panel-default">
                             <div class="panel-body">
@@ -75,7 +75,7 @@
                             </div>  
                         </div>
                     </a>
-                {% endfor %}
+                {% endfor %} {% endcomment %}
             </div>
             <div role="tabpanel" class="tab-pane dashboard-panel" id="comments">
                 <h2>Blog comments:</h2>
@@ -90,7 +90,7 @@
                     </a>
                 {% endfor %}
                 <h2>Issues comments:</h2>
-                {% for bug in issues_comments %}   
+                {% comment %} {% for bug in issues_comments %}   
                     <a href="{% url 'issue_detail' bug.issue.id %}">
                         <div class="panel panel-default">
                             <div class="panel-body">
@@ -99,9 +99,9 @@
                             </div>  
                         </div>
                     </a>
-                {% endfor %}
+                {% endfor %} {% endcomment %}
                 <h2>Features comments:</h2>
-                {% for feature in features_comments %}   
+                {% comment %} {% for feature in features_comments %}   
                     <a href="{% url 'feature_detail' feature.feature.id %}">
                         <div class="panel panel-default">
                             <div class="panel-body">
@@ -110,7 +110,7 @@
                             </div>  
                         </div>
                     </a>
-                {% endfor %}
+                {% endfor %} {% endcomment %}
             </div>
             <div role="tabpanel" class="tab-pane" id="votes">
                 <h2>Votes added by you:</h2>
