@@ -4,12 +4,24 @@
 
 {% block content %}
 
-    <h1>New Item</h1>
+    {% if request.path == '/items/issues/new/' %}
+        <h1>New Issue</h1>
+    {% elif request.path == '/items/features/new/' %}
+        <h1>New Feature</h1>
+    {% else %}
+        <h1>Amendment form</h1>
+    {% endif %}
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form | as_bootstrap }}
         <button type="submit" class="btn btn-success">Save</button>
-            <a href="{% url 'item_detail' item.id %}" class="btn btn-danger">Cancel</a>
+        {% if request.path == '/items/issues/new/' %}
+            <a href="{% url 'get_issues' %}" class="btn btn-danger">Cancel</a>
+        {% elif request.path == '/items/features/new/' %}
+            <a href="{% url 'get_features' %}" class="btn btn-danger">Cancel</a>
+        {% else %}
+            <a href="{% url 'item_detail' item.pk %}" class="btn btn-danger">Cancel</a>
+        {% endif %}
     </form>
 
 {% endblock %}

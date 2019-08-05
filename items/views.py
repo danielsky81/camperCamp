@@ -40,23 +40,33 @@ def item_detail(request, pk):
 
 def create_or_edit_item(request, pk=None):
     item = get_object_or_404(Items, pk=pk) if pk else None
-    if request.method == "POST":
+    if request.method == 'POST':
         form = ItemsForm(request.POST, request.FILES, instance=item)
         if form.is_valid():
             item = form.save()
-            # item.author = request.user
             item.updated = True
             item.updated_date = timezone.now()
+            item.author = request.user
+            if request.path == '/items/issues/new/':
+                item.item_type = 'issue'
+            elif request.path == '/items/features/new/':
+                item.item_type = 'feature'
             item.save()
             return redirect('item_detail', pk=item.pk)
     else:
-        form = ItemsForm(instance=item)
+        if request.path == '/items/issues/new/':
+            form = ItemsForm(instance=item, initial={'item_type': 'issue'})
+        elif request.path == '/items/features/new/':
+            form = ItemsForm(instance=item, initial={'item_type': 'feature'})
+        else:
+            form = ItemsForm(instance=item)
+            
     return render(request, 'itemform.html', {'form': form, 'item': item})
 
 def add_comment_to_item(request, pk):
     item = get_object_or_404(Items, pk=pk)
     if request.user.is_authenticated:
-        if request.method == "POST":
+        if request.method == 'POST':
             form = CommentForm(request.POST)
             if form.is_valid():
                 comment = form.save(commit=False)
@@ -74,7 +84,6 @@ def edit_comment_item(request, pk):
         if request.method == 'POST':
             form = CommentForm(request.POST, request.FILES, instance=comment)
             if form.is_valid():
-                # comment.author = request.user
                 comment.updated = True
                 comment = form.save()
                 return redirect('item_detail', comment.item.id)

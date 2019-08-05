@@ -59,7 +59,7 @@
             <div role="tabpanel" class="tab-pane" id="features">
                 <h2>Features created by you:</h2>
                 {% for item in features %}
-                    <a href="{% url 'feature_detail' item.id %}">
+                    <a href="{% url 'item_detail' item.id %}">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p class="type-roboto"><strong>{{ item.title }}</strong> | <small>Published on: {{ item.created_date | date:'F d, Y @ P' }}</small></p>
@@ -95,26 +95,44 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p class="type-roboto"><strong>{{ comment.item.title }}</strong> | <small>Published on: {{ comment.created_date | date:'F d, Y @ P' }}</small></p>
-                                <p><small>{{ comment.description | capfirst | truncatewords:10 }}</small></p>
+                                <p><small>{{ comment.content | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
                     </a>
                 {% endfor %}
                 <h2>Features comments:</h2>
                 {% for comment in features_comments %}   
-                    <a href="{% url 'feature_detail' comment.item.id %}">
+                    <a href="{% url 'item_detail' comment.item.id %}">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p class="type-roboto"><strong>{{ comment.item.title }}</strong> | <small>Published on: {{ comment.created_date | date:'F d, Y @ P' }}</small></p>
-                                <p><small>{{ comment.description | capfirst | truncatewords:10 }}</small></p>
+                                <p><small>{{ comment.content | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
                     </a>
                 {% endfor %}
             </div>
             <div role="tabpanel" class="tab-pane" id="votes">
-                <h2>Votes added by you:</h2>
-                <p></p>
+                <h2>Issues votes:</h2>
+                {% for vote in issues_votes %}
+                    <a href="{% url 'item_detail' vote.voted_item.id %}">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p class="type-roboto"><strong>1 vote</strong> | <small>{{ vote.voted_item.title }}</small></p>
+                            </div>  
+                        </div>
+                    </a>
+                {% endfor %}
+                <h2>Features votes:</h2>
+                {% for vote in features_votes %}
+                    <a href="{% url 'item_detail' vote.voted_item.id %}">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p class="type-roboto"><strong>1 vote</strong> | <small>{{ vote.voted_item.title }}</small></p>
+                            </div>  
+                        </div>
+                    </a>
+                {% endfor %}
             </div>
         </div>
     </div>

@@ -12,7 +12,7 @@
         {% if request.path == '/items/issues/' %}
             <a href="{% url 'new_issue' %}" class="btn btn-success">Add new item</a>
         {% elif request.path == '/items/features/' %}
-            <a href="{% url 'new_issue' %}" class="btn btn-success">Add new item</a>
+            <a href="{% url 'new_feature' %}" class="btn btn-success">Add new item</a>
         {% endif %}
     {% else %}
         <a href="#" class="btn btn-success" data-toggle="modal" data-target=".bs-issues-modal-sm" aria-haspopup="true" aria-expanded="false">Add new item</a>

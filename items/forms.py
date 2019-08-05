@@ -6,7 +6,7 @@ class ItemsForm(forms.ModelForm):
 
     class Meta:
         model = Items
-        fields = ('item_type', 'title', 'description')
+        fields = ('title', 'description')
 
 class CommentForm(forms.ModelForm):
 
