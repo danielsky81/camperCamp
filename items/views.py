@@ -102,16 +102,35 @@ def add_vote(request, pk):
     votes = Votes.objects.filter(voted_item=item)
     user = User.objects.get(username=request.user)
     upvoted = False
-    if (request.user.is_authenticated and request.user != item.author):
-        for vote in votes:
-            if str(vote.user) == str(user) and str(vote.voted_item) == str(item):
-                upvoted = True
-    if upvoted is False:
+    if item.item_type == 'issue':
+        if (request.user.is_authenticated and request.user != item.author):
+            for vote in votes:
+                if str(vote.user) == str(user) and str(vote.voted_item) == str(item):
+                    upvoted = True
+    if upvoted is False and item.item_type == 'issue':
         vote = Votes(voted_date=timezone.now(), user = user, voted_item = item)
+        vote.votes_number = 1
         vote.save()
         item.votes += 1
         item.save()
         messages.success(request, 'Thank you for your vote!')
+    elif item.item_type == 'feature':
+        for vote in votes:
+            if str(vote.user) == str(user) and str(vote.voted_item) == str(item):
+                    upvoted = True
+        if upvoted is False:
+            vote = Votes(voted_date=timezone.now(), user = user, voted_item = item)
+            vote.votes_number += 1
+            vote.save()
+            item.votes += 1
+            item.save()
+            messages.success(request, 'Thank you for your vote!')
+        elif upvoted is True:
+            vote.votes_number += 1
+            vote.save()
+            item.votes += 1
+            item.save()
+            messages.success(request, 'Thank you for your vote!')
     else:
         messages.error(request, 'Thanks but you have already voted.')
 

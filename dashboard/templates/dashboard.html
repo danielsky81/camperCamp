@@ -84,7 +84,10 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p class="type-roboto"><strong>{{ blog.post }}</strong> | <small>Published on: {{ blog.created_date | date:'F d, Y @ P' }}</small></p>
-                                <p><small>{{ blog | capfirst | truncatewords:10 }}</small></p>
+                                {% if blog.updated_date is not None %}
+                                    <p class="type-roboto"><small>Updated on: {{ blog.updated_date | date:'F d, Y @ P' }}</small></p>
+                                {% endif %}
+                                <p><small>{{ blog.content | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
                     </a>
@@ -117,8 +120,20 @@
                 {% for vote in issues_votes %}
                     <a href="{% url 'item_detail' vote.voted_item.id %}">
                         <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title type-roboto">1 vote</h3>
+                            </div>
                             <div class="panel-body">
-                                <p class="type-roboto"><strong>1 vote</strong> | <small>{{ vote.voted_item.title }}</small></p>
+                                <p class="type-roboto"><strong>{{ vote.voted_item.title }}</strong> | <small>Published on: {{ vote.voted_item.created_date | date:'F d, Y @ P' }}</small></p>
+                                {% if vote.voted_item.category == 'in progress' %}
+                                    <span class="label label-warning">{{ vote.voted_item.category }}</span>
+                                {% elif vote.voted_item.category == 'done' %}
+                                    <span class="label label-success">{{ vote.voted_item.category }}</span>
+                                {% else %}
+                                    <span class="label label-default">{{ vote.voted_item.category }}</span>
+                                {% endif %}
+                                <span class="label label-info text-right">{{vote.voted_item.votes}} <small>votes</small></span>
+                                <p><small>{{ vote.voted_item.description | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
                     </a>
@@ -127,8 +142,24 @@
                 {% for vote in features_votes %}
                     <a href="{% url 'item_detail' vote.voted_item.id %}">
                         <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {% if vote.votes_number > 1 %}
+                                    <h3 class="panel-title type-roboto">{{ vote.votes_number }} votes</h3>
+                                {% else %}
+                                    <h3 class="panel-title type-roboto">1 vote</h3>
+                                {% endif %}
+                            </div>
                             <div class="panel-body">
-                                <p class="type-roboto"><strong>1 vote</strong> | <small>{{ vote.voted_item.title }}</small></p>
+                                <p class="type-roboto"><strong>{{ vote.voted_item.title }}</strong> | <small>Published on: {{ vote.voted_item.created_date | date:'F d, Y @ P' }}</small></p>
+                                {% if vote.voted_item.category == 'in progress' %}
+                                    <span class="label label-warning">{{ vote.voted_item.category }}</span>
+                                {% elif vote.voted_item.category == 'done' %}
+                                    <span class="label label-success">{{ vote.voted_item.category }}</span>
+                                {% else %}
+                                    <span class="label label-default">{{ vote.voted_item.category }}</span>
+                                {% endif %}
+                                <span class="label label-info text-right">{{vote.voted_item.votes}} <small>votes</small></span>
+                                <p><small>{{ vote.voted_item.description | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
                     </a>

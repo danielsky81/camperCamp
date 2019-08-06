@@ -15,7 +15,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200, null=False, blank=False)
     content = models.TextField(null=False, blank=False)
     created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField()
+    updated_date = models.DateTimeField(null=True)
     views = models.IntegerField(default=0)
     tag = models.CharField(max_length=30, null=False, blank=False, choices=TAGS, default='news')
     updated = models.BooleanField(default=False)
@@ -29,7 +29,7 @@ class PostComment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name='post_comments')
     content = models.TextField(null=False, blank=False)
     created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
+    updated_date = models.DateTimeField(null=True)
     updated = models.BooleanField(default=False)
 
     class Meta:

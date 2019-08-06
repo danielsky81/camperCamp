@@ -53,6 +53,7 @@ class Votes(models.Model):
     voted_item = models.ForeignKey(Items, on_delete=models.CASCADE, null=True, blank=False, related_name='vote')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False, related_name='item_votes')
     voted_date = models.DateTimeField(auto_now_add=True)
+    votes_number = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user

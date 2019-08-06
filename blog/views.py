@@ -7,8 +7,9 @@ from .forms import BlogPostForm, BlogCommentForm
 
 def get_posts(request):
     blog = Post.objects.order_by('-created_date')
-    paginator = Paginator(blog, 4)
+    paginator = Paginator(blog, 3)
     page = request.GET.get('page')
+    print(page)
     try:
         items = paginator.page(page)
     except PageNotAnInteger:
@@ -39,13 +40,18 @@ def create_or_edit_post(request, pk=None):
     if request.user.is_superuser:
         if request.method == 'POST':
             form = BlogPostForm(request.POST, request.FILES, instance=post)
-            if form.is_valid():
-                post = form.save()
-                post.author = request.user
-                post.updated_date = timezone.now()
-                post.updated = True
-                post.save()
-                return redirect(post_detail, post.pk)
+            if post == None:
+                if form.is_valid():
+                    post = form.save()
+                    post.author = request.user
+                    post.save()
+                    return redirect(post_detail, post.pk)
+            elif post != None:
+                if form.is_valid():
+                    post.updated_date = timezone.now()
+                    post.updated = True
+                    post.save()
+                    return redirect(post_detail, post.pk)
         else:
             form = BlogPostForm(instance=post)
         return render(request, 'postform.html', {'form': form})
@@ -80,6 +86,7 @@ def edit_comment_post(request, pk):
             form = BlogCommentForm(request.POST, request.FILES, instance=comment)
             if form.is_valid():
                 comment.author = request.user
+                comment.updated_date = timezone.now()
                 comment.updated = True
                 comment = form.save()
                 return redirect('post_detail', comment.post.id)
