@@ -43,10 +43,6 @@ h1, h2, h3, p {
     margin: 0;
 }
 
-.jumbotron .panel-body > h3 {
-    font-size: 18px;
-}
-
 .options {
     padding-top: 15px;
     padding-left: 0;

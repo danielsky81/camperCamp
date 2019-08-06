@@ -32,7 +32,7 @@
                     <hr>
                     <div class="col-xs-6">
                         <p class="type-roboto">Published on: {{ item.created_date | date:'F d, Y @ P' }}</p>
-                        {% if item.updated is True %}
+                        {% if item.updated_date is not None %}
                             <p class="type-roboto"><small>Updated on: {{ item.updated_date | date:'F d, Y @ P' }}</small></p>
                         {% endif %}
                         <p class="type-roboto">{{ item.views }} Views | {{ item.item_comments.count }} Comments</p>
@@ -81,7 +81,7 @@
                         <div class="panel-body">
                             <p><small>{{ comment.content | linebreaks }}</small></p>
                             <p class="type-roboto">Published on: {{ comment.created_date | date:'F d, Y @ P' }} | by: {{ comment.author | capfirst }}</p>
-                            {% if comment.updated is True %}
+                            {% if comment.updated_date is not None %}
                                 <p class="type-roboto"><small>Updated on: {{ comment.updated_date | date:'F d, Y @ P' }}</small></p>
                             {% endif %}
                         </div>

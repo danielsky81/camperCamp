@@ -42,6 +42,9 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p class="type-roboto"><strong>{{ item.title }}</strong> | <small>Published on: {{ item.created_date | date:'F d, Y @ P' }}</small></p>
+                                {% if item.updated_date is not None %}
+                                    <p class="type-roboto"><small>Updated on: {{ item.updated_date | date:'F d, Y @ P' }}</small></p>
+                                {% endif %}
                                 {% if item.category == 'in progress' %}
                                     <span class="label label-warning">{{ item.category }}</span>
                                 {% elif item.category == 'done' %}
@@ -63,6 +66,9 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p class="type-roboto"><strong>{{ item.title }}</strong> | <small>Published on: {{ item.created_date | date:'F d, Y @ P' }}</small></p>
+                                {% if item.updated_date is not None %}
+                                    <p class="type-roboto"><small>Updated on: {{ item.updated_date | date:'F d, Y @ P' }}</small></p>
+                                {% endif %}
                                 {% if item.category == 'in progress' %}
                                     <span class="label label-warning">{{ item.category }}</span>
                                 {% elif item.category == 'done' %}
@@ -98,6 +104,9 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p class="type-roboto"><strong>{{ comment.item.title }}</strong> | <small>Published on: {{ comment.created_date | date:'F d, Y @ P' }}</small></p>
+                                {% if comment.updated_date is not None %}
+                                    <p class="type-roboto"><small>Updated on: {{ comment.updated_date | date:'F d, Y @ P' }}</small></p>
+                                {% endif %}
                                 <p><small>{{ comment.content | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
@@ -109,6 +118,9 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p class="type-roboto"><strong>{{ comment.item.title }}</strong> | <small>Published on: {{ comment.created_date | date:'F d, Y @ P' }}</small></p>
+                                {% if comment.updated_date is not None %}
+                                    <p class="type-roboto"><small>Updated on: {{ comment.updated_date | date:'F d, Y @ P' }}</small></p>
+                                {% endif %}
                                 <p><small>{{ comment.content | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
@@ -169,12 +181,3 @@
     </div>
 
 {% endblock  %}
-
-{% comment %} {% block script %} {% endcomment %}
-
-{% comment %} $('#myTabs a').click(function (e) {
-    e.preventDefault()
-    $(this).tab('show')
-}) {% endcomment %}
-
-{% comment %} {% endblock %} {% endcomment %}

@@ -49,7 +49,6 @@ def create_or_edit_post(request, pk=None):
             elif post != None:
                 if form.is_valid():
                     post.updated_date = timezone.now()
-                    post.updated = True
                     post.save()
                     return redirect(post_detail, post.pk)
         else:
@@ -87,7 +86,6 @@ def edit_comment_post(request, pk):
             if form.is_valid():
                 comment.author = request.user
                 comment.updated_date = timezone.now()
-                comment.updated = True
                 comment = form.save()
                 return redirect('post_detail', comment.post.id)
         else:

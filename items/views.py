@@ -42,17 +42,21 @@ def create_or_edit_item(request, pk=None):
     item = get_object_or_404(Items, pk=pk) if pk else None
     if request.method == 'POST':
         form = ItemsForm(request.POST, request.FILES, instance=item)
-        if form.is_valid():
-            item = form.save()
-            item.updated = True
-            item.updated_date = timezone.now()
-            item.author = request.user
-            if request.path == '/items/issues/new/':
-                item.item_type = 'issue'
-            elif request.path == '/items/features/new/':
-                item.item_type = 'feature'
-            item.save()
-            return redirect('item_detail', pk=item.pk)
+        if item == None:
+            if form.is_valid():
+                item = form.save()
+                item.author = request.user
+                if request.path == '/items/issues/new/':
+                    item.item_type = 'issue'
+                elif request.path == '/items/features/new/':
+                    item.item_type = 'feature'
+                item.save()
+                return redirect('item_detail', pk=item.pk)
+        elif item != None:
+            if form.is_valid():
+                item.updated_date = timezone.now()
+                item.save()
+                return redirect('item_detail', pk=item.pk)
     else:
         if request.path == '/items/issues/new/':
             form = ItemsForm(instance=item, initial={'item_type': 'issue'})
@@ -84,7 +88,7 @@ def edit_comment_item(request, pk):
         if request.method == 'POST':
             form = CommentForm(request.POST, request.FILES, instance=comment)
             if form.is_valid():
-                comment.updated = True
+                comment.updated_date = timezone.now()
                 comment = form.save()
                 return redirect('item_detail', comment.item.id)
         else:

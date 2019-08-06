@@ -18,7 +18,6 @@ class Post(models.Model):
     updated_date = models.DateTimeField(null=True)
     views = models.IntegerField(default=0)
     tag = models.CharField(max_length=30, null=False, blank=False, choices=TAGS, default='news')
-    updated = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -30,7 +29,6 @@ class PostComment(models.Model):
     content = models.TextField(null=False, blank=False)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(null=True)
-    updated = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-created_date']

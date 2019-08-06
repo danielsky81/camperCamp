@@ -56,7 +56,7 @@
                         <p>{{ page.description | capfirst | truncatewords:15 }}</p>
                         <p class="type-roboto">by: {{ page.author | capfirst }}</p>
                         <p class="type-roboto">Published on: {{ page.created_date | date:'F d, Y' }} </p>
-                        {% if page.updated is True %}
+                        {% if page.updated_date is not None %}
                             <p class="type-roboto"><small>Updated on: {{ page.updated_date | date:'F d, Y' }}</small></p>
                         {% endif %}
                         <p class="type-roboto">{{ page.views }} Views | {{ page.item_comments.count }} Comments</p>

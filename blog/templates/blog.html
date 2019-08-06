@@ -24,7 +24,7 @@
                     <p>{{ post.content | capfirst | truncatewords:30 }}</p>
                     <p><a href="{% url 'post_detail' post.id %}" class="btn btn-default">Read more</a></p>
                     <p class="type-roboto">Published on: {{ post.created_date | date:'F d, Y' }} </p>
-                    {% if post.updated is True %}
+                    {% if post.updated_date is not None %}
                         <p class="type-roboto"><small>Updated on: {{ post.updated_date | date:'F d, Y' }}</small></p>
                     {% endif %}
                     <p class="type-roboto">{{post.views}} Views | {{ post.comments.count }} Comments</p>

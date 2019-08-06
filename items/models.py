@@ -24,7 +24,6 @@ class Items(models.Model):
     description = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(null=True)
-    updated = models.BooleanField(default=False)
     views = models.IntegerField(default=0)
     votes = models.IntegerField(default=0)
     category = models.CharField(max_length=12, choices=CATEGORIES, default='new')
@@ -39,8 +38,7 @@ class ItemComments(models.Model):
     item = models.ForeignKey(Items, on_delete=models.CASCADE, related_name='item_comments')
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
-    updated = models.BooleanField(default=False)
+    updated_date = models.DateTimeField(null=True)
 
     class Meta:
         ordering = ['-created_date']
