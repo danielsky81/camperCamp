@@ -38,14 +38,22 @@
                         <p class="type-roboto">{{ item.views }} Views | {{ item.item_comments.count }} Comments</p>
                     </div>
                     <div class="col-xs-12 options">
-                        {% if request.path == '/items/issues/' %}
+                        {% if item.item_type == 'issue' %}
                             <a href="{% url 'get_issues' %}" class="btn btn-danger">Back to Issues</a>
-                        {% elif request.path == '/items/features/' %}
+                        {% elif item.item_type == 'feature' %}
                             <a href="{% url 'get_features' %}" class="btn btn-danger">Back to Features</a>
                         {% endif %}
                         {% if user.is_authenticated %}
                             {% if request.user != item.author and request.user != vote.user %}
-                                <a href="{% url 'add_vote' item.id %}" class="btn btn-success">Vote</a>
+                                <form method="post" action="{% url 'add_vote' item.id %}">
+                                {% csrf_token %}
+                                    <input type="hidden" name="votes_number" value="1">
+                                    {% if item.item_type == 'issue' %}
+                                        <button type="submit" class="btn btn-success">Vote</button>
+                                    {% elif item.item_type == 'feature' %}
+                                        <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Vote is €5">Vote</button>
+                                    {% endif %}
+                                </form>
                             {% endif %}
                         {% else %}
                             <a href="#" class="btn btn-success" data-toggle="modal" data-target=".bs-feaatures-vote-modal-sm" aria-haspopup="true" aria-expanded="false">Vote</a>
@@ -112,4 +120,10 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block script %}
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 {% endblock %}

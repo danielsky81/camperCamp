@@ -37,7 +37,7 @@ urlpatterns = [
     # url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
     url(r'^contact/', include('contact.urls')),
     url(r'^items/', include('items.urls')),
-    url(r'^payment/', include('payment.urls')),
+    url(r'^items/', include('payment.urls')),
 ]
 
 if settings.DEBUG:

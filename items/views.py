@@ -119,22 +119,29 @@ def add_vote(request, pk):
         item.save()
         messages.success(request, 'Thank you for your vote!')
     elif item.item_type == 'feature':
-        for vote in votes:
-            if str(vote.user) == str(user) and str(vote.voted_item) == str(item):
-                    upvoted = True
-        if upvoted is False:
-            vote = Votes(voted_date=timezone.now(), user = user, voted_item = item)
-            vote.votes_number += 1
-            vote.save()
-            item.votes += 1
-            item.save()
-            messages.success(request, 'Thank you for your vote!')
-        elif upvoted is True:
-            vote.votes_number += 1
-            vote.save()
-            item.votes += 1
-            item.save()
-            messages.success(request, 'Thank you for your vote!')
+        votes_number = int(request.POST.get('votes_number'))
+        print(votes_number)
+        voting_session = request.session.get('voting_session', {})
+        voting_session[pk] = voting_session.get(pk, votes_number)
+        voting_session[pk] = votes_number
+        request.session['voting_session'] = voting_session
+        return redirect('checkout', item.pk)
+        # for vote in votes:
+        #     if str(vote.user) == str(user) and str(vote.voted_item) == str(item):
+        #             upvoted = True
+        # if upvoted is False:
+        #     vote = Votes(voted_date=timezone.now(), user = user, voted_item = item)
+        #     vote.votes_number += 1
+        #     vote.save()
+        #     item.votes += 1
+        #     item.save()
+        #     messages.success(request, 'Thank you for your vote!')
+        # elif upvoted is True:
+        #     vote.votes_number += 1
+        #     vote.save()
+        #     item.votes += 1
+        #     item.save()
+        #     messages.success(request, 'Thank you for your vote!')
     else:
         messages.error(request, 'Thanks but you have already voted.')
 

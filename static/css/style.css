@@ -337,3 +337,32 @@ footer p a:hover, footer p a:focus {
 .label-info {
     background-color: #699DFF;
 }
+
+/* Bootstrap tooltip */
+
+.tooltip-inner {
+    background-color: #FF9683;
+    color: white;
+}
+
+.tooltip.top .tooltip-arrow {
+    border-top-color: #FF9683;
+}
+
+/* Bootstrap form */
+
+td > .form-inline {
+    display: inline;
+}
+
+td > .form-inline > .btn {
+    margin: 5px;
+}
+
+/* Bootstrap table style */
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+    font-size: 18px;
+    border-bottom: 1px solid #dddddd;
+}
