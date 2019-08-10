@@ -56,27 +56,37 @@ h1, h2, h3, p {
     padding: 15px;
 }
 
+#checkout h2 {
+    display: inline-block;
+}
+
+#checkout a {
+    margin: 0 5px 14px 20px;
+}
+
 /* Footer */
 
 footer, footer div {
     height: 50px;
     width: 100%;
-    background-color: #FF9683;
+    text-align: center;
+    opacity: .8;
 }
 
 footer p {
-    padding-top: 15px;
+    display: inline-block;
+    margin: 0 auto;
+    padding-top: 5px;
+    border-top: 1px solid #555555;
+    font-size: 12px;
 }
 
-footer p a {
-    text-decoration: none;
-    color: inherit;
-}
-
-footer p a:hover, footer p a:focus {
-    color: white;
+footer p:hover, footer p:focus {
+    color: #FF9683;
     text-decoration: none;
     outline: none;
+    border-top: 1px solid #FF9683;
+    opacity: 1;
 }
 
 /* Django Message style */
@@ -349,7 +359,38 @@ footer p a:hover, footer p a:focus {
     border-top-color: #FF9683;
 }
 
-/* Bootstrap form */
+/* Bootstrap items form */
+
+.row form {
+    display: inline-block;
+}
+
+.row form button {
+    margin-right: 5px;
+}
+
+/* Bootstrap payment form */
+
+legend {
+    border-bottom: none;
+    color: #FF9683;
+}
+
+.form-group {
+    font-size: 16px;
+}
+
+.form-group .btn {
+    margin: 5px 10px 5px 0;
+} 
+
+.form-group a:nth-child(1) {
+    float: left;
+}
+
+.form-group a:nth-child(2) {
+    float: right;
+}
 
 td > .form-inline {
     display: inline;
@@ -365,4 +406,8 @@ td > .form-inline > .btn {
     vertical-align: middle;
     font-size: 18px;
     border-bottom: 1px solid #dddddd;
+}
+
+.table a:hover {
+    color: #FF9683;
 }

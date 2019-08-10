@@ -1,5 +1,76 @@
 {% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+
+{% block head_js %}
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+            Stripe.publishableKey = '{{ publishable }}';
+        //]]>
+    </script>
+    <script type="text/javascript" src="{% static 'js/stripe.js' %}"></script>
+{% endblock head_js %}
 
 {% block content %}
+
+    {% if messages %}
+        <div>
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+            {% elif message.tags == 'error' %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+            {% endif %}
+        {% endfor %}
+        </div>
+    {% endif %}
+
+    <h1>Payment</p>
+    {% if votes_number > 1 %}
+        <h2>You will be charged €{{ total }} for {{ votes_number }} votes<h2>
+    {% else %}
+        <h2>You will be charged €{{ total }} for {{ votes_number }} vote<h2>
+    {% endif %}
+    <p>Please fill the below forms to proceed with the transaction:</p>
+    <hr>
+
+    <form role="form" method="post" id="payment-form" action="{% url 'payment' item.id %}">
+        {% csrf_token %}
+
+        {% comment %} <div id="credit-card-errors" style="display: none;">
+            <div id="alert-message block-message error" id="stripe-error-message"></div>
+        </div> {% endcomment %}
+
+        <div class="form-group col-md-6">
+            <legend>Address Details</legend>
+            {{ order_form | as_bootstrap }}
+        </div>
+
+        <div class="form-group col-md-6">
+            <legend>Payment Details</legend>
+            {{ payment_form | as_bootstrap }}
+        </div>
+        
+        <div class="form-group col-md-12">
+            <input class="btn btn-success" id="submit_payment_btn" name="commit" type="submit" value="Submit Payment">
+            <a href="{% url 'item_detail' item.id %}" class="btn btn-delete">Cancel</a>
+            <a href="{% url 'checkout' item.id %}" class="btn btn-danger">Edit Votes</a>
+        </div>
+    </form>
+
+    {% comment %} <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ order_form | as_bootstrap }}
+        <button type="submit" class="btn btn-success">Add</button>
+        <a href="{% url 'get_posts' %}" class="btn btn-default">Cancel</a>
+    </form>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ payment_form | as_bootstrap }}
+        <button type="submit" class="btn btn-success">Add</button>
+        <a href="{% url 'get_posts' %}" class="btn btn-default">Cancel</a>
+    </form> {% endcomment %}
 
 {% endblock %}
