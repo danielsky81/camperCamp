@@ -34,7 +34,7 @@
     {% endif %}
     <hr>
 
-    {% for page in pages %}
+{% for page in pages %}
     <a class="panel-link" href="{% url 'item_detail' page.id %}">
         <div class="container-fluid">
             <div class="row">
@@ -42,14 +42,20 @@
                     <div class="panel-heading">
                         <h2 class="panel-title">{{ page.title | capfirst }}</h2>
                         <div>
-                            {% if page.category == 'in progress' %}
-                                <span class="label label-warning">{{ page.category }}</span>
+                            {% if page.category == 'to do' %}
+                                <span class="label label-to-do">{{ page.category }}</span>
+                            {% elif page.category == 'in progress' %}
+                                <span class="label label-in-progress">{{ page.category }}</span>
                             {% elif page.category == 'done' %}
-                                <span class="label label-success">{{ page.category }}</span>
-                            {% else %}
-                                <span class="label label-default">{{ page.category }}</span>
+                                <span class="label label-done">{{ page.category }}</span>
+                            {% elif page.category == 'rejected' %}
+                                <span class="label label-rejected">{{ page.category }}</span>
+                            {% elif page.category == 'require data' %}
+                                <span class="label label-require-data">{{ page.category }}</span>
+                            {% elif page.category == 'new' %}
+                                <span class="label label-new">{{ page.category }}</span>
                             {% endif %}
-                            <span class="label label-info text-right">{{ page.votes }} <small>votes</small></span>
+                            <span class="label label-votes text-right">{{ page.votes }} <small>votes</small></span>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -65,7 +71,7 @@
             </div>
         </div>
     </a>
-    {% endfor %}
+{% endfor %}
 
 {% include 'pagination.html' %}
 

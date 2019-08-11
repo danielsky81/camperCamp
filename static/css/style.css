@@ -336,15 +336,37 @@ footer p:hover, footer p:focus {
     font-size: 100%;
 }
 
-.panel-heading > div .label, .panel > div .label {
+.panel-heading > div .label, .panel > div .label, .tags {
     font-size: 75%;
 }
 
-.label-warning {
+.label-new {
+    background-color: white;
+    color: #555555;
+    box-shadow: 0 0 0 1px #555555 inset;
+}
+
+.label-to-do {
+    background-color: #999999;
+}
+
+.label-in-progress {
     background-color: #FFB275;
 }
 
-.label-info {
+.label-done {
+    background-color: #37B37E;
+}
+
+.label-rejected {
+    background-color: #E86B6B;
+}
+
+.label-require-data {
+    background-color: #FF9582;
+}
+
+.label-votes {
     background-color: #699DFF;
 }
 

@@ -8,3 +8,5 @@ PROJECT_STEPS.md
 .Python
 env.py
 =1.11.22
+posts.json
+items.json

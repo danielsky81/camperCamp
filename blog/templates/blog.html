@@ -13,12 +13,21 @@
     <hr>
 </div>
 
-{% for post in items %}
+{% for post in pages %}
 
     <div class="row">
         <div class="col-xs-12 col-md-11 col-lr-10">
             <h2>{{ post.title }}</h2>
             <h3>by {{ post.author | capfirst }}</h3>
+            {% if post.tag == 'issue' %}
+                <span class="tags label label-rejected">{{ post.tag }}</span>
+            {% elif post.tag == 'feature' %}
+                <span class="tags label label-done">{{ post.tag }}</span>
+            {% elif post.tag == 'news' %}
+                <span class="tags label label-votes">{{ post.tag }}</span>
+            {% elif post.tag == 'other' %}
+                <span class="tags label label-in-progress">{{ post.tag }}</span>
+            {% endif %}
             <div class="row">
                 <div class="col-xs-12">
                     <p>{{ post.content | capfirst | truncatewords:30 }}</p>

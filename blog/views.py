@@ -7,25 +7,24 @@ from .forms import BlogPostForm, BlogCommentForm
 
 def get_posts(request):
     blog = Post.objects.order_by('-created_date')
-    paginator = Paginator(blog, 3)
+    paginator = Paginator(blog, 4)
     page = request.GET.get('page')
-    print(page)
     try:
-        items = paginator.page(page)
+        pages = paginator.page(page)
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
-        items = paginator.page(1)
+        pages = paginator.page(1)
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
-        items = paginator.page(paginator.num_pages)
+        pages = paginator.page(paginator.num_pages)
 
-    index = items.number - 1
+    index = pages.number - 1
     max_index = len(paginator.page_range)
     start_index = index - 2 if index >= 2 else 0
     end_index = index + 3 if index <= max_index - 3 else max_index
     page_range = paginator.page_range[start_index:end_index]
 
-    return render(request, 'blog.html', {'blog': blog, 'items': items, 'page_range': page_range})
+    return render(request, 'blog.html', {'blog': blog, 'pages': pages, 'page_range': page_range})
 
 
 def post_detail(request, pk):
