@@ -34,6 +34,73 @@
     {% endif %}
     <hr>
 
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-filter">
+                <div class="panel-body">
+                    <p>{{ items_count }} Posts</p>
+                    <div class="btn-group filter">
+                        <button type="button" class="btn btn-clear dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Tags <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+
+                            <li>
+                                <form method="POST" action="#">
+                                {% csrf_token %}
+                                <input type="hidden" name="tag" value="all">
+                                <button type="submit">All Tags</button>
+                                </form>
+                            </li>
+                            <li>
+                                <form method="POST" action="#">
+                                {% csrf_token %}
+                                <input type="hidden" name="tag" value="to do">
+                                <button type="submit"><span class="label label-to-do">to do</span></button>
+                                </form>
+                            </li>
+                            <li>
+                                <form method="POST" action="#">
+                                {% csrf_token %}
+                                <input type="hidden" name="tag" value="in progress">
+                                <button type="submit"><span class="label label-in-progress">in progress</span></button>
+                                </form>
+                            </li>
+                            <li>
+                                <form method="POST" action="#">
+                                {% csrf_token %}
+                                <input type="hidden" name="tag" value="done">
+                                <button type="submit"><span class="label label-done">done</span></button>
+                                </form>
+                            </li>
+                            <li>
+                                <form method="POST" action="#">
+                                {% csrf_token %}
+                                <input type="hidden" name="tag" value="rejected">
+                                <button type="submit"><span class="label label-rejected">rejected</span></button>
+                                </form>
+                            </li>
+                            <li>
+                                <form method="POST" action="#">
+                                {% csrf_token %}
+                                <input type="hidden" name="tag" value="require data">
+                                <button type="submit"><span class="label label-require-data">require data</span></button>
+                                </form>
+                            </li>
+                            <li>
+                                <form method="POST" action="#">
+                                {% csrf_token %}
+                                <input type="hidden" name="tag" value="new">
+                                <button type="submit"><span class="label label-new">new</span></button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% for page in pages %}
     <a class="panel-link" href="{% url 'item_detail' page.id %}">
         <div class="container-fluid">

@@ -7,11 +7,28 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 
 def get_items(request):
-    items = ''
+    item_type = ''
     if request.path == '/items/issues/':
-        items = Items.objects.filter(item_type='issue').order_by('-created_date')
+        item_type = Items.objects.filter(item_type='issue').order_by('-created_date')
     elif request.path == '/items/features/':
-        items = Items.objects.filter(item_type='feature').order_by('-created_date')
+        item_type = Items.objects.filter(item_type='feature').order_by('-created_date')
+    tag = request.POST.get('tag')
+    items = item_type
+    if tag == 'all':
+        items = item_type.order_by('-created_date')
+    elif tag == 'new':
+        items = item_type.filter(category='new')    
+    elif tag == 'to do':
+        items = item_type.filter(category='to do')
+    elif tag == 'in progress':
+        items = item_type.filter(category='in progress')
+    elif tag == 'done':
+        items = item_type.filter(category='done')
+    elif tag == 'rejected':
+        items = item_type.filter(category='rejected')
+    elif tag == 'require data':
+        items = item_type.filter(category='require data')
+    items_count = items.count()
     paginator = Paginator(items, 4)
     page = request.GET.get('page')
     try:
@@ -29,7 +46,7 @@ def get_items(request):
     end_index = index + 3 if index <= max_index - 3 else max_index
     page_range = paginator.page_range[start_index:end_index]
     
-    return render(request, 'items.html', {'items': items, 'pages': pages, 'page_range': page_range})
+    return render(request, 'items.html', {'items': items, 'pages': pages, 'page_range': page_range, 'items_count': items_count})
 
 def item_detail(request, pk):
     item = get_object_or_404(Items, pk=pk)

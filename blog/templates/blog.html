@@ -2,38 +2,38 @@
 
 {% block content %}
 
-<h1>Welcome to CC Tracker Blog</h1>
-<p>A place where we share our news, ideas, frustrations and more!<p>
-<p>Please engage with the content by commenting on the posts.</p>
+    <h1>Welcome to CC Tracker Blog</h1>
+    <p>A place where we share our news, ideas, frustrations and more!<p>
+    <p>Please engage with the content by commenting on the posts.</p>
 
-<div>
-    {% if user.is_superuser %}
-        <a href="{% url 'new_post' %}" class="btn btn-success">Add new post</a>
-    {% endif %}
-    <hr>
-</div>
+    <div>
+        {% if user.is_superuser %}
+            <a href="{% url 'new_post' %}" class="btn btn-success">Add new post</a>
+        {% endif %}
+        <hr>
+    </div>
 
-<div class="row">
-    <div class="col-xs-12">
-        <div class="panel panel-filter">
-            <div class="panel-body">
-                <p>{{ blog_count }} Posts</p>
-                <div class="btn-group filter">
-                    <button type="button" class="btn btn-clear dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Tags <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url 'get_posts' %}">All Tags</a></li>
-                        <li><a href="{% url 'tag_issues' %}"><span class="tags label label-rejected">issue</span></a></li>
-                        <li><a href="{% url 'tag_features' %}"><span class="tags label label-done">feature</span></a></li>
-                        <li><a href="{% url 'tag_news' %}"><span class="tags label label-votes">news</span></a></li>
-                        <li><a href="{% url 'tag_other' %}"><span class="tags label label-in-progress">other</span></a></li>
-                    </ul>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-filter">
+                <div class="panel-body">
+                    <p>{{ blog_count }} Posts</p>
+                    <div class="btn-group filter">
+                        <button type="button" class="btn btn-clear dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Tags <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="{% url 'get_posts' %}">All Tags</a></li>
+                            <li><a href="{% url 'tag_issues' %}"><span class="tags label label-rejected">issue</span></a></li>
+                            <li><a href="{% url 'tag_features' %}"><span class="tags label label-done">feature</span></a></li>
+                            <li><a href="{% url 'tag_news' %}"><span class="tags label label-votes">news</span></a></li>
+                            <li><a href="{% url 'tag_other' %}"><span class="tags label label-in-progress">other</span></a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 {% for post in pages %}
 
@@ -64,10 +64,10 @@
         </div>
     </div>
     
-    {% if forloop.last %}
-    {% else %}
-        <hr>
-    {% endif %}
+{% if forloop.last %}
+{% else %}
+    <hr>
+{% endif %}
 
 {% endfor %}
 
