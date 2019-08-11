@@ -55,7 +55,11 @@
                             {% elif page.category == 'new' %}
                                 <span class="label label-new">{{ page.category }}</span>
                             {% endif %}
-                            <span class="label label-votes text-right">{{ page.votes }} <small>votes</small></span>
+                            {% if page.votes == 1 %}
+                                <span class="label label-votes text-right">{{page.votes}} <small>vote</small></span>
+                            {% else %}
+                                <span class="label label-votes text-right">{{page.votes}} <small>votes</small></span>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="panel-body">

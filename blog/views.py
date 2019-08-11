@@ -6,7 +6,20 @@ from .forms import BlogPostForm, BlogCommentForm
 
 
 def get_posts(request):
-    blog = Post.objects.order_by('-created_date')
+    blog_tags = ''
+    # Filter objects by tag
+    if request.path == '/blog/':
+        blog_tags = Post.objects.order_by('-created_date')
+    elif request.path == '/blog/tag_issues/':
+        blog_tags = Post.objects.filter(tag='issue')
+    elif request.path == '/blog/tag_features/':
+        blog_tags = Post.objects.filter(tag='feature')
+    elif request.path == '/blog/tag_news/':
+        blog_tags = Post.objects.filter(tag='news')
+    elif request.path == '/blog/tag_other/':
+        blog_tags = Post.objects.filter(tag='other')
+    blog = blog_tags.order_by('-created_date') 
+    blog_count = blog.count()
     paginator = Paginator(blog, 4)
     page = request.GET.get('page')
     try:
@@ -24,7 +37,7 @@ def get_posts(request):
     end_index = index + 3 if index <= max_index - 3 else max_index
     page_range = paginator.page_range[start_index:end_index]
 
-    return render(request, 'blog.html', {'blog': blog, 'pages': pages, 'page_range': page_range})
+    return render(request, 'blog.html', {'blog': blog, 'pages': pages, 'page_range': page_range, 'blog_count': blog_count})
 
 
 def post_detail(request, pk):

@@ -13,6 +13,28 @@
     <hr>
 </div>
 
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-filter">
+            <div class="panel-body">
+                <p>{{ blog_count }} Posts</p>
+                <div class="btn-group filter">
+                    <button type="button" class="btn btn-clear dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Tags <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'get_posts' %}">All Tags</a></li>
+                        <li><a href="{% url 'tag_issues' %}"><span class="tags label label-rejected">issue</span></a></li>
+                        <li><a href="{% url 'tag_features' %}"><span class="tags label label-done">feature</span></a></li>
+                        <li><a href="{% url 'tag_news' %}"><span class="tags label label-votes">news</span></a></li>
+                        <li><a href="{% url 'tag_other' %}"><span class="tags label label-in-progress">other</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% for post in pages %}
 
     <div class="row">

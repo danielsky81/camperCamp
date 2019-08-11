@@ -251,6 +251,40 @@ footer p:hover, footer p:focus {
     border-color: #A1A1A1;
 }
 
+.btn-clear {
+    background-color: inherit;
+    color: #555555;
+    font-size: 14px;
+    padding: 0;
+}
+
+.btn-clear .caret {
+    border-top-color: #555555;
+}
+
+.filter {
+    float: right;
+}
+
+.filter .dropdown-menu {
+    background-color: #f6f8fa;
+    border: 1px solid #dddddd;
+    box-shadow: none;
+}
+
+.filter .dropdown-menu > li > a {
+    color: #555555;
+}
+
+.filter .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color: #CCD2E3;
+    box-shadow: none;
+}
+
+.btn:active, .btn-group.open .dropdown-toggle, .btn-group.open .dropdown-toggle:focus {
+    box-shadow: none;
+}
+
 /* Bootstrap dashboard and tabs */
 
 .jumbotron .details {
@@ -314,6 +348,18 @@ footer p:hover, footer p:focus {
 .panel-btn {
     padding: 15px;
     padding-top: 0;
+}
+
+.panel-filter {
+    background-color: #f6f8fa;
+    border: 1px solid #dddddd;
+}
+
+.panel-filter p {
+    display: inline-block;
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 /* Bootstrap pagination */

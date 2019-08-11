@@ -58,7 +58,11 @@
                                 {% elif item.category == 'new' %}
                                     <span class="label label-new">{{ item.category }}</span>
                                 {% endif %}
-                                <span class="label label-votes text-right">{{item.votes}} <small>votes</small></span>
+                                {% if item.votes == 1 %}
+                                    <span class="label label-votes text-right">{{item.votes}} <small>vote</small></span>
+                                {% else %}
+                                    <span class="label label-votes text-right">{{item.votes}} <small>votes</small></span>
+                                {% endif %}
                                 <p><small>{{ item.description | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
@@ -88,7 +92,11 @@
                                 {% elif item.category == 'new' %}
                                     <span class="label label-new">{{ item.category }}</span>
                                 {% endif %}
-                                <span class="label label-votes text-right">{{item.votes}} <small>votes</small></span>
+                                {% if item.votes == 1 %}
+                                    <span class="label label-votes text-right">{{item.votes}} <small>vote</small></span>
+                                {% else %}
+                                    <span class="label label-votes text-right">{{item.votes}} <small>votes</small></span>
+                                {% endif %}
                                 <p><small>{{ item.description | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
@@ -162,7 +170,11 @@
                                 {% elif vote.voted_item.category == 'new' %}
                                     <span class="label label-new">{{ vote.voted_item.category }}</span>
                                 {% endif %}
-                                <span class="label label-votes text-right">{{vote.voted_item.votes}} <small>votes</small></span>
+                                {% if vote.voted_item.votes == 1 %}
+                                    <span class="label label-votes text-right">{{vote.voted_item.votes}} <small>vote</small></span>
+                                {% else %}
+                                    <span class="label label-votes text-right">{{vote.voted_item.votes}} <small>votes</small></span>
+                                {% endif %}
                                 <p><small>{{ vote.voted_item.description | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
@@ -194,7 +206,11 @@
                                 {% elif vote.voted_item.category == 'new' %}
                                     <span class="label label-new">{{ vote.voted_item.category }}</span>
                                 {% endif %}
-                                <span class="label label-votes text-right">{{vote.voted_item.votes}} <small>votes</small></span>
+                                {% if vote.voted_item.votes == 1 %}
+                                    <span class="label label-votes text-right">{{vote.voted_item.votes}} <small>vote</small></span>
+                                {% else %}
+                                    <span class="label label-votes text-right">{{vote.voted_item.votes}} <small>votes</small></span>
+                                {% endif %}
                                 <p><small>{{ vote.voted_item.description | capfirst | truncatewords:10 }}</small></p>
                             </div>  
                         </div>
