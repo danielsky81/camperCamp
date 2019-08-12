@@ -25,8 +25,13 @@ a:hover, a:focus {
 
 /* Typography */
 
-h1, h2, h3, p {
+h1, h2, h3, h4, p {
     color: #555555;
+}
+
+h4 {
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .type-rightteous {
@@ -376,6 +381,14 @@ footer p:hover, footer p:focus {
     margin: 0;
     font-size: 14px;
     font-weight: bold;
+}
+
+.panel-body h4:hover {
+    color: #FF9582;
+}
+
+.top-items {
+    clear: both;
 }
 
 /* Bootstrap pagination */

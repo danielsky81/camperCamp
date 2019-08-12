@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 
+{% block head_js %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dc/3.0.12/dc.min.css" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.2/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/3.0.12/dc.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
+{% endblock head_js %}
+
 {% block content %}
 
     {% if messages %}
@@ -24,9 +32,82 @@
     <p class="details">The votes are free when voting on issues but there is a charge of €5 for every vote used on features.
     </p>
 </div>
-<div>
-    <h3>CHARTS HERE...</h3>
+<hr>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Some insignt into our data:</h2>
+            <p>There are currently <strong>{{ total_issues }}</strong> reported issues and <strong>{{ total_features }}</strong> raised features with <strong>{{ votes.sum }}</strong> users votes in total.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="panel panel-default top-items">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Top Voted Issues</h3>
+                </div>
+                <div class="panel-body">
+                    {% for voted_issue in top_voted_issues %}
+                        {% if voted_issue.votes > 0 %}
+                            <a href="{% url 'item_detail' voted_issue.id %}"><h4><strong>{{ voted_issue.votes }} - </strong>{{ voted_issue.title }}</h4></a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Top Voted Features</h3>
+                </div>
+                <div class="panel-body">
+                    {% for voted_feature in top_voted_features %}
+                        {% if voted_feature.votes > 0 %}
+                            <a href="{% url 'item_detail' voted_feature.id %}"><h4><strong>{{ voted_feature.votes }} - </strong>{{ voted_feature.title }}</h4></a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="panel panel-default top-items">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Top Viewed Issues</h3>
+                </div>
+                <div class="panel-body">
+                    {% for viewed_issue in top_view_issues %}
+                        {% if viewed_issue.views > 0 %}
+                            <a href="{% url 'item_detail' viewed_issue.id %}"><h4><strong>{{ viewed_issue.views }} - </strong>{{ viewed_issue.title }}</h4></a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Top Viewed Features</h3>
+                </div>
+                <div class="panel-body">
+                    {% for viewed_feature in top_view_features %}
+                        {% if viewed_feature.views > 0 %}
+                            <a href="{% url 'item_detail' viewed_feature.id %}"><h4><strong>{{ viewed_feature.views }} - </strong>{{ viewed_feature.title }}</h4></a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="pie_chart">
+    </div>
 </div>
+<div id=""></div>
+<div id=""></div>
+<div id=""></div>
+<div id=""></div>
+
 {% endblock  %}
 
 {% block script %}
@@ -34,5 +115,66 @@
         $('.jumbotron button').click(function() {
             $('.about').toggleClass('hide');
         });
+
+        var endpoint = '/get_data/'
+
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function(data) {
+                console.log(data)
+            },
+            error: function(error_data) {
+                console.log('error')
+                console.log(error_data)
+            }
+        })
+
     });
+
+    
+    var dataJson = {{ data|safe }}
+    console.log(dataJson)
+    var ndx_dataJson = crossfilter(dataJson);
+
+    function screenSize() {
+    return  xxsmall.matches ? 300 :
+            xsmall.matches ? 350 :
+            small.matches ? 450 :
+            small_medium.matches ? 240 :
+            medium.matches ? 350 : 
+            large.matches ? 400 :
+            xlarge.matches ? 450 :
+            null;
+    }
+
+    var xxsmall = window.matchMedia('(max-width: 350px)');
+    var xsmall = window.matchMedia('(max-width: 450px)');
+    var small = window.matchMedia('(max-width: 600px)');
+    var small_medium = window.matchMedia('(max-width: 800px)');
+    var medium = window.matchMedia('(max-width: 992px)');
+    var large = window.matchMedia('(max-width: 1199px)');
+    var xlarge = window.matchMedia('(min-width: 1200px)');
+
+    var width = screenSize();
+
+    function facilities_chart(ndx_dataJson) {
+    var name_dim = ndx_dataJson.dimension(dc.pluck('category'));
+    var facilities_per_loc = name_dim.group();
+    dc.pieChart("#pie_chart")
+        .height(400)
+        .width(width + 50)
+        .radius(90)
+        .innerRadius(45)
+        .transitionDuration(1500)
+        .dimension(name_dim)
+        .group(facilities_per_loc)
+        .legend(dc.legend())
+        .externalLabels(.8);
+    }
+
+    facilities_chart(ndx_dataJson);
+
+    dc.renderAll();
+
 {% endblock  %}
