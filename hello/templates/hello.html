@@ -37,7 +37,7 @@
     <div class="row">
         <div class="col-xs-12">
             <h2>Some insignt into our data:</h2>
-            <p>There are currently <strong>{{ total_issues }}</strong> reported issues and <strong>{{ total_features }}</strong> raised features with <strong>{{ votes.sum }}</strong> users votes in total.</p>
+            <p>There are currently <strong>{{ total_issues }}</strong> reported issues and <strong>{{ total_features }}</strong> raised features with <strong>{{ votes.sum }}</strong> votes in total.</p>
         </div>
     </div>
     <div class="row">
@@ -101,20 +101,26 @@
         </div>
     </div>
     <div class="col-xs-12 col-sm-6">
-        <h3 class="chart-title">Issues Progress Status</h3>
+        <h3 class="chart-title">Issues Categories Breakdown</h3>
         <div id="categories-per-issues">
         </div>    
     </div>
     <div class="col-xs-12 col-sm-6">
-        <h3 class="chart-title">Features Progress Status</h3>
+        <h3 class="chart-title">Features Categories Breakdown</h3>
         <div id="categories-per-features">
         </div>    
     </div>
+    <div class="col-xs-12 col-sm-6">
+        <h3 class="chart-title">Issues Progress Status</h3>
+        <div id="progress-issues">
+        </div>    
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <h3 class="chart-title">Features Progress Status</h3>
+        <div id="progress-features">
+        </div>    
+    </div>
 </div>
-<div id=""></div>
-<div id=""></div>
-<div id=""></div>
-<div id=""></div>
 
 {% endblock  %}
 
@@ -123,28 +129,19 @@
         $('.jumbotron button').click(function() {
             $('.about').toggleClass('hide');
         });
-
-        var endpoint = '/get_data/'
-
-        $.ajax({
-            method: "GET",
-            url: endpoint,
-            success: function(data) {
-                console.log(data)
-            },
-            error: function(error_data) {
-                console.log('error')
-                console.log(error_data)
-            }
-        })
-
     });
 
     
-    var data_issues = {{ data_issues|safe }}
+    var data_issues = {{ data_issues|safe }};
+    var data_features = {{ data_features|safe }};
+    var categories_per_issues = {{ categories_per_issues|safe }};
+    var categories_per_features = {{ categories_per_features|safe }};
     var ndx_data_issues = crossfilter(data_issues);
-    var data_features = {{ data_features|safe }}
     var ndx_data_features = crossfilter(data_features);
+    var ndx_categories_per_issues = crossfilter(categories_per_issues);
+    var ndx_categories_per_features = crossfilter(categories_per_features);
+    console.log(categories_per_issues)
+    console.log(categories_per_features)
 
     function screenSize() {
     return  xxsmall.matches ? 250 :
@@ -196,11 +193,49 @@
         .group(facilities_per_loc)
         .legend(dc.legend())
         .externalLabels(.8)
-        .colors(d3.scaleOrdinal().range(['#37B37E','#34C9B3','#2FE094','#28F7D8','#A3F7D8','#BFF7D8']));
+        .colors(d3.scaleOrdinal().range(['#2DAD9A','#34C9B3','#3AE0C7','#74E0C7','#A3F7D8','#BFF7D8']));
+    }
+
+    function categories_per_issues_chart(ndx_categories_per_issues) {
+    var name_dim = ndx_categories_per_issues.dimension(dc.pluck('timespan'));
+    var progress_issues = name_dim.group().reduceSum(dc.pluck('value')).order('order');
+    dc.barChart('#progress-issues')
+        .width(width)
+        .height(200)
+        .colors(d3.scaleOrdinal().range(['#E86B6B']))
+        .margins({top: 10, right: 50, bottom: 40, left: 30})
+        .dimension(name_dim)
+        .group(progress_issues)
+        .transitionDuration(1500)
+        .x(d3.scaleBand().domain(['daily','weekly','monthly']))
+        .xUnits(dc.units.ordinal)
+        .xAxisLabel('Timeframe')
+        .yAxisLabel('Issues')
+        .yAxis().ticks(4);
+    }
+
+    function categories_per_features_chart(ndx_categories_per_features) {
+    var name_dim = ndx_categories_per_features.dimension(dc.pluck('timespan'));
+    var progress_features = name_dim.group().reduceSum(dc.pluck('value'));
+    dc.barChart('#progress-features')
+        .width(width)
+        .height(200)
+        .colors(d3.scaleOrdinal().range(['#2DAD9A']))
+        .margins({top: 10, right: 50, bottom: 40, left: 30})
+        .dimension(name_dim)
+        .group(progress_features)
+        .transitionDuration(1500)
+        .x(d3.scaleBand().domain(['daily','weekly','monthly']))
+        .xUnits(dc.units.ordinal)
+        .xAxisLabel('Timeframe')
+        .yAxisLabel('Features')
+        .yAxis().ticks(4);
     }
 
     issues_chart(ndx_data_issues);
     features_chart(ndx_data_features);
+    categories_per_issues_chart(ndx_categories_per_issues);
+    categories_per_features_chart(ndx_categories_per_features);
 
     dc.renderAll();
 

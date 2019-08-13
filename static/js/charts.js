@@ -37,7 +37,7 @@ function break_types_chart(ndx_data) {
         .dimension(name_dim)
         .group(break_types_per_loc)
         .transitionDuration(1500)
-        .x(d3.scaleBand())
+        .x(d3.scaleBand().domain(["Monday","Tuesday","Wednesday"]))
         .xUnits(dc.units.ordinal)
         .xAxisLabel('Break Type')
         .yAxisLabel('Locations')

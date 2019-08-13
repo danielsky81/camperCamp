@@ -1,7 +1,6 @@
 from django.conf.urls import url
-from .views import hello, get_data
+from .views import hello
 
 urlpatterns = [
-    url(r'^get_data/', get_data, name='get_data'),
-    url(r'hello/$', hello, name='hello'),
+    url(r'', hello, name='hello'),
 ]

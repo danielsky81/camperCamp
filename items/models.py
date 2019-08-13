@@ -24,6 +24,7 @@ class Items(models.Model):
     description = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(null=True)
+    category_update = models.DateTimeField(null=True)
     views = models.IntegerField(default=0)
     votes = models.IntegerField(default=0)
     category = models.CharField(max_length=12, choices=CATEGORIES, default='new')

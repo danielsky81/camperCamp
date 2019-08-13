@@ -30,7 +30,7 @@ from payment import urls as payment_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('hello.urls')),
+    url(r'^$', include('hello.urls')),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^dashboard/$', include('dashboard.urls')),
     url(r'^blog/', include('blog.urls')),
