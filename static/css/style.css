@@ -508,3 +508,11 @@ td > .form-inline > .btn {
 .table a:hover {
     color: #FF9683;
 }
+
+/* Chart style */
+
+.chart-title {
+    font-size: 16px;
+    color: inherit;
+    padding-bottom: 10px;
+}

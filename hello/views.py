@@ -15,12 +15,20 @@ def hello(request):
     top_view_features = features.order_by('-views')[:5]
 
     data = []
+    data_issues = []
+    data_features = []
     items = Items.objects.all()
     for item in items:
-        json_obj = dict(id = item.id, item_type = item.item_type, category = item.category, views = item.views, votes = item.votes)
-        data.append(json_obj)
-    print(data)
-    return render(request, 'hello.html', {'total_issues': total_issues, 'total_features': total_features, 'votes': votes, 'top_view_issues': top_view_issues, 'top_view_features': top_view_features, 'top_voted_issues': top_voted_issues, 'top_voted_features': top_voted_features, 'data': data})
+        records = dict(id = item.id, item_type = item.item_type, category = item.category, views = item.views, votes = item.votes)
+        data.append(records)
+    for item in issues:
+        records = dict(id = item.id, item_type = item.item_type, category = item.category, views = item.views, votes = item.votes)
+        data_issues.append(records)
+    for item in features:
+        records = dict(id = item.id, item_type = item.item_type, category = item.category, views = item.views, votes = item.votes)
+        data_features.append(records)
+
+    return render(request, 'hello.html', {'total_issues': total_issues, 'total_features': total_features, 'votes': votes, 'top_view_issues': top_view_issues, 'top_view_features': top_view_features, 'top_voted_issues': top_voted_issues, 'top_voted_features': top_voted_features, 'data': data, 'data_issues': data_issues, 'data_features': data_features})
 
 def get_data(request):
     data = []

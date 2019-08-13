@@ -100,7 +100,15 @@
             </div>
         </div>
     </div>
-    <div id="pie_chart">
+    <div class="col-xs-12 col-sm-6">
+        <h3 class="chart-title">Issues Progress Status</h3>
+        <div id="categories-per-issues">
+        </div>    
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <h3 class="chart-title">Features Progress Status</h3>
+        <div id="categories-per-features">
+        </div>    
     </div>
 </div>
 <div id=""></div>
@@ -133,47 +141,66 @@
     });
 
     
-    var dataJson = {{ data|safe }}
-    console.log(dataJson)
-    var ndx_dataJson = crossfilter(dataJson);
+    var data_issues = {{ data_issues|safe }}
+    var ndx_data_issues = crossfilter(data_issues);
+    var data_features = {{ data_features|safe }}
+    var ndx_data_features = crossfilter(data_features);
 
     function screenSize() {
-    return  xxsmall.matches ? 300 :
-            xsmall.matches ? 350 :
-            small.matches ? 450 :
-            small_medium.matches ? 240 :
+    return  xxsmall.matches ? 250 :
+            xsmall.matches ? 300 :
+            small.matches ? 400 :
+            small_medium.matches ? 500 :
             medium.matches ? 350 : 
             large.matches ? 400 :
-            xlarge.matches ? 450 :
+            xlarge.matches ? 500 :
             null;
     }
 
     var xxsmall = window.matchMedia('(max-width: 350px)');
     var xsmall = window.matchMedia('(max-width: 450px)');
     var small = window.matchMedia('(max-width: 600px)');
-    var small_medium = window.matchMedia('(max-width: 800px)');
+    var small_medium = window.matchMedia('(max-width: 768px)');
     var medium = window.matchMedia('(max-width: 992px)');
     var large = window.matchMedia('(max-width: 1199px)');
     var xlarge = window.matchMedia('(min-width: 1200px)');
 
     var width = screenSize();
 
-    function facilities_chart(ndx_dataJson) {
-    var name_dim = ndx_dataJson.dimension(dc.pluck('category'));
+    function issues_chart(ndx_data_issues) {
+    var name_dim = ndx_data_issues.dimension(dc.pluck('category'));
     var facilities_per_loc = name_dim.group();
-    dc.pieChart("#pie_chart")
+    dc.pieChart("#categories-per-issues")
         .height(400)
-        .width(width + 50)
+        .width(width)
         .radius(90)
         .innerRadius(45)
         .transitionDuration(1500)
         .dimension(name_dim)
         .group(facilities_per_loc)
         .legend(dc.legend())
-        .externalLabels(.8);
+        .externalLabels(.8)
+        .colors(d3.scaleOrdinal().range(['#E86B6B','#FF9582','#FFB5A6','#FFC899','#FFDD8C','#FFF280']));
     }
 
-    facilities_chart(ndx_dataJson);
+    function features_chart(ndx_data_features) {
+    var name_dim = ndx_data_features.dimension(dc.pluck('category'));
+    var facilities_per_loc = name_dim.group();
+    dc.pieChart("#categories-per-features")
+        .height(400)
+        .width(width)
+        .radius(90)
+        .innerRadius(45)
+        .transitionDuration(1500)
+        .dimension(name_dim)
+        .group(facilities_per_loc)
+        .legend(dc.legend())
+        .externalLabels(.8)
+        .colors(d3.scaleOrdinal().range(['#37B37E','#34C9B3','#2FE094','#28F7D8','#A3F7D8','#BFF7D8']));
+    }
+
+    issues_chart(ndx_data_issues);
+    features_chart(ndx_data_features);
 
     dc.renderAll();
 
