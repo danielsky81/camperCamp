@@ -31,7 +31,7 @@ class Items(models.Model):
     item_type = models.CharField(max_length=7, choices=TYPES, blank=False, null=False)
 
     def __str__(self):
-        return '%s titled: %s' % (self.item_type, self.title)
+        return '{0} - {1} : {2}'.format(self.item_type, self.category, self.title)
 
 class ItemComments(models.Model):
     
@@ -45,7 +45,7 @@ class ItemComments(models.Model):
         ordering = ['-created_date']
 
     def __str__(self):
-        return 'Comment on %s by %s' % (self.item.title, self.author.username)
+        return 'Comment on {0} by {1}'.format(self.item.title, self.author.username)
 
 class Votes(models.Model):
 
@@ -55,4 +55,4 @@ class Votes(models.Model):
     votes_number = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.user
+        return '{0} - {1}'.format(self.user, self.votes_number)

@@ -35,9 +35,9 @@ def hello(request):
     week = now - int(timedelta(days=7).total_seconds())
     month = now - int(timedelta(days=30).total_seconds())
     
-    updated_issues = [ int(item['updated_date'].timestamp()) for item in issues.values('updated_date') if item['updated_date'] != None ]
+    updated_issues = [ int(item['category_update'].timestamp()) for item in issues.values('category_update') if item['category_update'] != None ]
 
-    updated_features = [ int(item['updated_date'].timestamp()) for item in features.values('updated_date') if item['updated_date'] != None ]
+    updated_features = [ int(item['category_update'].timestamp()) for item in features.values('category_update') if item['category_update'] != None ]
 
     daily_updated_issues = len(list(x for x in updated_issues if x in range(today, now)))
     weekly_updated_issues = len(list(x for x in updated_issues if x in range(week, now)))

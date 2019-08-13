@@ -13,3 +13,9 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = ItemComments
         fields = ('content',)
+
+class CategoryForm(forms.ModelForm):
+
+    class Meta:
+        model = Items
+        fields = ('category',)

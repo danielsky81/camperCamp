@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, reverse, get_l
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Items, ItemComments, Votes
-from .forms import ItemsForm, CommentForm
+from .forms import ItemsForm, CommentForm, CategoryForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 
@@ -144,3 +144,19 @@ def add_vote(request, pk):
         messages.error(request, 'Thanks but you have already voted.')
 
     return redirect('item_detail', item.pk)
+
+def admin_update(request, pk):
+    item = get_object_or_404(Items, pk=pk)
+    if request.user.is_superuser:
+        if request.method == 'POST':
+            form = CategoryForm(request.POST, request.FILES, instance=item)
+            if form.is_valid():
+                item = form.save()
+                item.category_update = timezone.now()
+                item.save()
+                return redirect(item_detail, item.pk)
+        else:
+            form = CategoryForm(instance=item)
+        return render(request, 'category_update.html', {'form': form, 'item': item})
+    else:
+        return redirect('item_detail', item.pk)

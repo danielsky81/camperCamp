@@ -88,7 +88,8 @@
                         {% endif %}
                         {% if user == item.author %}
                             <a href="{% url 'edit_item' item.id %}" class="btn btn-default">Edit</a>
-                        {% else %}
+                        {% elif user.is_superuser %}
+                            <a href="{% url 'admin_update' item.id %}" class="btn btn-default">Update</a>
                         {% endif %}
                     </div>
                 </div>

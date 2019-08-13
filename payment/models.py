@@ -14,7 +14,7 @@ class Payment(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return "Payment id: {0} on {1} by {2} {3}".format(self.id, self.date, self.first_name, self.surname)
+        return 'Payment id: {0} on {1} by {2} {3}'.format(self.id, self.date, self.first_name, self.surname)
 
 
 class Transaction(models.Model):
@@ -25,4 +25,4 @@ class Transaction(models.Model):
     total_paid = models.IntegerField(blank=False)
 
     def __str__(self):
-        return "{0} {1} paid €{2} for {3}".format(self.payment_details.first_name, self.payment_details.surname, self.total_paid, self.feature.title)
+        return '{0} {1} paid €{2} for {3}'.format(self.payment_details.first_name, self.payment_details.surname, self.total_paid, self.feature.title)

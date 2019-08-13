@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load bootstrap_tags %}
+
+{% block content %}
+
+    <h1>Category Update Form</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form | as_bootstrap }}
+        <button type="submit" class="btn btn-success">Update</button>
+        <a href="{% url 'item_detail' item.pk %}" class="btn btn-danger">Cancel</a>
+    </form>
+
+{% endblock %}
