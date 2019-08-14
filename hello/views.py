@@ -59,9 +59,6 @@ def hello(request):
         {'timespan': 'monthly', 'value': monthly_updated_features}
     ]
 
-    print(categories_per_issues)
-    print(categories_per_features)
-
     return render(request, 'hello.html', {
         'total_issues': total_issues, 
         'total_features': total_features, 
