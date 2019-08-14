@@ -68,3 +68,10 @@ def update_profile(request, pk):
         else:
             form = ProfileForm(instance=profile)
     return render(request, 'profileform.html', {'form': form, 'profile': profile})
+
+def delete_profile(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if request.user.is_authenticated:
+        user.delete()
+        messages.success(request, 'Your Profile has been removed from our application')
+    return redirect('hello')

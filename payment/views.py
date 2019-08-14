@@ -48,9 +48,7 @@ def payment(request, pk):
     profile = get_object_or_404(Profile, username=request.user)
     votes_number = request.session.get('votes_number', 'votes_number')
     total = request.session.get('total', 'total')
-    print('PRE-POST')
     if request.method == 'POST':
-        print('POST')
         order_form = OrderForm(request.POST, request.FILES, instance=profile)
         payment_form = MakePaymentForm(request.POST)
         if order_form.is_valid() and payment_form.is_valid():

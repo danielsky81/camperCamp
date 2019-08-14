@@ -14,11 +14,7 @@
         </div>
     {% endif %}
 
-    {% if user.profile.image.url %}
-        <img class="img-circle" src="{{ user.profile.image.url }}">
-    {% else %}
-        <img class="img-circle" src="../media/default_profile_img.jpg">
-    {% endif %}
+    <img class="img-circle" src="{{ user.profile.image.url }}">
     <h1>Hello {{ user.username | capfirst }}</h1>
     <p>You will find all your activity in the below tabs.</p>
     <hr>
@@ -224,6 +220,22 @@
                     <p>Address: not yet provided</p>
                 {% endif %}
                 <a href="{% url 'update_profile' profile.id %}" class="btn btn-danger">Update</a>
+                
+
+                <a href="#" class="btn btn-delete" data-toggle="modal" data-target=".bs-example-modal-profile-del" aria-haspopup="true" aria-expanded="false">Delete</a>
+                <div class="modal fade bs-example-modal-profile-del" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <p>Please confirm if you want to delete your Profile</p>
+                                <a href="{% url 'delete_profile' profile.id %}" class="btn btn-delete">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>

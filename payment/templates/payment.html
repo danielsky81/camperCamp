@@ -38,10 +38,6 @@
     <form role="form" method="post" id="payment-form" action="{% url 'payment' item.id %}">
         {% csrf_token %}
 
-        {% comment %} <div id="credit-card-errors" style="display: none;">
-            <div id="alert-message block-message error" id="stripe-error-message"></div>
-        </div> {% endcomment %}
-
         <div class="form-group col-md-6">
             <legend>Address Details</legend>
             {{ order_form | as_bootstrap }}
@@ -58,19 +54,5 @@
             <a href="{% url 'checkout' item.id %}" class="btn btn-danger">Edit Votes</a>
         </div>
     </form>
-
-    {% comment %} <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ order_form | as_bootstrap }}
-        <button type="submit" class="btn btn-success">Add</button>
-        <a href="{% url 'get_posts' %}" class="btn btn-default">Cancel</a>
-    </form>
-
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ payment_form | as_bootstrap }}
-        <button type="submit" class="btn btn-success">Add</button>
-        <a href="{% url 'get_posts' %}" class="btn btn-default">Cancel</a>
-    </form> {% endcomment %}
 
 {% endblock %}
