@@ -24,16 +24,82 @@
     <hr>
     <div>
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+            <li role="presentation" class="active"><a href="#votes" aria-controls="votes" role="tab" data-toggle="tab">Votes</a></li>
             <li role="presentation"><a href="#issues" aria-controls="issues" role="tab" data-toggle="tab">Issues</a></li>
             <li role="presentation"><a href="#features" aria-controls="features" role="tab" data-toggle="tab">Features</a></li>
             <li role="presentation"><a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">Comments</a></li>
-            <li role="presentation"><a href="#votes" aria-controls="votes" role="tab" data-toggle="tab">Votes</a></li>
+            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
         </ul>
         <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="profile">
-                <p>Your personal data. Upload or change image or other details</p>
-                <p>{{ user }}</p>
+            <div role="tabpanel" class="tab-pane active" id="votes">
+                <h2>Issues votes:</h2>
+                {% for vote in issues_votes %}
+                    <a href="{% url 'item_detail' vote.voted_item.id %}">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title type-roboto">1 vote</h3>
+                            </div>
+                            <div class="panel-body">
+                                <p class="type-roboto"><strong>{{ vote.voted_item.title }}</strong> | <small>Published on: {{ vote.voted_item.created_date | date:'F d, Y @ P' }}</small></p>
+                                {% if vote.voted_item.category == 'to do' %}
+                                    <span class="label label-to-do">{{ vote.voted_item.category }}</span>
+                                {% elif vote.voted_item.category == 'in progress' %}
+                                    <span class="label label-in-progress">{{ vote.voted_item.category }}</span>
+                                {% elif vote.voted_item.category == 'done' %}
+                                    <span class="label label-done">{{ vote.voted_item.category }}</span>
+                                {% elif vote.voted_item.category == 'rejected' %}
+                                    <span class="label label-rejected">{{ vote.voted_item.category }}</span>
+                                {% elif vote.voted_item.category == 'require data' %}
+                                    <span class="label label-require-data">{{ vote.voted_item.category }}</span>
+                                {% elif vote.voted_item.category == 'new' %}
+                                    <span class="label label-new">{{ vote.voted_item.category }}</span>
+                                {% endif %}
+                                {% if vote.voted_item.votes == 1 %}
+                                    <span class="label label-votes text-right">{{vote.voted_item.votes}} <small>vote</small></span>
+                                {% else %}
+                                    <span class="label label-votes text-right">{{vote.voted_item.votes}} <small>votes</small></span>
+                                {% endif %}
+                                <p><small>{{ vote.voted_item.description | capfirst | truncatewords:10 }}</small></p>
+                            </div>  
+                        </div>
+                    </a>
+                {% endfor %}
+                <h2>Features votes:</h2>
+                {% for vote in features_votes %}
+                    <a href="{% url 'item_detail' vote.voted_item.id %}">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {% if vote.votes_number > 1 %}
+                                    <h3 class="panel-title type-roboto">{{ vote.votes_number }} votes</h3>
+                                {% else %}
+                                    <h3 class="panel-title type-roboto">1 vote</h3>
+                                {% endif %}
+                            </div>
+                            <div class="panel-body">
+                                <p class="type-roboto"><strong>{{ vote.voted_item.title }}</strong> | <small>Published on: {{ vote.voted_item.created_date | date:'F d, Y @ P' }}</small></p>
+                                {% if vote.voted_item.category == 'to do' %}
+                                    <span class="label label-to-do">{{ vote.voted_item.category }}</span>
+                                {% elif vote.voted_item.category == 'in progress' %}
+                                    <span class="label label-in-progress">{{ vote.voted_item.category }}</span>
+                                {% elif vote.voted_item.category == 'done' %}
+                                    <span class="label label-done">{{ vote.voted_item.category }}</span>
+                                {% elif vote.voted_item.category == 'rejected' %}
+                                    <span class="label label-rejected">{{ vote.voted_item.category }}</span>
+                                {% elif vote.voted_item.category == 'require data' %}
+                                    <span class="label label-require-data">{{ vote.voted_item.category }}</span>
+                                {% elif vote.voted_item.category == 'new' %}
+                                    <span class="label label-new">{{ vote.voted_item.category }}</span>
+                                {% endif %}
+                                {% if vote.voted_item.votes == 1 %}
+                                    <span class="label label-votes text-right">{{vote.voted_item.votes}} <small>vote</small></span>
+                                {% else %}
+                                    <span class="label label-votes text-right">{{vote.voted_item.votes}} <small>votes</small></span>
+                                {% endif %}
+                                <p><small>{{ vote.voted_item.description | capfirst | truncatewords:10 }}</small></p>
+                            </div>  
+                        </div>
+                    </a>
+                {% endfor %}
             </div>
             <div role="tabpanel" class="tab-pane" id="issues">
                 <h2>Issues created by you:</h2>
@@ -147,75 +213,17 @@
                     </a>
                 {% endfor %}
             </div>
-            <div role="tabpanel" class="tab-pane" id="votes">
-                <h2>Issues votes:</h2>
-                {% for vote in issues_votes %}
-                    <a href="{% url 'item_detail' vote.voted_item.id %}">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title type-roboto">1 vote</h3>
-                            </div>
-                            <div class="panel-body">
-                                <p class="type-roboto"><strong>{{ vote.voted_item.title }}</strong> | <small>Published on: {{ vote.voted_item.created_date | date:'F d, Y @ P' }}</small></p>
-                                {% if vote.voted_item.category == 'to do' %}
-                                    <span class="label label-to-do">{{ vote.voted_item.category }}</span>
-                                {% elif vote.voted_item.category == 'in progress' %}
-                                    <span class="label label-in-progress">{{ vote.voted_item.category }}</span>
-                                {% elif vote.voted_item.category == 'done' %}
-                                    <span class="label label-done">{{ vote.voted_item.category }}</span>
-                                {% elif vote.voted_item.category == 'rejected' %}
-                                    <span class="label label-rejected">{{ vote.voted_item.category }}</span>
-                                {% elif vote.voted_item.category == 'require data' %}
-                                    <span class="label label-require-data">{{ vote.voted_item.category }}</span>
-                                {% elif vote.voted_item.category == 'new' %}
-                                    <span class="label label-new">{{ vote.voted_item.category }}</span>
-                                {% endif %}
-                                {% if vote.voted_item.votes == 1 %}
-                                    <span class="label label-votes text-right">{{vote.voted_item.votes}} <small>vote</small></span>
-                                {% else %}
-                                    <span class="label label-votes text-right">{{vote.voted_item.votes}} <small>votes</small></span>
-                                {% endif %}
-                                <p><small>{{ vote.voted_item.description | capfirst | truncatewords:10 }}</small></p>
-                            </div>  
-                        </div>
-                    </a>
-                {% endfor %}
-                <h2>Features votes:</h2>
-                {% for vote in features_votes %}
-                    <a href="{% url 'item_detail' vote.voted_item.id %}">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                {% if vote.votes_number > 1 %}
-                                    <h3 class="panel-title type-roboto">{{ vote.votes_number }} votes</h3>
-                                {% else %}
-                                    <h3 class="panel-title type-roboto">1 vote</h3>
-                                {% endif %}
-                            </div>
-                            <div class="panel-body">
-                                <p class="type-roboto"><strong>{{ vote.voted_item.title }}</strong> | <small>Published on: {{ vote.voted_item.created_date | date:'F d, Y @ P' }}</small></p>
-                                {% if vote.voted_item.category == 'to do' %}
-                                    <span class="label label-to-do">{{ vote.voted_item.category }}</span>
-                                {% elif vote.voted_item.category == 'in progress' %}
-                                    <span class="label label-in-progress">{{ vote.voted_item.category }}</span>
-                                {% elif vote.voted_item.category == 'done' %}
-                                    <span class="label label-done">{{ vote.voted_item.category }}</span>
-                                {% elif vote.voted_item.category == 'rejected' %}
-                                    <span class="label label-rejected">{{ vote.voted_item.category }}</span>
-                                {% elif vote.voted_item.category == 'require data' %}
-                                    <span class="label label-require-data">{{ vote.voted_item.category }}</span>
-                                {% elif vote.voted_item.category == 'new' %}
-                                    <span class="label label-new">{{ vote.voted_item.category }}</span>
-                                {% endif %}
-                                {% if vote.voted_item.votes == 1 %}
-                                    <span class="label label-votes text-right">{{vote.voted_item.votes}} <small>vote</small></span>
-                                {% else %}
-                                    <span class="label label-votes text-right">{{vote.voted_item.votes}} <small>votes</small></span>
-                                {% endif %}
-                                <p><small>{{ vote.voted_item.description | capfirst | truncatewords:10 }}</small></p>
-                            </div>  
-                        </div>
-                    </a>
-                {% endfor %}
+            <div role="tabpanel" class="tab-pane" id="profile">
+                <h3><u>Your profile details:</u></h3>
+                <p>Username: <strong>{{ profile.username | capfirst }}</strong></p>
+                <p>Full Name: <strong>{{ profile.first_name | capfirst }} {{ profile.surname | capfirst }}</strong></p>
+                <p>Email: <strong>{{ profile.email }}</strong></p>
+                {% if profile.country %}
+                    <p>Address: <strong>{{ profile.street_address1 | capfirst }}, {{ profile.street_address2 | capfirst }}, {{ profile.town_or_city | capfirst }}, {{ profile.country | capfirst }}</strong></p>
+                {% else %}
+                    <p>Address: not yet provided</p>
+                {% endif %}
+                <a href="{% url 'update_profile' profile.id %}" class="btn btn-danger">Update</a>
             </div>
         </div>
     </div>

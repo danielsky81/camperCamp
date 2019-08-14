@@ -1,7 +1,10 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserLoginForm, UserRegistrationForm
+from .forms import UserLoginForm, UserRegistrationForm, ProfileForm
+from accounts.models import Profile
+from django.contrib.auth.models import User
+from django.utils import timezone
 
 def login(request):
     if request.user.is_authenticated:
@@ -35,8 +38,12 @@ def registration(request):
         registration_form = UserRegistrationForm(request.POST)
         if registration_form.is_valid():
             registration_form.save()
-            username=request.POST['username']
-            password=request.POST['password1']
+            username = request.POST['username']
+            password = request.POST['password1']
+            user = User.objects.get(username=username)
+            profile = Profile(user=user, first_name=request.POST['first_name'], surname=request.POST['last_name'], email=request.POST['email'], username=request.POST['username'])
+            profile.save()
+
             user = auth.authenticate(username=username, password=password)
             if user:
                 auth.login(user=user, request=request)
@@ -48,3 +55,16 @@ def registration(request):
         registration_form = UserRegistrationForm()
     return render(request, 'registration.html', {
         'registration_form': registration_form})
+
+def update_profile(request, pk):
+    profile = get_object_or_404(Profile, pk=pk)
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = ProfileForm(request.POST, request.FILES, instance=profile)
+            if form.is_valid():
+                profile.updated_date = timezone.now()
+                profile = form.save()
+                return redirect('dashboard')
+        else:
+            form = ProfileForm(instance=profile)
+    return render(request, 'profileform.html', {'form': form, 'profile': profile})

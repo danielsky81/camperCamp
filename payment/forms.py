@@ -1,5 +1,5 @@
 from django import forms
-from .models import Payment
+from accounts.models import Profile
 
 class MakePaymentForm(forms.Form):
 
@@ -16,5 +16,5 @@ class MakePaymentForm(forms.Form):
 class OrderForm(forms.ModelForm):
 
     class Meta:
-        model = Payment
+        model = Profile
         fields = ('first_name', 'surname', 'street_address1', 'street_address2', 'town_or_city', 'country')

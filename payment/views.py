@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from items.models import Items, Votes
 from django.contrib.auth.models import User
+from accounts.models import Profile
 from django.conf import settings
 from .forms import MakePaymentForm, OrderForm
 from .models import Transaction
@@ -44,19 +45,20 @@ def cancel_vote(request, pk):
 
 def payment(request, pk):
     item = get_object_or_404(Items, pk=pk)
+    profile = get_object_or_404(Profile, username=request.user)
     votes_number = request.session.get('votes_number', 'votes_number')
     total = request.session.get('total', 'total')
-
+    print('PRE-POST')
     if request.method == 'POST':
-        order_form = OrderForm(request.POST)
+        print('POST')
+        order_form = OrderForm(request.POST, request.FILES, instance=profile)
         payment_form = MakePaymentForm(request.POST)
         if order_form.is_valid() and payment_form.is_valid():
             user_details = order_form.save(commit=False)
-            user_details.date = timezone.now()
-            user_details.user = request.user
+            user_details.updated_date = timezone.now()
             user_details.save()
-            transation = Transaction(payment_details = user_details, feature = item, votes_number = votes_number, total_paid = total)
-            transation.save()
+            transaction = Transaction(payment_details = user_details, feature = item, votes_number = votes_number, total_paid = total)
+            transaction.save()
             try:
                 customer = stripe.Charge.create(
                     amount = int(total * 100),
@@ -93,7 +95,7 @@ def payment(request, pk):
         else:
             messages.error(request, 'We were unable to take a payment with this card!')
     else:
-        order_form = OrderForm()
+        order_form = OrderForm(instance=profile)
         payment_form = MakePaymentForm()
     return render(request, 'payment.html', {'item': item,'total': total, 'votes_number': votes_number, 'order_form': order_form, 'payment_form': payment_form, 'publishable': settings.STRIPE_PUBLISHABLE})
 
