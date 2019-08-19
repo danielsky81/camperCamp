@@ -215,7 +215,7 @@
                 <p>Full Name: <strong>{{ profile.first_name | capfirst }} {{ profile.surname | capfirst }}</strong></p>
                 <p>Email: <strong>{{ profile.email }}</strong></p>
                 {% if profile.country %}
-                    <p>Address: <strong>{{ profile.street_address1 | capfirst }}, {{ profile.street_address2 | capfirst }}, {{ profile.town_or_city | capfirst }}, {{ profile.country | capfirst }}</strong></p>
+                    <p>Address: <strong>{{ profile.street_address1 | capfirst }}, {% if profile.street_address2 %}{{ profile.street_address2 | capfirst }}, {% endif %}{{ profile.town_or_city | capfirst }}, {{ profile.country | capfirst }}</strong></p>
                 {% else %}
                     <p>Address: not yet provided</p>
                 {% endif %}

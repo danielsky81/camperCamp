@@ -10,7 +10,7 @@ class Profile(models.Model):
     surname = models.CharField(max_length=50, blank=False)
     email = models.CharField(max_length=150, blank=False)
     street_address1 = models.CharField(max_length=40, blank=False)
-    street_address2 = models.CharField(max_length=40, blank=False)
+    street_address2 = models.CharField(max_length=40, blank=True)
     town_or_city = models.CharField(max_length=40, blank=False)
     country = models.CharField(max_length=40, blank=False)
     creation_date = models.DateTimeField(auto_now_add=True)
