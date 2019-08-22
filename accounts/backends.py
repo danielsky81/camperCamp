@@ -5,7 +5,7 @@ class EmailAuth:
 
     def authenticate(self, username=None, password=None):
         try:
-            user = User.objects.get(email=username)
+            user = User.objects.get(username=username)
             if user.check_password(password):
                 return user
             return None
