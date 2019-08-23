@@ -91,9 +91,6 @@ class TestViews(TestCase):
         profile.save()
         self.assertEqual(profile.email, 'johndoe@example.com')
         self.assertEqual(response.status_code, 200)
-        # response = self.client.get('/dashboard/')
-        # self.assertEqual(response.status_code, 200)
-        # self.assertRedirects(response, '/dashboard/', 302)
 
     # Delete profile
 
