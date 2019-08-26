@@ -1,24 +1,40 @@
 from django.test import TestCase
 from .forms import ContactForm
-from django.core.mail import send_mail
+from django.core.mail import send_mail, BadHeaderError
+from django.shortcuts import reverse
+from .forms import ContactForm
 
 
 class TestViews(TestCase):
 
-    def test_contact_form_validation(self):
+    def test_contact_form_page(self):
         response = self.client.get('/contact/')
         self.assertEqual(response.status_code, 200)
-        # form_data = {
-        #     'your_email': 'dummy@dummy.com',
-        #     'subject': 'Dummy Subject',
-        #     'message': 'Dummy Content'
-        # }
-        # form = ContactForm(form_data)
-        # self.assertTrue(form.is_valid())
-        # subject = form.cleaned_data['subject'] 
-        # your_email = form.cleaned_data['your_email'] 
-        # message = form.cleaned_data['message']
-        # send_mail(subject, message + ' | Email sent from: ' + your_email, your_email, ['djangoprojectci@gmail.com'])
-        # self.assertEqual(send_mail, 'Dummy Subject, Dummy Content | Email sent from: dummy@dummy.com, djangoprojectci@gmail.com')
-        # response = self.client.get('/', form, follow=True)
-        # self.assertContains(response, 'Thank you for your message!', 1, 200)
+
+    def test_contact_form_validation(self):
+        response = self.client.post(reverse('contactForm'), {
+            'your_email': 'dummy@dummy.com',
+            'subject': 'Dummy Subject',
+            'message': 'Dummy Content'
+            })
+        self.assertEqual(response.status_code, 302)
+
+    def test_contact_form_invalid(self):
+        response = self.client.post('/contact/', {
+            'your_email': 'dummy@dummy.com',
+            'subject': 'Dummy Subject',
+        }, follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_header_injection(self):
+        email = {
+            'your_email': 'dummy@dummy.com/nInjection Test',
+            'subject': 'Dummy Subject',
+            'message': 'Dummy Content'
+        }
+        self.assertRaises(BadHeaderError)
+
+    # def test_header_injection(self):
+    #     email = send_mail('Subject\nInjection Test', 'Content', 'from@example.com', ['to@example.com'])
+        # self.assertRaises(BadHeaderError, email.message)
+        # self.assertTrue(BadHeaderError)
