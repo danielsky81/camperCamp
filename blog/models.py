@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Post(models.Model):
-    
+
     TAGS = [
         ('issue', 'issue'),
         ('feature', 'feature'),
@@ -21,6 +21,7 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class PostComment(models.Model):
 

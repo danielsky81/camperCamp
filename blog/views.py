@@ -18,7 +18,7 @@ def get_posts(request):
         blog_tags = Post.objects.filter(tag='news')
     elif request.path == '/blog/tag_other/':
         blog_tags = Post.objects.filter(tag='other')
-    blog = blog_tags.order_by('-created_date') 
+    blog = blog_tags.order_by('-created_date')
     blog_count = blog.count()
     paginator = Paginator(blog, 4)
     page = request.GET.get('page')
@@ -52,13 +52,13 @@ def create_or_edit_post(request, pk=None):
     if request.user.is_superuser:
         if request.method == 'POST':
             form = BlogPostForm(request.POST, request.FILES, instance=post)
-            if post == None:
+            if post is None:
                 if form.is_valid():
                     post = form.save()
                     post.author = request.user
                     post.save()
                     return redirect(post_detail, post.pk)
-            elif post != None:
+            elif post is not None:
                 if form.is_valid():
                     post.updated_date = timezone.now()
                     post.save()
@@ -69,11 +69,13 @@ def create_or_edit_post(request, pk=None):
     else:
         return redirect(reverse('get_posts'))
 
+
 def delete_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.user.is_superuser:
         post.delete()
     return redirect(reverse('get_posts'))
+
 
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -90,6 +92,7 @@ def add_comment_to_post(request, pk):
             form = BlogCommentForm()
     return render(request, 'commentform.html', {'form': form})
 
+
 def edit_comment_post(request, pk):
     comment = get_object_or_404(PostComment, pk=pk)
     if (request.user.is_authenticated and request.user == comment.author):
@@ -103,6 +106,7 @@ def edit_comment_post(request, pk):
         else:
             form = BlogCommentForm(instance=comment)
     return render(request, 'commentform.html', {'form': form, 'comment': comment})
+
 
 def delete_comment_post(request, pk):
     comment = get_object_or_404(PostComment, pk=pk)

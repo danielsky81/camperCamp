@@ -8,11 +8,13 @@ class ItemsForm(forms.ModelForm):
         model = Items
         fields = ('title', 'description')
 
+
 class CommentForm(forms.ModelForm):
 
     class Meta:
         model = ItemComments
         fields = ('content',)
+
 
 class CategoryForm(forms.ModelForm):
 

@@ -4,7 +4,8 @@ from django.shortcuts import get_object_or_404, reverse, redirect
 from django.contrib.auth.models import User
 from .models import Profile
 from .forms import UserLoginForm, UserRegistrationForm, ProfileForm
-from django.utils import timezone 
+from django.utils import timezone
+
 
 class TestViews(TestCase):
 
@@ -13,9 +14,8 @@ class TestViews(TestCase):
         profile = Profile.objects.create(user_id=1, username='Joe', first_name='John', surname='Doe')
         user.save()
         profile.save()
-    
-    # Login
 
+    # Login
     def test_get_login_page(self):
         response = self.client.get('/accounts/login/')
         self.assertEqual(response.status_code, 200)

@@ -3,19 +3,25 @@ from django.contrib.auth.models import User
 from .models import Post, PostComment
 from django.shortcuts import get_object_or_404, reverse
 from django.utils import timezone
-from django.core.paginator import Paginator, EmptyPage 
+from django.core.paginator import Paginator, EmptyPage
 
 
 class TestViews(TestCase):
 
     def setUp(self):
-        user = User.objects.create_user(username='Joe', password='dummypassword')
-        self.client.login(username='Joe', password='dummypassword')
+        user = User.objects.create_user(
+            username='Joe',
+            password='dummypassword'
+        )
+        self.client.login(
+            username='Joe',
+            password='dummypassword'
+        )
         post = Post.objects.create(
-            author_id = 1,
-            title = 'First Post',
-            content = 'Some content',
-            tag = 'news'
+            author_id=1,
+            title='First Post',
+            content='Some content',
+            tag='news'
         )
 
     def test_get_posts_page(self):
@@ -39,8 +45,8 @@ class TestViews(TestCase):
     def test_get_post_detail_view(self):
         post = get_object_or_404(Post, pk=1)
         self.assertEqual(post.views, 0)
-        response = self.client.get(reverse('post_detail', kwargs={'pk': '1'})) 
-        post.views += 1 
+        response = self.client.get(reverse('post_detail', kwargs={'pk': '1'}))
+        post.views += 1
         post.save()
         self.assertEqual(post.views, 1)
         self.assertEqual(response.status_code, 200)
@@ -49,12 +55,19 @@ class TestViews(TestCase):
 class TestAdminViews(TestCase):
 
     def setUp(self):
-        user = User.objects.create_user(username='admin', password='password', is_superuser=True)
-        self.client.login(username='admin', password='password')
+        user = User.objects.create_user(
+            username='admin',
+            password='password',
+            is_superuser=True
+        )
+        self.client.login(
+            username='admin',
+            password='password'
+        )
 
     def test_create_new_post(self):
         pk = None
-        post = get_object_or_404(Post, pk=pk) if pk else None 
+        post = get_object_or_404(Post, pk=pk) if pk else None
         self.assertEqual(Post.objects.count(), 0)
         response = self.client.post(reverse('new_post'), {
             'author_id': '1',
@@ -72,8 +85,15 @@ class TestAdminViews(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_user_is_not_superuser(self):
-        user_other = User.objects.create_user(username='Joe', password='dummypassword', is_superuser=False)
-        self.client.login(username='Joe', password='dummypassword')
+        user_other = User.objects.create_user(
+            username='Joe',
+            password='dummypassword',
+            is_superuser=False
+        )
+        self.client.login(
+            username='Joe',
+            password='dummypassword'
+        )
         self.assertEqual(user_other.is_superuser, False)
         response = self.client.post(reverse('new_post'), {
             'author_id': '1',
@@ -85,10 +105,10 @@ class TestAdminViews(TestCase):
 
     def test_update_post(self):
         post = Post.objects.create(
-            author_id = 1,
-            title = 'First Post',
-            content = 'Some content',
-            tag = 'news'
+            author_id=1,
+            title='First Post',
+            content='Some content',
+            tag='news'
         )
         response = self.client.post(reverse('edit_post', kwargs={'pk': '1'}), {
             'author_id': '1',
@@ -104,29 +124,40 @@ class TestAdminViews(TestCase):
 
     def test_delete_post(self):
         post = Post.objects.create(
-            author_id = 1,
-            title = 'First Post',
-            content = 'Some content',
-            tag = 'news'
+            author_id=1,
+            title='First Post',
+            content='Some content',
+            tag='news'
         )
         self.assertEqual(Post.objects.count(), 1)
         response = self.client.get(reverse('delete_post', kwargs={'pk': '1'}))
         post.delete()
         self.assertEqual(Post.objects.count(), 0)
         self.assertRedirects(response, '/blog/', 302)
-        
+
+
 class TestCommentsViews(TestCase):
 
     def setUp(self):
-        admin = User.objects.create_user(username='admin', password='password', is_superuser=True)
-        user = User.objects.create_user(username='Joe', password='dummypassword')
-        post = Post.objects.create(
-            author_id = 1,
-            title = 'First Post',
-            content = 'Some content',
-            tag = 'news'
+        admin = User.objects.create_user(
+            username='admin',
+            password='password',
+            is_superuser=True
         )
-        self.client.login(username='Joe', password='dummypassword')
+        user = User.objects.create_user(
+            username='Joe',
+            password='dummypassword'
+        )
+        post = Post.objects.create(
+            author_id=1,
+            title='First Post',
+            content='Some content',
+            tag='news'
+        )
+        self.client.login(
+            username='Joe',
+            password='dummypassword'
+        )
 
     def test_add_new_comment(self):
         post = get_object_or_404(Post, pk=1)
@@ -138,7 +169,7 @@ class TestCommentsViews(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_add_new_comment_form_display(self):
-        response = self.client.get(reverse('add_comment_to_post', kwargs={'pk': '1'})) 
+        response = self.client.get(reverse('add_comment_to_post', kwargs={'pk': '1'}))
         self.assertEqual(response.status_code, 200)
 
     def test_update_existing_comment(self):
@@ -146,7 +177,7 @@ class TestCommentsViews(TestCase):
             post_id=1,
             author_id=2,
             content='Some content'
-        ) 
+        )
         response = self.client.post(reverse('edit_comment_post', kwargs={'pk': '1'}), {
             'author_id': '2',
             'content': 'Some edited content'
@@ -158,15 +189,15 @@ class TestCommentsViews(TestCase):
             post_id=1,
             author_id=2,
             content='Some content'
-        ) 
-        response = self.client.get(reverse('edit_comment_post', kwargs={'pk': '1'})) 
+        )
+        response = self.client.get(reverse('edit_comment_post', kwargs={'pk': '1'}))
         self.assertEqual(response.status_code, 200)
 
     def test_delete_post_comment(self):
         comment = PostComment.objects.create(
-            author_id = 2,
+            author_id=2,
             post_id=1,
-            content = 'Some comment',
+            content='Some comment',
         )
         self.assertEqual(PostComment.objects.count(), 1)
         response = self.client.get(reverse('delete_comment_post', kwargs={'pk': '1'}))

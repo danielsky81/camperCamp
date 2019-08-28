@@ -17,6 +17,5 @@ class Profile(models.Model):
     updated_date = models.DateTimeField(null=True)
     image = models.ImageField(default='default_profile_img.jpg', upload_to='img')
 
-
     def __str__(self):
         return '{0} {1}'.format(self.first_name, self.surname)

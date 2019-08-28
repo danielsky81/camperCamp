@@ -1,11 +1,12 @@
 from django import forms
 from accounts.models import Profile
 
+
 class MakePaymentForm(forms.Form):
 
     MONTH_CHOICES = [(i, i) for i in range(1, 12)]
     YEAR_CHOICES = [(i, i) for i in range(2019, 2036)]
-    
+
     credit_card_number = forms.CharField(label='Credit card number', required=False)
     cvv = forms.CharField(label='Security code (CVV)', required=False, min_length=3)
     expiry_month = forms.ChoiceField(label='Month', choices=MONTH_CHOICES, required=False)
@@ -17,4 +18,11 @@ class OrderForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('first_name', 'surname', 'street_address1', 'street_address2', 'town_or_city', 'country')
+        fields = (
+            'first_name',
+            'surname',
+            'street_address1',
+            'street_address2',
+            'town_or_city',
+            'country'
+        )

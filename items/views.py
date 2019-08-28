@@ -6,6 +6,7 @@ from .forms import ItemsForm, CommentForm, CategoryForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 
+
 def get_items(request):
     item_type = ''
     if request.path == '/items/issues/':
@@ -17,7 +18,7 @@ def get_items(request):
     if tag == 'all':
         items = item_type.order_by('-created_date')
     elif tag == 'new':
-        items = item_type.filter(category='new')    
+        items = item_type.filter(category='new')
     elif tag == 'to do':
         items = item_type.filter(category='to do')
     elif tag == 'in progress':
@@ -45,8 +46,14 @@ def get_items(request):
     start_index = index - 2 if index >= 2 else 0
     end_index = index + 3 if index <= max_index - 3 else max_index
     page_range = paginator.page_range[start_index:end_index]
-    
-    return render(request, 'items.html', {'items': items, 'pages': pages, 'page_range': page_range, 'items_count': items_count})
+
+    return render(request, 'items.html', {
+        'items': items,
+        'pages': pages,
+        'page_range': page_range,
+        'items_count': items_count
+    })
+
 
 def item_detail(request, pk):
     item = get_object_or_404(Items, pk=pk)
@@ -59,7 +66,7 @@ def create_or_edit_item(request, pk=None):
     item = get_object_or_404(Items, pk=pk) if pk else None
     if request.method == 'POST':
         form = ItemsForm(request.POST, request.FILES, instance=item)
-        if item == None:
+        if item is None:
             if form.is_valid():
                 item = form.save()
                 item.author = request.user
@@ -69,7 +76,7 @@ def create_or_edit_item(request, pk=None):
                     item.item_type = 'feature'
                 item.save()
                 return redirect('item_detail', pk=item.pk)
-        elif item != None:
+        elif item is not None:
             if form.is_valid():
                 item.updated_date = timezone.now()
                 item.save()
@@ -81,8 +88,9 @@ def create_or_edit_item(request, pk=None):
             form = ItemsForm(instance=item, initial={'item_type': 'feature'})
         else:
             form = ItemsForm(instance=item)
-            
+
     return render(request, 'itemform.html', {'form': form, 'item': item})
+
 
 def add_comment_to_item(request, pk):
     item = get_object_or_404(Items, pk=pk)
@@ -97,7 +105,11 @@ def add_comment_to_item(request, pk):
                 return redirect('item_detail', pk=item.pk)
         else:
             form = CommentForm()
-    return render(request, 'item_commentform.html', {'form': form, 'item': item.item_type})
+    return render(request, 'item_commentform.html', {
+        'form': form,
+        'item': item.item_type
+    })
+
 
 def edit_comment_item(request, pk):
     comment = get_object_or_404(ItemComments, pk=pk)
@@ -110,13 +122,18 @@ def edit_comment_item(request, pk):
                 return redirect('item_detail', comment.item.id)
         else:
             form = CommentForm(instance=comment)
-    return render(request, 'item_commentform.html', {'form': form, 'comment': comment})
+    return render(request, 'item_commentform.html', {
+        'form': form,
+        'comment': comment
+    })
+
 
 def delete_comment_item(request, pk):
     comment = get_object_or_404(ItemComments, pk=pk)
     if (request.user.is_authenticated and request.user == comment.author):
         comment.delete()
     return redirect('item_detail', comment.item.id)
+
 
 def add_vote(request, pk):
     item = get_object_or_404(Items, pk=pk)
@@ -129,7 +146,11 @@ def add_vote(request, pk):
                 if str(vote.user) == str(user) and str(vote.voted_item) == str(item):
                     upvoted = True
     if upvoted is False and item.item_type == 'issue':
-        vote = Votes(voted_date=timezone.now(), user = user, voted_item = item)
+        vote = Votes(
+            voted_date=timezone.now(),
+            user=user,
+            voted_item=item
+        )
         vote.votes_number = 1
         vote.save()
         item.votes += 1
@@ -145,6 +166,7 @@ def add_vote(request, pk):
 
     return redirect('item_detail', item.pk)
 
+
 def admin_update(request, pk):
     item = get_object_or_404(Items, pk=pk)
     if request.user.is_superuser:
@@ -157,6 +179,9 @@ def admin_update(request, pk):
                 return redirect(item_detail, item.pk)
         else:
             form = CategoryForm(instance=item)
-        return render(request, 'category_update.html', {'form': form, 'item': item})
+        return render(request, 'category_update.html', {
+            'form': form,
+            'item': item
+        })
     else:
         return redirect('item_detail', item.pk)

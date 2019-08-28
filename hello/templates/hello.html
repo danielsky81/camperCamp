@@ -22,105 +22,105 @@
         </div>
     {% endif %}
 
-<h1>Welcome to the CC Tracker!</h1>
-<p>A tool for CamperCamp users that allows to submit issues encountered with the site or create and vote on new features we promise to implement.</p>
-<button class="btn btn-default" type="button">Learn more</button>
-<div class="about hide">
-    <p class="details">CC Tracker allows you to create new issues for any bugs you encounter while using the CamperClub application or vote on the existing ones to proritise fixes for the most common issues.<p>
-    <p class="details">You can as well request a new feature that you'd like to see in the CamperCamp application. Similar to the issues, you can vote on the already requested features in order to prioritise development of the most popular ones.</p>
-    <p class="details">We promise to spend half of our development time fixing the issues with the highest number of votes and the other half on building the most popular features. Each user can vote for a specific issue only once but have unlimited votes on the features.</p>
-    <p class="details">The votes are free when voting on issues but there is a charge of €5 for every vote used on features.
-    </p>
-</div>
-<hr>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12">
-            <h2>Some insignt into our data:</h2>
-            <p>There are currently <strong>{{ total_issues }}</strong> reported issues and <strong>{{ total_features }}</strong> raised features with <strong>{{ votes.sum }}</strong> votes in total.</p>
-        </div>
+    <h1>Welcome to the CC Tracker!</h1>
+    <p>A tool for CamperCamp users that allows to submit issues encountered with the site or create and vote on new features we promise to implement.</p>
+    <button class="btn btn-default" type="button">Learn more</button>
+    <div class="about hide">
+        <p class="details">CC Tracker allows you to create new issues for any bugs you encounter while using the CamperClub application or vote on the existing ones to proritise fixes for the most common issues.<p>
+        <p class="details">You can as well request a new feature that you'd like to see in the CamperCamp application. Similar to the issues, you can vote on the already requested features in order to prioritise development of the most popular ones.</p>
+        <p class="details">We promise to spend half of our development time fixing the issues with the highest number of votes and the other half on building the most popular features. Each user can vote for a specific issue only once but have unlimited votes on the features.</p>
+        <p class="details">The votes are free when voting on issues but there is a charge of €5 for every vote used on features.
+        </p>
     </div>
-    <div class="row">
-        <div class="col-xs-12 col-sm-6">
-            <div class="panel panel-default top-items">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Top Voted Issues</h3>
+    <hr>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Some insignt into our data:</h2>
+                <p>There are currently <strong>{{ total_issues }}</strong> reported issues and <strong>{{ total_features }}</strong> raised features with <strong>{{ votes.sum }}</strong> votes in total.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="panel panel-default top-items">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Top Voted Issues</h3>
+                    </div>
+                    <div class="panel-body">
+                        {% for voted_issue in top_voted_issues %}
+                            {% if voted_issue.votes > 0 %}
+                                <a href="{% url 'item_detail' voted_issue.id %}"><h4><strong>{{ voted_issue.votes }} - </strong>{{ voted_issue.title }}</h4></a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class="panel-body">
-                    {% for voted_issue in top_voted_issues %}
-                        {% if voted_issue.votes > 0 %}
-                            <a href="{% url 'item_detail' voted_issue.id %}"><h4><strong>{{ voted_issue.votes }} - </strong>{{ voted_issue.title }}</h4></a>
-                        {% endif %}
-                    {% endfor %}
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Top Voted Features</h3>
+                    </div>
+                    <div class="panel-body">
+                        {% for voted_feature in top_voted_features %}
+                            {% if voted_feature.votes > 0 %}
+                                <a href="{% url 'item_detail' voted_feature.id %}"><h4><strong>{{ voted_feature.votes }} - </strong>{{ voted_feature.title }}</h4></a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="panel panel-default top-items">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Top Viewed Issues</h3>
+                    </div>
+                    <div class="panel-body">
+                        {% for viewed_issue in top_view_issues %}
+                            {% if viewed_issue.views > 0 %}
+                                <a href="{% url 'item_detail' viewed_issue.id %}"><h4><strong>{{ viewed_issue.views }} - </strong>{{ viewed_issue.title }}</h4></a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Top Viewed Features</h3>
+                    </div>
+                    <div class="panel-body">
+                        {% for viewed_feature in top_view_features %}
+                            {% if viewed_feature.views > 0 %}
+                                <a href="{% url 'item_detail' viewed_feature.id %}"><h4><strong>{{ viewed_feature.views }} - </strong>{{ viewed_feature.title }}</h4></a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-xs-12 col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Top Voted Features</h3>
-                </div>
-                <div class="panel-body">
-                    {% for voted_feature in top_voted_features %}
-                        {% if voted_feature.votes > 0 %}
-                            <a href="{% url 'item_detail' voted_feature.id %}"><h4><strong>{{ voted_feature.votes }} - </strong>{{ voted_feature.title }}</h4></a>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 col-sm-6">
-            <div class="panel panel-default top-items">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Top Viewed Issues</h3>
-                </div>
-                <div class="panel-body">
-                    {% for viewed_issue in top_view_issues %}
-                        {% if viewed_issue.views > 0 %}
-                            <a href="{% url 'item_detail' viewed_issue.id %}"><h4><strong>{{ viewed_issue.views }} - </strong>{{ viewed_issue.title }}</h4></a>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
+            <h3 class="chart-title">Issues Categories Breakdown</h3>
+            <div id="categories-per-issues">
+            </div>    
         </div>
         <div class="col-xs-12 col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Top Viewed Features</h3>
-                </div>
-                <div class="panel-body">
-                    {% for viewed_feature in top_view_features %}
-                        {% if viewed_feature.views > 0 %}
-                            <a href="{% url 'item_detail' viewed_feature.id %}"><h4><strong>{{ viewed_feature.views }} - </strong>{{ viewed_feature.title }}</h4></a>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
+            <h3 class="chart-title">Features Categories Breakdown</h3>
+            <div id="categories-per-features">
+            </div>    
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <h3 class="chart-title">Issues Progress Status</h3>
+            <div id="progress-issues">
+            </div>    
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <h3 class="chart-title">Features Progress Status</h3>
+            <div id="progress-features">
+            </div>    
         </div>
     </div>
-    <div class="col-xs-12 col-sm-6">
-        <h3 class="chart-title">Issues Categories Breakdown</h3>
-        <div id="categories-per-issues">
-        </div>    
-    </div>
-    <div class="col-xs-12 col-sm-6">
-        <h3 class="chart-title">Features Categories Breakdown</h3>
-        <div id="categories-per-features">
-        </div>    
-    </div>
-    <div class="col-xs-12 col-sm-6">
-        <h3 class="chart-title">Issues Progress Status</h3>
-        <div id="progress-issues">
-        </div>    
-    </div>
-    <div class="col-xs-12 col-sm-6">
-        <h3 class="chart-title">Features Progress Status</h3>
-        <div id="progress-features">
-        </div>    
-    </div>
-</div>
 
 {% endblock  %}
 
@@ -131,7 +131,6 @@
         });
     });
 
-    
     var data_issues = {{ data_issues|safe }};
     var data_features = {{ data_features|safe }};
     var categories_per_issues = {{ categories_per_issues|safe }};

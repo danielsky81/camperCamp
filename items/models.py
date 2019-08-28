@@ -33,8 +33,9 @@ class Items(models.Model):
     def __str__(self):
         return '{0} - {1} : {2}'.format(self.item_type, self.category, self.title)
 
+
 class ItemComments(models.Model):
-    
+
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False, related_name='item_user_comments')
     item = models.ForeignKey(Items, on_delete=models.CASCADE, related_name='item_comments')
     content = models.TextField()
@@ -46,6 +47,7 @@ class ItemComments(models.Model):
 
     def __str__(self):
         return 'Comment on {0} by {1}'.format(self.item.title, self.author.username)
+
 
 class Votes(models.Model):
 

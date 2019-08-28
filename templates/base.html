@@ -66,7 +66,6 @@
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
-                        {% comment %} <li><a href="{% url 'registration' %}">Register</a></li> {% endcomment %}
                         <li><a href="{% url 'login' %}">Login</a></li>
                     {% endif %}
                 </ul>

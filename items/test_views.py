@@ -13,27 +13,27 @@ class TestViews(TestCase):
             password='dummypassword'
         )
         issue = Items.objects.create(
-            author_id = 1,
-            title = 'issue',
-            description = 'Some description',
-            views = 0,
-            votes = 0,
-            category = 'new',
-            item_type = 'issue',
+            author_id=1,
+            title='issue',
+            description='Some description',
+            views=0,
+            votes=0,
+            category='new',
+            item_type='issue',
         )
         feature = Items.objects.create(
-            author_id = 1,
-            title = 'feature',
-            description = 'Some description',
-            views = 0,
-            votes = 0,
-            category = 'new',
-            item_type = 'feature',
+            author_id=1,
+            title='feature',
+            description='Some description',
+            views=0,
+            votes=0,
+            category='new',
+            item_type='feature',
         )
         comment = ItemComments.objects.create(
-            author_id = 1,
-            item_id = 1,
-            content = 'Some Content'
+            author_id=1,
+            item_id=1,
+            content='Some Content'
         )
 
     def test_get_issues_page_view(self):
@@ -55,7 +55,10 @@ class TestViews(TestCase):
         pk = None
         item = get_object_or_404(Items, pk=pk) if pk else None
         self.assertEqual(Items.objects.count(), 2)
-        self.client.login(username='Joe', password='dummypassword')
+        self.client.login(
+            username='Joe',
+            password='dummypassword'
+        )
         response = self.client.post(reverse('new_issue'), {
             'author_id': '1',
             'title': 'issue',
@@ -76,7 +79,10 @@ class TestViews(TestCase):
         pk = None
         feature = get_object_or_404(Items, pk=pk) if pk else None
         self.assertEqual(Items.objects.count(), 2)
-        self.client.login(username='Joe', password='dummypassword')
+        self.client.login(
+            username='Joe',
+            password='dummypassword'
+        )
         response = self.client.post(reverse('new_feature'), {
             'author_id': '1',
             'title': 'issue',
@@ -94,15 +100,21 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_update_existing_items(self):
-        self.client.login(username='Joe', password='dummypassword')
+        self.client.login(
+            username='Joe',
+            password='dummypassword'
+        )
         item = get_object_or_404(Items, pk=1)
-        item.updated_date = timezone.now() 
+        item.updated_date = timezone.now()
         item.save()
         response = self.client.get(reverse('edit_item', kwargs={'pk': '1'}))
         self.assertEqual(response.status_code, 200)
 
     def test_add_new_comment(self):
-        self.client.login(username='Joe', password='dummypassword')
+        self.client.login(
+            username='Joe',
+            password='dummypassword'
+        )
         item = get_object_or_404(Items, pk=1)
         response = self.client.post(reverse('add_comment_to_item', kwargs={'pk': '1'}), {
             'author_id': '1',
@@ -112,13 +124,19 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_add_new_comment_form_display(self):
-        self.client.login(username='Joe', password='dummypassword')
+        self.client.login(
+            username='Joe',
+            password='dummypassword'
+        )
         item = get_object_or_404(Items, pk=1)
-        response = self.client.get(reverse('add_comment_to_item', kwargs={'pk': '1'})) 
+        response = self.client.get(reverse('add_comment_to_item', kwargs={'pk': '1'}))
         self.assertEqual(response.status_code, 200)
 
     def test_update_existing_comment(self):
-        self.client.login(username='Joe', password='dummypassword')
+        self.client.login(
+            username='Joe',
+            password='dummypassword'
+        )
         comment = get_object_or_404(ItemComments, pk=1)
         response = self.client.post(reverse('edit_comment_item', kwargs={'pk': '1'}), {
             'author_id': '1',
@@ -127,13 +145,19 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_edit_comment_form_display(self):
-        self.client.login(username='Joe', password='dummypassword')
+        self.client.login(
+            username='Joe',
+            password='dummypassword'
+        )
         comment = get_object_or_404(ItemComments, pk=1)
-        response = self.client.get(reverse('edit_comment_item', kwargs={'pk': '1'})) 
+        response = self.client.get(reverse('edit_comment_item', kwargs={'pk': '1'}))
         self.assertEqual(response.status_code, 200)
 
     def test_delete_post_comment(self):
-        self.client.login(username='Joe', password='dummypassword')
+        self.client.login(
+            username='Joe',
+            password='dummypassword'
+        )
         comment = get_object_or_404(ItemComments, pk=1)
         self.assertEqual(ItemComments.objects.count(), 1)
         response = self.client.get(reverse('delete_comment_item', kwargs={'pk': '1'}))
@@ -146,9 +170,12 @@ class TestViews(TestCase):
             username='Adam',
             password='password'
         )
-        self.client.login(username='Adam', password='password')
+        self.client.login(
+            username='Adam',
+            password='password'
+        )
         item = get_object_or_404(Items, pk=1)
-        votes = Votes.objects.filter(voted_item=item) 
+        votes = Votes.objects.filter(voted_item=item)
         user = User.objects.get(username='Adam')
         response = self.client.post(reverse('add_vote', kwargs={'pk': '1'}), follow=True)
         self.assertEqual(response.status_code, 200)
@@ -158,27 +185,42 @@ class TestViews(TestCase):
             username='Adam',
             password='password'
         )
-        self.client.login(username='Adam', password='password')
+        self.client.login(
+            username='Adam',
+            password='password'
+        )
         item = get_object_or_404(Items, pk=1)
-        votes = Votes.objects.filter(voted_item=item) 
+        votes = Votes.objects.filter(voted_item=item)
         user = User.objects.get(username='Adam')
-        vote = Votes(voted_date=timezone.now(), user = user, voted_item = item) 
-        vote.votes_number = 1 
-        vote.save() 
-        item.votes += 1 
+        vote = Votes(
+            voted_date=timezone.now(),
+            user=user,
+            voted_item=item
+        )
+        vote.votes_number = 1
+        vote.save()
+        item.votes += 1
         item.save()
         response = self.client.post(reverse('add_vote', kwargs={'pk': '1'}), follow=True)
-        self.assertEqual(response.status_code, 200) 
+        self.assertEqual(response.status_code, 200)
 
     def add_vote_to_feature(self):
         user = User.objects.create_user(
             username='Adam',
             password='password'
         )
-        self.client.login(username='Adam', password='password')
+        self.client.login(
+            username='Adam',
+            password='password'
+        )
         item = get_object_or_404(Items, pk=2)
         user = User.objects.get(username='Adam')
-        vote = Votes(voted_date=timezone.now(), user = user, voted_item = item, votes_number=0)
+        vote = Votes(
+            voted_date=timezone.now(),
+            user=user,
+            voted_item=item,
+            votes_number=0
+        )
         response = self.client.get(reverse('item_detail', kwargs={'pk': '2'}))
         votes_number = vote.votes_number
         session = self.client.session
@@ -190,14 +232,16 @@ class TestViews(TestCase):
         })
         self.assertRedirects(response, '/items/2/checkout/', status_code=302, target_status_code=200, fetch_redirect_response=True)
 
-
     def test_admin_update_category_display(self):
         user = User.objects.create_user(
             username='admin',
             password='password',
             is_superuser=True
         )
-        self.client.login(username='admin', password='password')
+        self.client.login(
+            username='admin',
+            password='password'
+        )
         item = get_object_or_404(Items, pk=1)
         item.category = 'done'
         response = self.client.get(reverse('admin_update', kwargs={'pk': '1'}))
@@ -209,7 +253,10 @@ class TestViews(TestCase):
             password='password',
             is_superuser=True
         )
-        self.client.login(username='admin', password='password')
+        self.client.login(
+            username='admin',
+            password='password'
+        )
         item = get_object_or_404(Items, pk=1)
         response = self.client.post(reverse('admin_update', kwargs={'pk': '1'}), {
             'author_id': '1',
@@ -223,7 +270,10 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_update_category_by_regular_user(self):
-        self.client.login(username='Joe', password='dummypassword')
+        self.client.login(
+            username='Joe',
+            password='dummypassword'
+        )
         item = get_object_or_404(Items, pk=1)
         item.category = 'done'
         response = self.client.get(reverse('admin_update', kwargs={'pk': '1'}))

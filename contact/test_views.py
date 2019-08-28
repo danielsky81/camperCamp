@@ -33,8 +33,3 @@ class TestViews(TestCase):
             'message': 'Dummy Content'
         }
         self.assertRaises(BadHeaderError)
-
-    # def test_header_injection(self):
-    #     email = send_mail('Subject\nInjection Test', 'Content', 'from@example.com', ['to@example.com'])
-        # self.assertRaises(BadHeaderError, email.message)
-        # self.assertTrue(BadHeaderError)
