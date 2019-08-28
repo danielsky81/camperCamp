@@ -84,22 +84,12 @@ class TestViews(TestCase):
         self.assertNotEqual(profile.email, 'johndoe@example.com')
         response = self.client.get(reverse('update_profile', kwargs={'pk': '1'}))
         self.assertEqual(response.status_code, 200)
-        # profile.updated_date = timezone.now()
-        # profile.save()
         response = self.client.post(reverse('update_profile', kwargs={'pk': '1'}), {
             'street_address1': '123 Noname',
             'town_or_city': 'Nowhere',
             'country': 'Ireland'
             })
         self.assertEqual(response.status_code, 200)
-        # profile.email = 'johndoe@example.com'
-        # profile.street_address1 = '123 Noname'
-        # profile.town_or_city = 'Nowhere'
-        # profile.country = 'Ireland'
-        # profile.updated_date = timezone.now()
-        # profile.save()
-        # self.assertEqual(profile.email, 'johndoe@example.com')
-        
 
     # Delete profile
 

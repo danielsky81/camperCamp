@@ -185,8 +185,10 @@ class TestViews(TestCase):
         session['feature'] = 2
         session['votes_number'] = votes_number
         session.save()
-        response = self.client.post(reverse('add_vote', kwargs={'pk': '2'}), follow=True)
-        self.assertEqual(response.status_code, 200)
+        response = self.client.post(reverse('add_vote', kwargs={'pk': '2'}),  {
+            'votes_number': 'votes_number'
+        })
+        self.assertRedirects(response, '/items/2/checkout/', status_code=302, target_status_code=200, fetch_redirect_response=True)
 
 
     def test_admin_update_category_display(self):
