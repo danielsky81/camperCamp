@@ -71,14 +71,104 @@ The main idea behind the CCTracker website is to give users a place fpr raising 
 
 ### Home Page
 
-The Home Page consists of a short description of the application and its purpose which upon clicking on a "Learn more" button will reveal more details about its functionality and rules. Furtherdown the page, the users will find a data insights showing the top 5 votes and top 5 viewed issues and features. The list of each is presented in a panel showing the number of votes or issues and related titles. Each of the elements inside these panels will redirect user to selected issue or feature.   
+The Home Page consists of a short description of the application and its purpose which upon clicking on a "Learn more" button will reveal more details about its functionality and rules. Furtherdown the page, the users will find a data insights showing the top 5 votes and top 5 viewed issues and features. The list of each is presented in a panel showing the number of votes or issues and related titles. Each of the elements inside these panels will redirect user to selected issue or feature. There are as well 2 pie charts showing the overall number of raised issues and features brokedown by categories of development progress, so whether the item is new, in progress, done, etc. At the bottom of the page, there are 2 bar charts showing daily, weekly and monthly development progress for raised issues and features. Both type of charts are color coded for easier readability, with red and its shades for issues and green with its shades for features.  
 
 ### Dashboard Page
 
+The Dashboard Page was created with user in mind as it contains all of user application history and profile data. The page consists of a dummy user image which can be replaced with any image user wishes to upload and a 5 tabs panel. The tabs contains details of the following user interaction with the site:
 
+- Votes tab, showing voted issues and features with number of given votes for each.
+- Issues tab, showing issues created by the user.
+- Features tab showing issues created by the user.
+- Comments tab, showing comments added by the user to the blog, issues and features.
+- Profile tab, showing user profile details that can be updated or deleted. The user has an option to upload an profile image here as mentioned earlier.
+
+All of the issues, features and comments displayed in the tabs can be accessed for details from here.
 
 ### Issues and Features Page
 
-
+Both, the Issues and Features pages have the same structure and layout. The top part of the page contains a short description and a "Add new issue"/"Add new feature" buttons. The remaining part of the page contains a list of 4 items per page. Each item, whether an issue or feature is displayed in a panel with title and a short fragment of a description. Furthermore, at the bottom of each panel, there is a paragraph showing the author, published and updated date, number of views and number of comments. Next to the title of the issue and feature, users can find two labels, one showing the status of the item, the other showing the number of votes. The status panel is color coded for each of the category type. Users can access details of each item by selecting the desired panel. The users have an option as well, to filter the page view by category by selecting the "Tags" dropdown menu. This menu, which contain as well the total number of issues or features can be found just below the page description at the top of the page.
 
 ### Navigation bar
+
+The navigation bar sits at the top of the page and consists of links to all of the pages, including dashboard, issues, features, blog, contact and login/logout. There is as well a "create" dropdown list, which allows users to create an issue or feature instatnly without a need to go through the dedicated pages for each. This can be accessed from everywhere on the page making it qucik and easy to create a new issue or feature.
+
+### Other Features
+
+The other features of the CCTracker are as follows:
+
+- Responsive layout that allows users to preview website on all devices.
+- Simple and clean design with intuitive navigation and simplified data.
+- Custom button styles which adds meaning and visual indication.
+- Hover effect on clickable content to help users navigate and interact with the application.
+- Notifications and personalised messages for visitors and logged users that either greets them, notify about user valid changes or display errors if needed, making the connection user friendly.
+
+## Database Schema
+
+The database schema consists of 8 tables build mainly around the default Django User table with many-to-one relationship model. During the development stage of the project the primary database used was the "sqlite3" which was later on migrated into the "Heroku Postgres".
+
+Te details of the schema can be found below:
+
+- <a href="db_schema/db_schema.png" target="_blank">database schema</a>
+
+## Technologies Used
+
+- [Django](https://www.djangoproject.com/) - open source Python Web framework.
+- [Python](https://www.python.org/) - Used for application logic.
+- [JavaScript](https://developer.mozilla.org/bm/docs/Web/JavaScript) - Used to make the application interactive.
+- [HTML5](https://www.w3.org/TR/html52/) - Core structure of the website.
+- [CSS](https://www.w3.org/Style/CSS/) - Main style of the website.
+- [3D.js](https://d3js.org/) - Used to produce bar and pie charts data visualizations inside the application.
+- [Dc.js](https://dc-js.github.io/dc.js/) - A javascript charting library with native crossfilter support.
+- [SQLite](https://www.sqlite.org/index.html) - SQL database engine.
+- [Postgres](https://www.postgresql.org/) - Open source object-relational database.
+- [Balsamiq Mockups](https://balsamiq.com/) - Used to sketch quick wireframes for website's UX design.
+- [Chrome DevTools](https://developers.google.com/web/tools/chrome-devtools/) - Chrome browser tool used to iterate and debug the website.
+- [PEP8](http://pep8online.com/) - Online PEP8 checker.
+- [Parallels](https://www.parallels.com/) - Software providing hardware virtualization used to test application on other platforms like Windows or Linux.  
+- [Lighthouse](https://developers.google.com/web/tools/lighthouse/) - Online Chrome tool used to audit the website's performance and accessibility.
+- [Caniuse](https://caniuse.com/) - Online browser support tables for modern web technologies.
+- [Github](https://github.com/) - Project's repository.
+- [Visual Studio Code](https://code.visualstudio.com/) - Text editor used to write down all the code.
+- [Google Fonts](https://fonts.google.com/) - Typefaces used to style the website.
+- [Dbdiagram](https://dbdiagram.io/home) - A Relational Database Diagram Design Tool.
+
+## Testing
+
+During the website development stage I have conducted two types of testing, manual and automated. The manual testing was ongoing throughout the whole development stage while the automated test was conducted using unittest module built in to the Python standard library when the project was at its finish.
+
+### Manual Testing
+
+- Chrome DevTools
+
+Chrome DevTools is a set of web developer tools built directly into the Google Chrome browser. This tools allows me to instantly preview and edit my website but I was mainly using it to diagnose problems and fix them on the go.
+
+- Operating Systems:
+    - MacOS
+    - Microsoft Windows
+    - Linux
+    - Android
+    - iOS
+
+The Operating Systems test played an important part of the manual testing. Majority of the test was done using the Parallels software on MacOS which allows me to test my application on Linux and Windows virtual machines. The test consisted of running the application on the most popular browsers within these Operating Systems and validating the expected behaviour of the site.
+
+- Web browsers:
+    - Chrome
+    - Firefox
+    - Safari
+    - Opera
+    - Internet Explorer
+
+I made sure to check if browser prefixes where necessary and validate some of the code with "caniuse" website but to make sure that there are no errors with the website I was doing a cross browser testing from time to time. It basically consisted of running the site on these browsers, changing the size of the browser window and where possible using the native developer tools to check site responsiveness and functionality. These tests were run on desktop, tablet and smartphone devices.
+
+- Devices:
+    - desktop
+    - tablet
+    - smartphone
+
+I run a manual testing on few types of devices whenever I had a chance but mainly I was testing the website using desktop, tablet and smartphone, so I could cover the most popular screen sizes.
+
+- User Stories Testing
+
+The following user stories from the UX section were tested to make sure everything works as intended:
+
