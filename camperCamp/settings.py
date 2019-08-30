@@ -28,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
@@ -174,7 +174,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = os.environ.get('EMAIL_ADDRESS')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
-EMAIL_PORT = 25, 587
+EMAIL_PORT = 587
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

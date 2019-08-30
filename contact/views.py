@@ -16,7 +16,8 @@ def contactForm(request):
                     subject,
                     message + ' | Email sent from: ' + your_email,
                     your_email,
-                    ['djangoprojectci@gmail.com']
+                    ['djangoprojectci@gmail.com'],
+                    fail_silently=False
                 )
                 messages.success(request, 'Thank you for your message!')
             except BadHeaderError:
