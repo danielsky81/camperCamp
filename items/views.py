@@ -62,34 +62,48 @@ def item_detail(request, pk):
     return render(request, 'item_detail.html', {'item': item})
 
 
-def create_or_edit_item(request, pk=None):
+def create_item(request, pk=None):
     item = get_object_or_404(Items, pk=pk) if pk else None
-    if request.method == 'POST':
-        form = ItemsForm(request.POST, request.FILES, instance=item)
-        if item is None:
-            if form.is_valid():
-                item = form.save()
-                item.author = request.user
-                if request.path == '/items/issues/new/':
-                    item.item_type = 'issue'
-                elif request.path == '/items/features/new/':
-                    item.item_type = 'feature'
-                item.save()
-                return redirect('item_detail', pk=item.pk)
-        elif item is not None:
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = ItemsForm(request.POST, request.FILES, instance=item)
+            if item is None:
+                if form.is_valid():
+                    item = form.save()
+                    item.author = request.user
+                    if request.path == '/items/issues/new/':
+                        item.item_type = 'issue'
+                    elif request.path == '/items/features/new/':
+                        item.item_type = 'feature'
+                    item.save()
+                    return redirect('item_detail', pk=item.pk)
+        else:
+            if request.path == '/items/issues/new/':
+                form = ItemsForm(instance=item, initial={'item_type': 'issue'})
+            elif request.path == '/items/features/new/':
+                form = ItemsForm(instance=item, initial={'item_type': 'feature'})
+        return render(request, 'itemform.html', {'form': form, 'item': item})
+    else:
+        return redirect(reverse('hello'))
+
+
+def edit_item(request, pk):
+    item = get_object_or_404(Items, pk=pk)
+    if request.user.is_authenticated and request.user == item.author:    
+        if request.method == 'POST':
+            form = ItemsForm(request.POST, request.FILES, instance=item)
             if form.is_valid():
                 item.updated_date = timezone.now()
                 item.save()
                 return redirect('item_detail', pk=item.pk)
-    else:
-        if request.path == '/items/issues/new/':
-            form = ItemsForm(instance=item, initial={'item_type': 'issue'})
-        elif request.path == '/items/features/new/':
-            form = ItemsForm(instance=item, initial={'item_type': 'feature'})
+            else:
+                return redirect(reverse('hello'))
         else:
             form = ItemsForm(instance=item)
+        return render(request, 'itemform.html', {'form': form, 'item': item})
+    else:
+        return redirect(reverse('hello'))
 
-    return render(request, 'itemform.html', {'form': form, 'item': item})
 
 
 def add_comment_to_item(request, pk):

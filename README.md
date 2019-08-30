@@ -326,4 +326,4 @@ The application was deployed to [Heroku](https://www.heroku.com/home) with the f
 
 Corey Schafer's [youtube tutorial](https://www.youtube.com/watch?v=UmljXZIypDc&list=PL-osiE80TeTtoQCKZ03TU5fNfx2UY6U4p) and CodingEntrepreneurs [youtube tutorial](https://www.youtube.com/watch?v=uu98pqiUJU8&list=PLEsfXFp6DpzTD1BD1aWNxS2Ep06vIkaeW) on Django helped me understand it better.
 
-######[back to top](#CamperCamp-Tracker)
+[back to top](#CamperCamp-Tracker)
