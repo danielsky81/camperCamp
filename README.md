@@ -259,7 +259,7 @@ The following user stories from the UX section were tested to make sure everythi
 
 #### Manual Testing Bugs
 
-I have not encountered any bugs with manual testing.
+I have encountered a bug with credit card payments. When a user does not provide a valid details in the credit card form or leave it blank, the error message does not appear. The transaction is not processed but the notification system is failing. This problem was raised in the Slack channel and the following answer was given by one of the tutors (Niel McEwen) - "The issue we ran into with required=True was that the credit card details were visible in the browser console if you had an Django error. This is a bad thing. As a developer you should not be dealing with credit card numbers at all. In fact I believe it is not allowed for a website to store the CVV at all. It is up to the bank to require CVV so some banks around the globe do not require them although all credit cards do have them. My recommendation would be to let Stripe and banks deal with validation. As a developer you do not want to be responsible in any way even inadvertently for a security breach."
 
 ### Automated Testing
 
